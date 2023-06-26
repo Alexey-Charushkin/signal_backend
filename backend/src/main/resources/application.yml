@@ -14,3 +14,7 @@ spring:
     show-sql: true
 server:
   port: 8080
+
+bot:
+  token: 6272045013:AAGyZKGFDX_5E5jQALnj1FudvH2-yFxtQEs
+  username: dafghrhsfjhfjytBOT
