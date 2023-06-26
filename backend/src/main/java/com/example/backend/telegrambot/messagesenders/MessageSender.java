@@ -8,16 +8,17 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.springframework.context.ApplicationEventPublisher;
 
 @Slf4j
 @Component
 public abstract class MessageSender {
-    private TelegramBotApplication telegramBot;
+    private ApplicationEventPublisher eventPublisher;
     private SendMessage sendMessage;
 
     @Autowired
-    protected MessageSender(TelegramBotApplication telegramBot) {
-        this.telegramBot = telegramBot;
+    protected MessageSender(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
         this.sendMessage = new SendMessage();
     }
 
@@ -63,14 +64,14 @@ public abstract class MessageSender {
 
         Message message = null;
         try {
-            message = telegramBot.execute(sendMessage);
-            log.debug("Successfully sent message to chat ID: {}, with message ID: {}", message.getChatId(), message.getMessageId());
-        } catch (TelegramApiException e) {
+            eventPublisher.publishEvent(new MessageEvent(this, sendMessage));
+            log.debug("Message event published for chat ID: {}", sendMessage.getChatId());
+        } catch (Exception e) {
             log.debug("Error sending message to user: {}", e.getMessage());
             e.printStackTrace();
         }
 
-        return message;
+        return null;
     }
 
     /**

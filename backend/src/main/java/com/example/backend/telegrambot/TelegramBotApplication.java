@@ -1,9 +1,11 @@
 package com.example.backend.telegrambot;
 
 import com.example.backend.telegrambot.handlers.UpdateHandler;
+import com.example.backend.telegrambot.messagesenders.MessageEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -40,5 +42,16 @@ public class TelegramBotApplication extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
         return botUsername;
+    }
+
+    @EventListener
+    public void handleMessageEvent(MessageEvent event) {
+        try {
+            execute(event.getMessage());
+            log.debug("Successfully sent message to chat ID: {}", event.getMessage().getChatId());
+        } catch (TelegramApiException e) {
+            log.debug("Error sending message to user: {}", e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

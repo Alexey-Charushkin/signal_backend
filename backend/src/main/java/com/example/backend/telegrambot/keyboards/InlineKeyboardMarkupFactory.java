@@ -30,8 +30,8 @@ public abstract class InlineKeyboardMarkupFactory {
      * Adds a button to a new line in the given InlineKeyboardMarkup object.
      *
      * @param inlineKeyboardMarkup InlineKeyboardMarkup object to add the button to.
-     * @param text Text to display on the button.
-     * @param data Callback data associated with the button.
+     * @param text                 Text to display on the button.
+     * @param data                 Callback data associated with the button.
      */
     protected static void addWebAppButtonToNewLine(InlineKeyboardMarkup inlineKeyboardMarkup, String text, String url) {
         log.debug("Adding button to new line: text={}", text);
@@ -39,7 +39,9 @@ public abstract class InlineKeyboardMarkupFactory {
 
         InlineKeyboardButton button = new InlineKeyboardButton(text);
 
-        button.setUrl(url);
+        var webApp = WebAppInfo.builder().url(url).build();
+        log.info(webApp.toString());
+        button.setWebApp(webApp);
         keyboardRoad.add(button);
     }
 
@@ -47,8 +49,8 @@ public abstract class InlineKeyboardMarkupFactory {
      * Adds a button to the current line in the given InlineKeyboardMarkup object.
      *
      * @param inlineKeyboardMarkup InlineKeyboardMarkup object to add the button to.
-     * @param text Text to display on the button.
-     * @param data Callback data associated with the button.
+     * @param text                 Text to display on the button.
+     * @param data                 Callback data associated with the button.
      */
     protected static void addButtonToCurrentLine(InlineKeyboardMarkup inlineKeyboardMarkup, String text, String data) {
         log.debug("Adding button to current line: text={}, data={}", text, data);
@@ -67,7 +69,6 @@ public abstract class InlineKeyboardMarkupFactory {
         button.setCallbackData(data);
         keyboardRoad.add(button);
     }
-
 
 
     /**

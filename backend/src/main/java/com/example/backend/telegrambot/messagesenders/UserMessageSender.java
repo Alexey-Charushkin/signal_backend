@@ -4,6 +4,7 @@ import com.example.backend.telegrambot.TelegramBotApplication;
 import com.example.backend.telegrambot.TelegramObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -19,8 +20,8 @@ public class UserMessageSender extends MessageSender {
     private TelegramObject telegramObject;
 
     @Autowired
-    public UserMessageSender(TelegramBotApplication telegramBot) {
-        super(telegramBot);
+    public UserMessageSender(ApplicationEventPublisher eventPublisher) {
+        super(eventPublisher);
     }
 
     /**
@@ -38,6 +39,7 @@ public class UserMessageSender extends MessageSender {
     public Message sendMessageWithInlineKeyboard (String text, InlineKeyboardMarkup keyboard){
         getSendMessage().setChatId(telegramObject.getId());
         getSendMessage().setReplyMarkup(keyboard);
+        log.info(getSendMessage().toString());
 
         return super.sendMessage(text);
     }
