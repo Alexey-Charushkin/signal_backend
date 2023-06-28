@@ -18,7 +18,6 @@ public class Restaurant extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "restaurant_id")
-    @JsonProperty(value = "restaurant_id")
     private Long restaurantId;
 
     @Column(name = "name")

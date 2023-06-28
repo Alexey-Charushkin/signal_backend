@@ -19,7 +19,6 @@ public class User extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    @JsonProperty(value = "user_id")
     private Long userId;
 
     @Column(name = "name")

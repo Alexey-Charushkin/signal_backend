@@ -1,4 +1,4 @@
-package com.example.backend.web.exception;
+package com.example.backend.exception;
 
 /**
  * Сигнализирует о том, что произошло исключение при передаче в метод некорректного аргумента.
