@@ -8,16 +8,22 @@ import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+
+ Фабрика для создания InlineKeyboardMarkup.
+ */
 @Slf4j
 public abstract class InlineKeyboardMarkupFactory {
 
+
     /**
-     * Creates a new InlineKeyboardMarkup object with an empty keyboard.
-     *
-     * @return new InlineKeyboardMarkup object.
+
+     Создает новую пустую InlineKeyboardMarkup.
+
+     @return пустая InlineKeyboardMarkup.
      */
     protected static InlineKeyboardMarkup creatNewInlineKeyboard() {
-        log.debug("Creating new empty InlineKeyboardMarkup");
+        log.debug("Создание новой пустой InlineKeyboardMarkup");
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
@@ -27,72 +33,57 @@ public abstract class InlineKeyboardMarkupFactory {
     }
 
     /**
-     * Adds a button to a new line in the given InlineKeyboardMarkup object.
-     *
-     * @param inlineKeyboardMarkup InlineKeyboardMarkup object to add the button to.
-     * @param text                 Text to display on the button.
-     * @param data                 Callback data associated with the button.
+
+     Добавляет кнопку веб-приложения в новую строку InlineKeyboardMarkup.
+
+     @param inlineKeyboardMarkup InlineKeyboardMarkup, в которую добавляется кнопка.
+
+     @param text Текст кнопки.
+
+     @param url URL веб-приложения.
      */
     protected static void addWebAppButtonToNewLine(InlineKeyboardMarkup inlineKeyboardMarkup, String text, String url) {
-        log.debug("Adding button to new line: text={}", text);
+        log.debug("Добавление кнопки в новую строку: текст={}", text);
         var keyboardRoad = getNewKeyboardRoad(inlineKeyboardMarkup);
 
         InlineKeyboardButton button = new InlineKeyboardButton(text);
 
         var webApp = WebAppInfo.builder().url(url).build();
-        log.info(webApp.toString());
+        log.debug(webApp.toString());
         button.setWebApp(webApp);
         keyboardRoad.add(button);
     }
 
     /**
-     * Adds a button to the current line in the given InlineKeyboardMarkup object.
-     *
-     * @param inlineKeyboardMarkup InlineKeyboardMarkup object to add the button to.
-     * @param text                 Text to display on the button.
-     * @param data                 Callback data associated with the button.
+
+     Добавляет кнопку, при нажатии на которую пользователь сможет выбрать контакты, которым будет отправлено приглашение в бот, в новую строку InlineKeyboardMarkup.
+
+     @param inlineKeyboardMarkup InlineKeyboardMarkup, в которую добавляется кнопка.
+
+     @param text Текст кнопки.
+
+     @param invitationMessage Сообщение-приглашение в бот, которое будет отправлено выбранным контактам.
      */
-    protected static void addButtonToCurrentLine(InlineKeyboardMarkup inlineKeyboardMarkup, String text, String data) {
-        log.debug("Adding button to current line: text={}, data={}", text, data);
-        var keyboardRoad = getCurrentKeyboardRoad(inlineKeyboardMarkup);
+    protected static void addSwitchButtonToNewLine (InlineKeyboardMarkup inlineKeyboardMarkup, String text, String invitationMessage) {
+        log.debug("Добавление кнопки в новую строку: текст={}", text);
+        var keyboardRoad = getNewKeyboardRoad(inlineKeyboardMarkup);
 
         InlineKeyboardButton button = new InlineKeyboardButton(text);
-        button.setCallbackData(data);
+        button.setSwitchInlineQuery(invitationMessage);
+
         keyboardRoad.add(button);
     }
-
-    protected static void addWebAppButtonToCurrentLine(InlineKeyboardMarkup inlineKeyboardMarkup, String text, String data, String url) {
-        log.debug("Adding button to current line: text={}, data={}", text, data);
-        var keyboardRoad = getCurrentKeyboardRoad(inlineKeyboardMarkup);
-
-        InlineKeyboardButton button = new InlineKeyboardButton(text);
-        button.setCallbackData(data);
-        keyboardRoad.add(button);
-    }
-
 
     /**
-     * Gets a new keyboard row for the given InlineKeyboardMarkup object.
-     *
-     * @param inlineKeyboardMarkup InlineKeyboardMarkup object to get the new row for.
-     * @return new keyboard row.
+
+     Получает новую строку клавиатуры для InlineKeyboardMarkup.
+     @param inlineKeyboardMarkup InlineKeyboardMarkup, для которого нужна новая строка клавиатуры.
+     @return Новая строка клавиатуры.
      */
     private static List<InlineKeyboardButton> getNewKeyboardRoad(InlineKeyboardMarkup inlineKeyboardMarkup) {
-        log.debug("Getting new keyboard row");
+        log.debug("Получение новой строки клавиатуры");
         List<InlineKeyboardButton> keyboardRoad = new ArrayList<>();
         inlineKeyboardMarkup.getKeyboard().add(keyboardRoad);
         return keyboardRoad;
-    }
-
-    /**
-     * Gets the current keyboard row for the given InlineKeyboardMarkup object.
-     *
-     * @param inlineKeyboardMarkup InlineKeyboardMarkup object to get the current row for.
-     * @return current keyboard row.
-     */
-    private static List<InlineKeyboardButton> getCurrentKeyboardRoad(InlineKeyboardMarkup inlineKeyboardMarkup) {
-        log.debug("Getting current keyboard row");
-        var keyboard = inlineKeyboardMarkup.getKeyboard();
-        return keyboard.get(keyboard.size() - 1);
     }
 }
