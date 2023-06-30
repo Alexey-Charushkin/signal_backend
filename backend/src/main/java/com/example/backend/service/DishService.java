@@ -1,12 +1,15 @@
-package com.example.backend.services;
+package com.example.backend.service;
 
 import com.example.backend.dto.DishDTO;
+import com.example.backend.mapper.DishMapper;
 import com.example.backend.model.Dish;
 import com.example.backend.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 /**
 
  Сервис для работы с блюдами.
@@ -15,18 +18,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DishService {
     private final DishRepository dishRepository;
+    private final DishMapper dishMapper;
     /**
 
      Создает новое блюдо на основе переданного DTO.
      @param dishDTO DTO с информацией о блюде.
      @return созданное блюдо. */
     public Dish createDish(DishDTO dishDTO){
-        var dish = Dish.builder()
-                .description(dishDTO.getDescription())
-                .price(dishDTO.getPrice())
-                .category(dishDTO.getCategory())
-                .preparationTime(dishDTO.getPreparationTime())
-                .build();
+        var dish = dishMapper.toEntity(dishDTO);
         return dishRepository.save(dish);
     }
 
@@ -34,8 +33,11 @@ public class DishService {
 
      Возвращает список всех блюд.
      @return список всех блюд. */
-    public List<Dish> getAllDishes() {
-        return dishRepository.findAll();
+    public List<DishDTO> getAllDishes() {
+        List<Dish> dishes = dishRepository.findAll();
+        return dishes.stream()
+                .map(dishMapper::toDto)
+                .collect(Collectors.toList());
     }
     /**
 
@@ -60,12 +62,9 @@ public class DishService {
      Обновляет блюдо по его ID.
      @param id ID блюда.
      @return обновленное блюдо. */
-    public Dish updateDish(Long id, Dish dish) {
-        Dish updatedDish = getDishById(id);
-        updatedDish.setDescription(dish.getDescription());
-        updatedDish.setPrice(dish.getPrice());
-        updatedDish.setCategory(dish.getCategory());
-        updatedDish.setPreparationTime(dish.getPreparationTime());
-        return dishRepository.save(updatedDish);
+    public Dish updateDish(Long id, DishDTO dishDTO) {
+        Dish dish = dishMapper.toEntity(dishDTO);
+        dish.setDishId(id);
+        return dishRepository.save(dish);
     }
 }

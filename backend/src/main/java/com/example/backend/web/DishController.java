@@ -2,7 +2,7 @@ package com.example.backend.web;
 
 import com.example.backend.dto.DishDTO;
 import com.example.backend.model.Dish;
-import com.example.backend.services.DishService;
+import com.example.backend.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import java.util.List;
 public class DishController {
     private final DishService dishService;
     @GetMapping
-    public List<Dish> getAllDishes() {
+    public List<DishDTO> getAllDishes() {
         return dishService.getAllDishes();
     }
 
@@ -33,7 +33,7 @@ public class DishController {
 
     @PutMapping("/{id}")
     @Operation(summary = "update dish")
-    public Dish updateDish(@PathVariable("id") Long id, @RequestBody Dish dish) {
+    public Dish updateDish(@PathVariable("id") Long id, @RequestBody DishDTO dish) {
         return dishService.updateDish(id, dish);
     }
 
