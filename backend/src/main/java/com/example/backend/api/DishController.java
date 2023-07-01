@@ -1,6 +1,6 @@
-package com.example.backend.web;
+package com.example.backend.api;
 
-import com.example.backend.dto.DishDTO;
+import com.example.backend.model.dto.DishDTO;
 import com.example.backend.model.Dish;
 import com.example.backend.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;

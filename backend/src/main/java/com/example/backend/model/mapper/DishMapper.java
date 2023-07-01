@@ -1,6 +1,6 @@
-package com.example.backend.mapper;
+package com.example.backend.model.mapper;
 
-import com.example.backend.dto.DishDTO;
+import com.example.backend.model.dto.DishDTO;
 import com.example.backend.model.Dish;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

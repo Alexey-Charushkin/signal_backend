@@ -1,13 +1,13 @@
 spring:
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
-    username: ${DB_USERNAME:habrpguser}
-    password: ${DB_PASSWORD:pgpwd4habr}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:MMspi3KB>H}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: ${DDL_AUTO:create-drop}
+      ddl-auto: ${DDL_AUTO:update}
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

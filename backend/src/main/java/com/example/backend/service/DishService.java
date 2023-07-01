@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.DishDTO;
-import com.example.backend.mapper.DishMapper;
+import com.example.backend.model.dto.DishDTO;
+import com.example.backend.model.mapper.DishMapper;
 import com.example.backend.model.Dish;
 import com.example.backend.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
