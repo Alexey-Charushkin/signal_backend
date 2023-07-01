@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.model.dto.DishDTO;
+import com.example.backend.model.exception.DishNotFoundException;
 import com.example.backend.model.mapper.DishMapper;
 import com.example.backend.model.Dish;
 import com.example.backend.repository.DishRepository;
@@ -47,7 +48,7 @@ public class DishService {
      @throws RuntimeException если блюдо не было найдено. */
     public Dish getDishById(Long id){
         return dishRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Dish not found with id " + id));
+                .orElseThrow(()-> new DishNotFoundException(id));
     }
     /**
 
