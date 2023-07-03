@@ -24,7 +24,6 @@ public class DishDTO {
     private String category;
 
     @NotNull(message = "Установите время приготовления")
-    @Min(value = 1, message = "Минимальное время приготовления 1 минута")
     private Integer preparationTime;
 
 

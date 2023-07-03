@@ -55,8 +55,7 @@ public class DishService {
      Удаляет блюдо по его ID.
      @param id ID блюда. */
     public void deleteDish(Long id){
-        Dish dish = getDishById(id);
-        dishRepository.delete(dish);
+        dishRepository.deleteById(id);
     }
     /**
 
@@ -65,7 +64,6 @@ public class DishService {
      @return обновленное блюдо. */
     public Dish updateDish(Long id, DishDTO dishDTO) {
         Dish dish = dishMapper.toEntity(dishDTO);
-        dish.setDishId(id);
         return dishRepository.save(dish);
     }
 }
