@@ -1,13 +1,11 @@
-package com.example.backend.mapper;
+package com.example.backend.model.mapper;
 
-import com.example.backend.dto.UserDTO;
 import com.example.backend.model.User;
+import com.example.backend.model.dto.UserDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface UserMapper {
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     UserDTO toUserDTO(User User);
 

@@ -1,4 +1,4 @@
-package com.example.backend.dto;
+package com.example.backend.model.dto;
 
 import com.example.backend.model.enums.RoleEnum;
 import lombok.Data;
