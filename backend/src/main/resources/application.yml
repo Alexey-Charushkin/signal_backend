@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:MMspi3KB>H}
+    username: ${DB_USERNAME:habrpguser}
+    password: ${DB_PASSWORD:pgpwd4habr}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -16,6 +16,23 @@ spring:
   mvc:
     validation:
       enabled: true
+
+  mail:
+    host: smtp.mail.ru
+    port: 465
+    username: signal.test.mail@mail.ru
+    password: AxXgiv70tKf4DTGsumgW
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+          ssl:
+            enable: true
+
 
 server:
   port: 8080
