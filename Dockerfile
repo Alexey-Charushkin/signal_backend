@@ -13,7 +13,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN ./mvnw clean -e package
+RUN ./mvnw clean package
 
 
 FROM openjdk:17-jdk-slim 
