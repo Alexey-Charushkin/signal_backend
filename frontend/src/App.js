@@ -14,8 +14,8 @@ const App = () => {
         stompClient.current.connect({}, function(frame) {
             console.log('Connected: ' + frame);
             stompClient.current.subscribe('/topic/order-notifications', function(messageOutput) {
-                console.log(messageOutput)
-                setResponse([...response, messageOutput])
+                console.log(messageOutput.body)
+                setResponse([...response, messageOutput.body])
             });
         });
         setIsConnected(true)
