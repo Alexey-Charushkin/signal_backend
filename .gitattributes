@@ -1,2 +1,3 @@
 backend/mvnw -text
 backend/mvnw.cmd -text
+mvnw text eol=lf
