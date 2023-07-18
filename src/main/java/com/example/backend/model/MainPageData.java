@@ -21,7 +21,7 @@ public class MainPageData {
     @JsonIgnore
     private Long pageId;
 
-    @Column(name = "hostname")
+    @Column(name = "hostname", unique = true)
     private String hostname;
 
     @OneToOne(cascade = CascadeType.ALL)
