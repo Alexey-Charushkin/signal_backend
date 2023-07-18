@@ -31,9 +31,8 @@ public class MainPageDataController {
                 example = "http://example.ru",
                 required = true)
         @RequestParam("hostname") String hostname) {
-        MainPageData mainPageData = mainPageDataService.getPageData(hostname);
-        if (mainPageData != null) {
-            MainPageDataDTO mainPageDataDTO = mapper.toMainPageDataDTO(mainPageData);
+        MainPageDataDTO mainPageDataDTO = mainPageDataService.getPageData(hostname);
+        if (mainPageDataDTO != null) {
             return ResponseEntity.ok(mainPageDataDTO);
         } else
             return ResponseEntity.notFound().build();

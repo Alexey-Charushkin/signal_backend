@@ -19,7 +19,8 @@ public class MainPageDataService {
         return mainPageDataRepository.save(mainPage);
     }
 
-    public MainPageData getPageData(String hostname) {
-        return mainPageDataRepository.findByHostname(hostname);
+    public MainPageDataDTO getPageData(String hostname) {
+        MainPageData mainPageDataByHostname = mainPageDataRepository.findByHostname(hostname);
+        return mapper.toMainPageDataDTO(mainPageDataByHostname);
     }
 }

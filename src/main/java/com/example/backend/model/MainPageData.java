@@ -2,13 +2,17 @@ package com.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "main_page_data")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public class MainPageData {
 
     @Id

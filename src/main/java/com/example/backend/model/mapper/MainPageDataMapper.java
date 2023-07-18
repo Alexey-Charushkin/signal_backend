@@ -10,4 +10,6 @@ public interface MainPageDataMapper {
     MainPageDataDTO toMainPageDataDTO(MainPageData mainPageData);
 
     MainPageData toMainPageData(MainPageDataDTO mainPageDataDTO);
+
+
 }

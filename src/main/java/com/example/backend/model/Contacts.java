@@ -2,10 +2,8 @@ package com.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,9 @@ import java.util.List;
 @Entity
 @Table(name = "contacts")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class Contacts {
 
     @Id
@@ -36,7 +36,6 @@ public class Contacts {
     private String address;
 
     @Column(name = "phones")
-    @Setter(AccessLevel.NONE)
     private List<String> phones;
 
     @Column(name = "working_hours")
@@ -45,12 +44,5 @@ public class Contacts {
     @Column(name = "delivery_terms")
     private String deliveryTerms;
 
-    public void setPhones(String phone) {
-        if (phones == null) {
-            phones = new ArrayList<>();
-            phones.add(phone);
-        } else {
-            phones.add(phone);
-        }
-    }
+
 }

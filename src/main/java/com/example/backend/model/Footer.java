@@ -2,10 +2,8 @@ package com.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,9 @@ import java.util.List;
 @Entity
 @Table(name = "footer")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class Footer {
 
     @Id
@@ -40,31 +40,12 @@ public class Footer {
     private Important important;
 
     @Column(name = "menu_sets")
-    @Setter(AccessLevel.NONE)
     private List<String> menuSets;
 
     @Column(name = "menu_pay_title")
     private String menuPayTitle;
 
     @Column(name = "phones")
-    @Setter(AccessLevel.NONE)
     private List<String> phones;
 
-    public void setMenuSets(String menuSet) {
-        if (menuSets == null) {
-            menuSets = new ArrayList<>();
-            menuSets.add(menuSet);
-        } else {
-            menuSets.add(menuSet);
-        }
-    }
-
-    public void setPhones(String phone) {
-        if (phones == null) {
-            phones = new ArrayList<>();
-            phones.add(phone);
-        } else {
-            phones.add(phone);
-        }
-    }
 }

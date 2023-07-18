@@ -2,10 +2,8 @@ package com.example.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,9 @@ import java.util.List;
 @Entity
 @Table(name = "about")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class About {
 
     @Id
@@ -30,15 +30,6 @@ public class About {
     private String headline;
 
     @Column(name = "items")
-    @Setter(AccessLevel.NONE)
     private List<String> items;
 
-    public void setItems(String item) {
-        if (items == null) {
-            items = new ArrayList<>();
-            items.add(item);
-        } else {
-            items.add(item);
-        }
-    }
 }

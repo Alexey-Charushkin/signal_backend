@@ -1,14 +1,20 @@
 package com.example.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "cards")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
+
 public class Card {
 
     @Id
