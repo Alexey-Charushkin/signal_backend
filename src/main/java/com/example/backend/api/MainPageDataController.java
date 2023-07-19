@@ -21,14 +21,14 @@ public class MainPageDataController {
     private final MainPageDataMapper mapper;
 
 
-    @GetMapping("/{hostname}")
+    @GetMapping("/")
     @ResponseBody
     @Operation(summary = "Получение данных страницы")
     public ResponseEntity<MainPageDataDTO> getPageByHostName(
         @Parameter(
                 name = "hostname",
                 description = "Доменное имя сайта клиента",
-                example = "http://example.ru",
+                example = "http://yaponamama.ru",
                 required = true)
         @RequestParam("hostname") String hostname) {
         MainPageDataDTO mainPageDataDTO = mainPageDataService.getPageData(hostname);
@@ -43,5 +43,12 @@ public class MainPageDataController {
     public ResponseEntity<MainPageData> createMainPage(@Valid @RequestBody MainPageDataDTO mainPageDataDTO) {
         MainPageData mainPageData = mainPageDataService.createPageData(mainPageDataDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(mainPageData);
+    }
+
+    @PutMapping("/updatePage")
+    @Operation(summary = "Обновление данных страницы в БД")
+    public ResponseEntity<MainPageData> updateMainPage(@Valid @RequestBody MainPageDataDTO mainPageDataDTO, @RequestParam Long id) {
+        MainPageData mainPageData = mainPageDataService.updatePageData(id, mainPageDataDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(mainPageData);
     }
 }
