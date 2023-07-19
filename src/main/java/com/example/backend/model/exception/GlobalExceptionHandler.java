@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
      @return ResponseEntity с сообщением об ошибке и HTTP-статусом */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleDefaultException(Exception ex) {
-        return new ResponseEntity<>("Что-то пошло не так", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Что-то пошло не так:" + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
