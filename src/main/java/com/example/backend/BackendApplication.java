@@ -39,17 +39,17 @@ public class BackendApplication {
         return "pong";
     }
 
-    @PostConstruct
-    public void init(){
-        try { //Запускаем телеграмм бота
-            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            botsApi.registerBot(telegramBot);
-            log.debug("Telegram bot registered successfully.");
-        } catch (TelegramApiException e) {
-            log.error("Error occurred while registering Telegram bot: {}", e.getMessage());
-        }
-        repository.findAll();
-    }
+//    @PostConstruct
+//    public void init(){
+//        try { //Запускаем телеграмм бота
+//            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+//            botsApi.registerBot(telegramBot);
+//            log.debug("Telegram bot registered successfully.");
+//        } catch (TelegramApiException e) {
+//            log.error("Error occurred while registering Telegram bot: {}", e.getMessage());
+//        }
+//        repository.findAll();
+//    }
 
 }
 
