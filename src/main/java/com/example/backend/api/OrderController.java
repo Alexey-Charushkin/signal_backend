@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     private final OrderOperationService orderOperationService;
+    private final MessageSendingOperations<String> messageSendingOperation;
 
     @Operation(summary = "Создание нового заказа", description = "Создает новый заказ и сохраняет его в БД")
     @ApiResponses(value = {
@@ -26,6 +28,7 @@ public class OrderController {
     })
     @PostMapping(value = "/createOrder")
     public ResponseEntity<String> createOrder(@Valid @RequestBody OrderDTO orderDTO) {
+        messageSendingOperation.convertAndSend("/topic/order-notifications", orderDTO);
         return orderOperationService.createOrder(orderDTO);
     }
 }
