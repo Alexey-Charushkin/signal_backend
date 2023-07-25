@@ -12,6 +12,28 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+
+  mvc:
+    validation:
+      enabled: true
+
+  mail:
+    host: smtp.mail.ru
+    port: 465
+    username: signal.test.mail@mail.ru
+    password: AxXgiv70tKf4DTGsumgW
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+          ssl:
+            enable: true
+
+
 server:
   port: 8080
 
