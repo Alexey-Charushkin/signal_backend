@@ -9,7 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    image: catthehacker/ubuntu:act-latest
+    container:
+      image: catthehacker/ubuntu:act-latest
     steps:
       
       - name: Checkout
