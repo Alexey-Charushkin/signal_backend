@@ -97,3 +97,10 @@
 /.idea/modules.xml
 /.idea/signal.iml
 /.idea/vcs.xml
+target/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
