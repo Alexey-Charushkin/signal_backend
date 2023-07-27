@@ -34,6 +34,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/signalserver:dev.backend.gitea
+   
    deploy:
     needs: build
     runs-on: ubuntu-latest
