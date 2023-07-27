@@ -33,7 +33,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/signalserver:dev.backend
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/signalserverdevops:dev.backend
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
@@ -48,5 +48,5 @@ jobs:
             export BOT_TOKEN_DEV=${{ secrets.BOT_TOKEN_DEV }}
             export BOT_TAG_DEV=dev
             docker-compose -f docker-compose-dev.yml down
-            docker image rm -f ${{ secrets.DOCKERHUB_USERNAME }}/signalserver:dev.backend
+            docker image rm -f ${{ secrets.DOCKERHUB_USERNAME }}/signalserverdevops:dev.backend
             docker-compose -f docker-compose-dev.yml up -d
