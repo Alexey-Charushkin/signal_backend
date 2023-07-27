@@ -34,4 +34,21 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/signalserver:dev.backend.gitea
-
+   deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands to deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        command_timeout: 10m
+        stack_file_name: docker-compose.yaml
+        script: | 
+          docker login -u ${{  secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          cd ${{ secrets.REPO_NAME }}
+          export BOT_TOKEN_DEV=${{ secrets.BOT_TOKEN_DEV }}
+          export BOT_TAG_DEV=dev
+          echo done
