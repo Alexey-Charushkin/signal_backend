@@ -1,0 +1,14 @@
+name: Lint
+on:
+  pull_request:
+    types: [synchronize, opened, edited]
+
+jobs:
+  checkstyle:
+    name: runner / checkstyle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dbelyaev/action-checkstyle@v0.8.4
+        with:
+          level: info
