@@ -14,14 +14,15 @@ public class RequestInitialCostEstimateDto {
     private List<Item> items;
     private Requirements client_requirements;
     @NotNull(message = "Введите адрес доставки")
-    private List<Coordinates> route_points;
+    private List<RoutePoint> route_points;
     private boolean skip_door_to_door; /* Отказ от доставки до двери (выключить опцию "От двери до двери").
     Возможные значения:
             true (курьер доставит заказ только на улицу, до подъезда)
             false (по умолчанию, доставка от двери до двери)
             */
 }
-/*"items": [
+/*
+"items": [
         {
         "quantity": 1,
         "size": {
