@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery.model.dto;
+package com.example.backend.yandex_delivery.model;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
