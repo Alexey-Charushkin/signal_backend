@@ -32,7 +32,7 @@ public class InitialCostEstimateDtoTest {
                 .build();
 
         System.out.println(objectMapper.writeValueAsString(size));
-      //  System.out.println(objectMapper.writeValueAsString(deliveryInterval));
-        System.out.println(objectMapper.writeValueAsString(item));
+        System.out.println(objectMapper.writeValueAsString(deliveryInterval));
+//        System.out.println(objectMapper.writeValueAsString(item));
     }
 }
