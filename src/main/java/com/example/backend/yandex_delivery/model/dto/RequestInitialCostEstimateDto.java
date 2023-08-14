@@ -1,5 +1,8 @@
 package com.example.backend.yandex_delivery.model.dto;
 
+import com.example.backend.yandex_delivery.model.Item;
+import com.example.backend.yandex_delivery.model.Requirements;
+import com.example.backend.yandex_delivery.model.RoutePoint;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;

@@ -1,5 +1,8 @@
-package com.example.backend.yandex_delivery.model.dto;
+package com.example.backend.yandex_delivery.model;
 
+import com.example.backend.yandex_delivery.enums.CargoOptions;
+import com.example.backend.yandex_delivery.enums.CargoType;
+import com.example.backend.yandex_delivery.enums.TaxiClass;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,19 +22,4 @@ public class Requirements {
     Точный список возможных значений для конкретной геоточки уточните с помощью метода получения тарифов v2/tariffs */
     private boolean pro_courier; // Опция "Профи" для тарифов "Экспресс" и "Курьер"
     private TaxiClass taxi_class; // класс такси   пример: "express"
-}
-
-enum CargoOptions {
-    AUTO_COURIER,
-    THERMOBAG
-}
-
-enum CargoType {
-    VAN,
-    LCV_M,
-    LCV_L
-}
-
-enum TaxiClass {
-    EXPRESS
 }
