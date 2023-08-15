@@ -25,29 +25,57 @@ public class RequestInitialCostEstimateDto {
             */
 }
 /*
-"items": [
-        {
-        "quantity": 1,
-        "size": {
+{
+  "items": [
+    {
+      "quantity": 1,
+      "size": {
         "height": 0.1,
         "length": 0.1,
         "width": 0.1
-        },
-        "weight": 2
-        }
-        ],
-        "client_requirements": {
-        "assign_robot" : false,
-        "cargo_loaders": 0,
-        "cargo_options": ["thermobag", "auto_courier"],
-        "cargo_type": "lcv_m",
-        "pro_courier": false,
-        "taxi_class": "express"
-        },
-        "route_points": [
-        {"coordinates": [37.588074, 55.733924]},
-        {"coordinates": [37.584822, 55.751339]}],
-        "skip_door_to_door": false
-        }
+      },
+      "weight": 2
+    }
+  ],
+  "client_requirements": {
+    "assign_robot" : false,
+    "cargo_loaders": 0,
+    "cargo_options": ["thermobag", "auto_courier"],
+    "cargo_type": "lcv_m",
+    "pro_courier": false,
+    "taxi_class": "express"
+  },
+  "route_points": [
+    {"coordinates": [37.588074, 55.733924]},
+    {"coordinates": [37.584822, 55.751339]}],
+  "skip_door_to_door": false
+}
 
  */
+/*
+{
+    "items": [
+     {
+      "quantity":1,
+      "size": {
+          "height":0.1,
+          "length":0.1
+          ,"width":0.2
+       },
+       "weight":1.4
+       }
+    ],
+    "client_requirements": {
+       "assign_robot":false,
+       "cargo_loaders":0,
+       "cargo_options":["AUTO_COURIER"],
+       "cargo_type":"VAN",
+       "pro_courier":true,
+       "taxi_class":"EXPRESS"
+       },
+       "route_points" : [
+       {"coordinates":[25.12,64.11],
+       "fullname":"ул. Васи Пупкина д.2"}],
+       "skip_door_to_door":false
+
+       } */
