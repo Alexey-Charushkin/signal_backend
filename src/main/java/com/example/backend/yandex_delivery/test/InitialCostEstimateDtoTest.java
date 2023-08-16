@@ -8,10 +8,8 @@ import com.example.backend.yandex_delivery.model.dto.RequestInitialCostEstimateD
 import com.example.backend.yandex_delivery.model.dto.ResponseInitialCostEstimateDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.deser.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,19 +48,19 @@ public class InitialCostEstimateDtoTest {
                 .taxi_class(TaxiClass.EXPRESS)
                 .build();
 
-        float[] coordinates = {25.12f, 64.11f};
+        double[] coordinates = {25.12, 64.11};
         String fullname = "ул. Васи Пупкина д.2";
-        RoutePoint routePoint = RoutePoint.builder()
+        InitialCostRoutePoint initialCostRoutePoint = InitialCostRoutePoint.builder()
                 .coordinates(coordinates)
                 .fullname(fullname)
                 .build();
 
         List<Item> items = List.of(item);
-        List<RoutePoint> routePoints = List.of(routePoint);
+        List<InitialCostRoutePoint> initialCostRoutePoints = List.of(initialCostRoutePoint);
         RequestInitialCostEstimateDto requestInitialCostEstimateDto = RequestInitialCostEstimateDto.builder()
                 .items(items)
                 .client_requirements(requirements)
-                .route_points(routePoints)
+                .route_points(initialCostRoutePoints)
                 .skip_door_to_door(false)
                 .build();
 
