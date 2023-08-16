@@ -2,7 +2,7 @@ package com.example.backend.yandex_delivery.model.dto;
 
 import com.example.backend.yandex_delivery.model.Item;
 import com.example.backend.yandex_delivery.model.Requirements;
-import com.example.backend.yandex_delivery.model.RoutePoint;
+import com.example.backend.yandex_delivery.model.InitialCostRoutePoint;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class RequestInitialCostEstimateDto {
     private List<Item> items;
     private Requirements client_requirements;
     @NotNull(message = "Введите адрес доставки")
-    private List<RoutePoint> route_points;
+    private List<InitialCostRoutePoint> route_points;
     private boolean skip_door_to_door; /* Отказ от доставки до двери (выключить опцию "От двери до двери").
     Возможные значения:
             true (курьер доставит заказ только на улицу, до подъезда)
