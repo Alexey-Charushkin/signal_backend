@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery;
+package com.example.backend.yandex_delivery.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
