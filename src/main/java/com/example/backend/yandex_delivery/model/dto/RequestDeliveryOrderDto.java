@@ -1,9 +1,6 @@
 package com.example.backend.yandex_delivery.model.dto;
 
-import com.example.backend.yandex_delivery.model.CallbackProperties;
-import com.example.backend.yandex_delivery.model.Cargo;
-import com.example.backend.yandex_delivery.model.EmergencyContact;
-import com.example.backend.yandex_delivery.model.Requirements;
+import com.example.backend.yandex_delivery.model.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +27,21 @@ public class RequestDeliveryOrderDto {
             true (курьер оставляет товар себе)
             false (по умолчанию, требуется вернуть товар) */
     private String referral_source; // Источник заявки (можно передать наименование CMS, из которой создается запрос)
+    @NotNull
+    private List<RoutePoint> route_points; // Информация по точкам маршрута
+    private SameDayData same_day_data; // Дополнительная информация для заявок "В течение дня"
+    private String shipping_document; // Сопроводительные документы
+    private boolean skip_act; // Не показывать акт
+    private boolean skip_client_notify; // Не отправлять отправителю/получателю смс-нотификации,
+    // когда к нему направится курьер. По умолчанию: false (отправлять нотификацию)
+    private boolean skip_door_to_door; /* Отказ от доставки до двери (выключить опцию "От двери до двери").
+    Возможные значения:
+            true (курьер доставит заказ только на улицу, до подъезда)
+            false (по умолчанию, доставка от двери до двери)
+            */
+    private boolean skip_emergency_notify; // Не отправлять нотификации emergency контакту По умолчанию: false (отправлять нотификации)
+
+
 
 
 }
