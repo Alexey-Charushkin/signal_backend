@@ -1,6 +1,11 @@
-package com.example.backend.yandex_delivery.model;
+package com.example.backend.yandex_delivery.model.delivery_order.base.route_point;
 
 import com.example.backend.yandex_delivery.enums.RoutePointType;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.advanced.BuyOut;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.advanced.ExternalOrderCost;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.advanced.PaymentOnDelivery;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Address;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +13,7 @@ import lombok.Data;
 @Data
 @Builder
 public class RoutePoint {
+    // точка маршрута
     @NotNull
     private Address address;
     private BuyOut buyout;

@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery.model;
+package com.example.backend.yandex_delivery.model.delivery_order.advanced.fiscalization;
 
 import com.example.backend.yandex_delivery.enums.ItemType;
 import lombok.Builder;

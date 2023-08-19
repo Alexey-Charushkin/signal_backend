@@ -3,9 +3,13 @@ package com.example.backend.yandex_delivery.test;
 import com.example.backend.yandex_delivery.enums.CargoOptions;
 import com.example.backend.yandex_delivery.enums.CargoType;
 import com.example.backend.yandex_delivery.enums.TaxiClass;
-import com.example.backend.yandex_delivery.model.*;
-import com.example.backend.yandex_delivery.model.dto.RequestInitialCostEstimateDto;
-import com.example.backend.yandex_delivery.model.dto.ResponseInitialCostEstimateDto;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.CurrencyRules;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Item;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Size;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.base.InitialCostRoutePoint;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.RequestInitialCostEstimate;
+import com.example.backend.yandex_delivery.model.Requirements;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortResponseInitialCostEstimateDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -57,7 +61,7 @@ public class InitialCostEstimateDtoTest {
 
         List<Item> items = List.of(item);
         List<InitialCostRoutePoint> initialCostRoutePoints = List.of(initialCostRoutePoint);
-        RequestInitialCostEstimateDto requestInitialCostEstimateDto = RequestInitialCostEstimateDto.builder()
+        RequestInitialCostEstimate requestInitialCostEstimate = RequestInitialCostEstimate.builder()
                 .items(items)
                 .client_requirements(requirements)
                 .route_points(initialCostRoutePoints)
@@ -65,7 +69,7 @@ public class InitialCostEstimateDtoTest {
                 .build();
 
 
-        System.out.println(objectMapper.writeValueAsString(requestInitialCostEstimateDto));
+        System.out.println(objectMapper.writeValueAsString(requestInitialCostEstimate));
 
         // ----------------------------------------------------------------------------
 
@@ -76,7 +80,7 @@ public class InitialCostEstimateDtoTest {
                 .text("руб.")
                 .build();
 
-        ResponseInitialCostEstimateDto responseInitialCostEstimateDto = ResponseInitialCostEstimateDto.builder()
+        ShortResponseInitialCostEstimateDto shortResponseInitialCostEstimateDto = ShortResponseInitialCostEstimateDto.builder()
                 .currency_rules(currencyRules)
                 .distance_meters(10)
                 .eta(10)
@@ -85,7 +89,7 @@ public class InitialCostEstimateDtoTest {
                 .zone_id("moscow")
                 .build();
 
-        System.out.println(objectMapper.writeValueAsString(responseInitialCostEstimateDto));
+        System.out.println(objectMapper.writeValueAsString(shortResponseInitialCostEstimateDto));
 
     }
 
