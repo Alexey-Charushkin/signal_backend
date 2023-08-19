@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery.model;
+package com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery.model;
+package com.example.backend.yandex_delivery.model.delivery_order.base.route_point.advanced;
 
 import jakarta.validation.constraints.Email;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-class Customer {
+public class Customer {
     @Email
     private String email; // Электронная почта пользователя в формате morty@yandex.ru.
     // Если не указано, будет использована почта получателя из точки

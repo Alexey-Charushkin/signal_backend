@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery.model;
+package com.example.backend.yandex_delivery.model.delivery_order.advanced.same_day_data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
