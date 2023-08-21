@@ -81,12 +81,8 @@ public class InitialCostEstimateDtoTest {
                 .build();
 
         ShortResponseInitialCostEstimateDto shortResponseInitialCostEstimateDto = ShortResponseInitialCostEstimateDto.builder()
-                .currency_rules(currencyRules)
-                .distance_meters(10)
-                .eta(10)
                 .price(BigDecimal.valueOf(15.20))
                 .requirements(requirements)
-                .zone_id("moscow")
                 .build();
 
         System.out.println(objectMapper.writeValueAsString(shortResponseInitialCostEstimateDto));
