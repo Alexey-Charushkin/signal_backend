@@ -8,7 +8,7 @@ import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Size;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.base.InitialCostRoutePoint;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.RequestInitialCostEstimate;
-import com.example.backend.yandex_delivery.model.Requirements;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Requirements;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortResponseInitialCostEstimateDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

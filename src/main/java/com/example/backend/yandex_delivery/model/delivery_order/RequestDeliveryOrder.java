@@ -1,6 +1,6 @@
 package com.example.backend.yandex_delivery.model.delivery_order;
 
-import com.example.backend.yandex_delivery.model.Requirements;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Requirements;
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.CallbackProperties;
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.EmergencyContact;
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.same_day_data.SameDayData;
@@ -25,7 +25,6 @@ public class RequestDeliveryOrder {
     // Без указания данного поля поиск будет осуществлен
     // на ближайшее время. Согласуйте с менеджером использование опции!
     private EmergencyContact emergency_contact; // Информация о контактном лице с номером телефона
-    @NotNull
     private List<Cargo> items; // Перечисление наименований грузов для отправления
     private String offer_payload; // Payload, полученный в ручке /api/integration/v2/offers/calculate
     private boolean optional_return; /* Не требуется возврат товаров в случае отмены заказа.
@@ -33,7 +32,6 @@ public class RequestDeliveryOrder {
             true (курьер оставляет товар себе)
             false (по умолчанию, требуется вернуть товар) */
     private String referral_source; // Источник заявки (можно передать наименование CMS, из которой создается запрос)
-    @NotNull
     private List<RoutePoint> route_points; // Информация по точкам маршрута
     private SameDayData same_day_data; // Дополнительная информация для заявок "В течение дня"
     private String shipping_document; // Сопроводительные документы

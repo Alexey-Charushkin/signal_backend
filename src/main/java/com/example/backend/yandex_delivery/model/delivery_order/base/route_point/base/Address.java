@@ -12,7 +12,6 @@ public class Address {
     private String building_name; // Название апартаментов (здания)
     private String city;
     private String comment; // комментарий для курьера
-    @NotNull(message = "Введите координаты точки маршрута")
     private double[] coordinates; // Массив из двух вещественных чисел [долгота, широта]. Порядок важен!
     // Указываются округленные значения координат.
     private String country;
@@ -20,8 +19,6 @@ public class Address {
     private String door_code; // код домофона
     private String door_code_extra; // Дополнительные указания по домофонам
     private String doorbell_name; // Имя на дверном звонке
-    @NotNull(message = "Введите название города, улицы и номер дома")
-    @NotBlank(message = "Введите название города, улицы и номер дома")
     private String fullname; /* Полное название с указанием города (Москва, Садовническая набережная, 82с2).
      Важно вводить населенный пункт с указанием номера дома, но без номера квартиры, подъезда, этажа */
     private String porch; // Подъезд (может быть A)
