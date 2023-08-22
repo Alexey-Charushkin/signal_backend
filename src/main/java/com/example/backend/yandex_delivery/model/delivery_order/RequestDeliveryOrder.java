@@ -6,7 +6,6 @@ import com.example.backend.yandex_delivery.model.delivery_order.advanced.Emergen
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.same_day_data.SameDayData;
 import com.example.backend.yandex_delivery.model.delivery_order.base.Cargo;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,32 +15,32 @@ import java.util.List;
 @Data
 @Builder
 public class RequestDeliveryOrder {
-    // полный запрос на создание заявки на доставку
-    private boolean auto_accept; // Автоматическое подтверждение заявки после создания
+    // РїРѕР»РЅС‹Р№ Р·Р°РїСЂРѕСЃ РЅР° СЃРѕР·РґР°РЅРёРµ Р·Р°СЏРІРєРё РЅР° РґРѕСЃС‚Р°РІРєСѓ
+    private boolean auto_accept; // РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ Р·Р°СЏРІРєРё РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ
     private CallbackProperties callback_properties;
     private Requirements client_requirements;
     private String comment;
-    private LocalDateTime due; // (date-time) Создать заказ к определенному времени (например, заказ на завтра).
-    // Без указания данного поля поиск будет осуществлен
-    // на ближайшее время. Согласуйте с менеджером использование опции!
-    private EmergencyContact emergency_contact; // Информация о контактном лице с номером телефона
-    private List<Cargo> items; // Перечисление наименований грузов для отправления
-    private String offer_payload; // Payload, полученный в ручке /api/integration/v2/offers/calculate
-    private boolean optional_return; /* Не требуется возврат товаров в случае отмены заказа.
-    Возможные значения:
-            true (курьер оставляет товар себе)
-            false (по умолчанию, требуется вернуть товар) */
-    private String referral_source; // Источник заявки (можно передать наименование CMS, из которой создается запрос)
-    private List<RoutePoint> route_points; // Информация по точкам маршрута
-    private SameDayData same_day_data; // Дополнительная информация для заявок "В течение дня"
-    private String shipping_document; // Сопроводительные документы
-    private boolean skip_act; // Не показывать акт
-    private boolean skip_client_notify; // Не отправлять отправителю/получателю смс-нотификации,
-    // когда к нему направится курьер. По умолчанию: false (отправлять нотификацию)
-    private boolean skip_door_to_door; /* Отказ от доставки до двери (выключить опцию "От двери до двери").
-    Возможные значения:
-            true (курьер доставит заказ только на улицу, до подъезда)
-            false (по умолчанию, доставка от двери до двери)
+    private LocalDateTime due; // (date-time) РЎРѕР·РґР°С‚СЊ Р·Р°РєР°Р· Рє РѕРїСЂРµРґРµР»РµРЅРЅРѕРјСѓ РІСЂРµРјРµРЅРё (РЅР°РїСЂРёРјРµСЂ, Р·Р°РєР°Р· РЅР° Р·Р°РІС‚СЂР°).
+    // Р‘РµР· СѓРєР°Р·Р°РЅРёСЏ РґР°РЅРЅРѕРіРѕ РїРѕР»СЏ РїРѕРёСЃРє Р±СѓРґРµС‚ РѕСЃСѓС‰РµСЃС‚РІР»РµРЅ
+    // РЅР° Р±Р»РёР¶Р°Р№С€РµРµ РІСЂРµРјСЏ. РЎРѕРіР»Р°СЃСѓР№С‚Рµ СЃ РјРµРЅРµРґР¶РµСЂРѕРј РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РѕРїС†РёРё!
+    private EmergencyContact emergency_contact; // РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РєРѕРЅС‚Р°РєС‚РЅРѕРј Р»РёС†Рµ СЃ РЅРѕРјРµСЂРѕРј С‚РµР»РµС„РѕРЅР°
+    private List<Cargo> items; // РџРµСЂРµС‡РёСЃР»РµРЅРёРµ РЅР°РёРјРµРЅРѕРІР°РЅРёР№ РіСЂСѓР·РѕРІ РґР»СЏ РѕС‚РїСЂР°РІР»РµРЅРёСЏ
+    private String offer_payload; // Payload, РїРѕР»СѓС‡РµРЅРЅС‹Р№ РІ СЂСѓС‡РєРµ /api/integration/v2/offers/calculate
+    private boolean optional_return; /* РќРµ С‚СЂРµР±СѓРµС‚СЃСЏ РІРѕР·РІСЂР°С‚ С‚РѕРІР°СЂРѕРІ РІ СЃР»СѓС‡Р°Рµ РѕС‚РјРµРЅС‹ Р·Р°РєР°Р·Р°.
+    Р’РѕР·РјРѕР¶РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ:
+            true (РєСѓСЂСЊРµСЂ РѕСЃС‚Р°РІР»СЏРµС‚ С‚РѕРІР°СЂ СЃРµР±Рµ)
+            false (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, С‚СЂРµР±СѓРµС‚СЃСЏ РІРµСЂРЅСѓС‚СЊ С‚РѕРІР°СЂ) */
+    private String referral_source; // РСЃС‚РѕС‡РЅРёРє Р·Р°СЏРІРєРё (РјРѕР¶РЅРѕ РїРµСЂРµРґР°С‚СЊ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ CMS, РёР· РєРѕС‚РѕСЂРѕР№ СЃРѕР·РґР°РµС‚СЃСЏ Р·Р°РїСЂРѕСЃ)
+    private List<RoutePoint> route_points; // РРЅС„РѕСЂРјР°С†РёСЏ РїРѕ С‚РѕС‡РєР°Рј РјР°СЂС€СЂСѓС‚Р°
+    private SameDayData same_day_data; // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ РґР»СЏ Р·Р°СЏРІРѕРє "Р’ С‚РµС‡РµРЅРёРµ РґРЅСЏ"
+    private String shipping_document; // РЎРѕРїСЂРѕРІРѕРґРёС‚РµР»СЊРЅС‹Рµ РґРѕРєСѓРјРµРЅС‚С‹
+    private boolean skip_act; // РќРµ РїРѕРєР°Р·С‹РІР°С‚СЊ Р°РєС‚
+    private boolean skip_client_notify; // РќРµ РѕС‚РїСЂР°РІР»СЏС‚СЊ РѕС‚РїСЂР°РІРёС‚РµР»СЋ/РїРѕР»СѓС‡Р°С‚РµР»СЋ СЃРјСЃ-РЅРѕС‚РёС„РёРєР°С†РёРё,
+    // РєРѕРіРґР° Рє РЅРµРјСѓ РЅР°РїСЂР°РІРёС‚СЃСЏ РєСѓСЂСЊРµСЂ. РџРѕ СѓРјРѕР»С‡Р°РЅРёСЋ: false (РѕС‚РїСЂР°РІР»СЏС‚СЊ РЅРѕС‚РёС„РёРєР°С†РёСЋ)
+    private boolean skip_door_to_door; /* РћС‚РєР°Р· РѕС‚ РґРѕСЃС‚Р°РІРєРё РґРѕ РґРІРµСЂРё (РІС‹РєР»СЋС‡РёС‚СЊ РѕРїС†РёСЋ "РћС‚ РґРІРµСЂРё РґРѕ РґРІРµСЂРё").
+    Р’РѕР·РјРѕР¶РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ:
+            true (РєСѓСЂСЊРµСЂ РґРѕСЃС‚Р°РІРёС‚ Р·Р°РєР°Р· С‚РѕР»СЊРєРѕ РЅР° СѓР»РёС†Сѓ, РґРѕ РїРѕРґСЉРµР·РґР°)
+            false (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РґРѕСЃС‚Р°РІРєР° РѕС‚ РґРІРµСЂРё РґРѕ РґРІРµСЂРё)
             */
-    private boolean skip_emergency_notify; // Не отправлять нотификации emergency контакту По умолчанию: false (отправлять нотификации)
+    private boolean skip_emergency_notify; // РќРµ РѕС‚РїСЂР°РІР»СЏС‚СЊ РЅРѕС‚РёС„РёРєР°С†РёРё emergency РєРѕРЅС‚Р°РєС‚Сѓ РџРѕ СѓРјРѕР»С‡Р°РЅРёСЋ: false (РѕС‚РїСЂР°РІР»СЏС‚СЊ РЅРѕС‚РёС„РёРєР°С†РёРё)
 }

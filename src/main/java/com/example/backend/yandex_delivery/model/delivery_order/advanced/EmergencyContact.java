@@ -14,5 +14,5 @@ public class EmergencyContact {
     @NotNull
     @NotBlank
     private String phone;
-    private String phone_additional_code; // Добавочный номер для звонка курьера
-}
+    private String phone_additional_code;
+    }

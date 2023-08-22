@@ -13,13 +13,13 @@ import java.util.List;
 @Data
 @Builder
 public class ShortResponseDeliveryOrder {
-    private long id; // Идентификатор заявки, полученный на этапе создания заявки
-    private LocalDateTime created_ts; // дата и время создания
-    private List<Cargo> items; // Перечисление наименований грузов для отправления
+    private long id;
+    private LocalDateTime created_ts;
+    private List<Cargo> items;
     private int revision;
     private List<RoutePoint> routePoints;
-    private DeliveryOrderStatus status; // Статус заявки
-    private LocalDateTime updated_ts; // (date-time) Дата-время последнего обновления
-    private String user_request_revision; // Текущая версия изменений в заявке от пользователя
-    private int version; // версия
+    private DeliveryOrderStatus status;
+    private LocalDateTime updated_ts;
+    private String user_request_revision;
+    private int version;
 }

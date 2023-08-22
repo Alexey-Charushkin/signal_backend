@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Data
 @Builder
 public class ExternalOrderCost {
-    // —тоимость внешнего заказа, прив€занного к точке
+
     @NotNull
     @NotBlank
     private String currency;

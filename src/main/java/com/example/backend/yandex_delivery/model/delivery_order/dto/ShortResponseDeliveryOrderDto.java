@@ -14,21 +14,21 @@ import java.util.List;
 @Builder
 public class ShortResponseDeliveryOrderDto {
     @NotNull
-    private long id; // Идентификатор заявки, полученный на этапе создания заявки
+    private long id;
     @NotNull
-    private LocalDateTime created_ts; // дата и время создания
+    private LocalDateTime created_ts;
     @NotNull
-    private List<Cargo> items; // Перечисление наименований грузов для отправления
+    private List<Cargo> items;
     @NotNull
     private int revision;
     @NotNull
     private List<RoutePoint> routePoints;
     @NotNull
-    private DeliveryOrderStatus status; // Статус заявки
+    private DeliveryOrderStatus status;
     @NotNull
-    private LocalDateTime updated_ts; // (date-time) Дата-время последнего обновления
+    private LocalDateTime updated_ts; // (date-time)
     @NotNull
-    private String user_request_revision; // Текущая версия изменений в заявке от пользователя
+    private String user_request_revision;
     @NotNull
-    private int version; // версия
+    private int version;
 }
