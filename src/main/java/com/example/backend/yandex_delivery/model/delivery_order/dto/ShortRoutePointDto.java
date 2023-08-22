@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery.model.delivery_order.base.route_point;
+package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
 import com.example.backend.yandex_delivery.enums.RoutePointType;
 import com.example.backend.yandex_delivery.enums.VisitStatus;
@@ -8,37 +8,34 @@ import com.example.backend.yandex_delivery.model.delivery_order.base.route_point
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Address;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.VisitedAt;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class RoutePoint {
+public class ShortRoutePointDto {
     // точка маршрута
-    private Address address;
-    private BuyOut buyout;
-    private Contact contact;
-    private ExternalOrderCost external_order_cost;
-    private String external_order_id; // Номер заказа из системы клиента. Передается для точки с типом destination
-    private boolean leave_under_door; // Оставить посылку у двери
-    private boolean meet_outside; // Курьера встретят на улице у подъезда
-    private boolean no_door_call; // Не звонить в дверь
-    private PaymentOnDelivery payment_on_delivery; // Информация по оплате при получении (актуально для оплаты при получении)
-    private String pickup_code; /* Код выдачи посылки курьеру. Курьеру потребуется ввести этот код, чтобы подтвердить,
-     что он забрать вашу посылку. Для этого необходимо, чтобы ваши сотрудники на точке выдачи имели возможность
-      назвать этот код курьеру. Актуально для точке с type = 'source'. Формат: ровно 6 цифр | Код выдачи товара (ПВЗ) */
+    @NotNull
+    private ShortAddressDto address;
+    @NotNull
+    private ShortContactDto contact;
+    @NotNull
     private int point_id; /* Целочисленный идентификатор точки, генерируемый на стороне Доставки.
      Содержится в поле route_points[].id. Применимо к точкам с типом source, destination, return. */
-    private int skip_confirmation; // Пропускать подтверждение через SMS в данной точке По умолчанию: false (подтверждение требуется)
-    private RoutePointType type; /* Тип точки:
+    @NotNull
+    private String type; /* Тип точки:
     source - точка отправления, где курьер забирает товар
     destination – точки назначения, где курьер передает товар
     return - точка возврата товара (добавляется автоматически и по умолчанию совпадает с точкой отправления,
     но также можно определить другую точку) */
+    @NotNull
     private int visit_order; // Порядок посещения точки (нумерация с 1)
-    private VisitStatus visit_status; /* татус посещения данной точки: pending - точка еще не посещена;
+    @NotNull
+    private String visit_status; /* татус посещения данной точки: pending - точка еще не посещена;
      arrived - водитель прибыл на точку; visited - водитель передал/забрал груз на точке; partial_delivery - точка посещена,
       но часть груза не передана; skipped - точка пропущена (в случае возврата, когда клиент не смог принять груз) */
+    @NotNull
     private VisitedAt visited_at; // (int64) Ожидаемое время ожидания в точке.
 
 }
