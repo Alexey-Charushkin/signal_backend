@@ -8,11 +8,11 @@ import lombok.Data;
 @Data
 @Builder
 public class Contact {
-    private String email; // Email Ч об€зательный параметр дл€ точек source и return
+    private String email;
     @NotNull
     @NotBlank
-    private String name; // им€ контактного лица
+    private String name;
     @NotNull
-    private int phone; // “елефон контактного лица
-    private int phone_additional_code; // ƒобавочный номер дл€ звонка курьера
+    private long phone;
+    private long phone_additional_code;
 }

@@ -1,8 +1,12 @@
 package com.example.backend.yandex_delivery.test;
 
-import com.example.backend.yandex_delivery.enums.CargoOptions;
-import com.example.backend.yandex_delivery.enums.CargoType;
-import com.example.backend.yandex_delivery.enums.TaxiClass;
+import com.example.backend.yandex_delivery.enums.*;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Address;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.mapper.*;
+import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortAddressDto;
+import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRoutePointDtoToRequest;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.CurrencyRules;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Item;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Size;
@@ -22,7 +26,10 @@ import static com.example.backend.yandex_delivery.enums.CargoOptions.AUTO_COURIE
 public class InitialCostEstimateDtoTest {
     public static void main(String[] args) throws JsonProcessingException {
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        final AddressMapper addressMapper = new AddressMapperImpl();
+
+
+        ObjectMapper routePointMapper = new ObjectMapper();
 
         Size size = Size.builder()
                 .height(0.1F)
@@ -53,7 +60,7 @@ public class InitialCostEstimateDtoTest {
                 .build();
 
         double[] coordinates = {25.12, 64.11};
-        String fullname = "ул. Васи Пупкина д.2";
+        String fullname = "Vasja Street h.2";
         InitialCostRoutePoint initialCostRoutePoint = InitialCostRoutePoint.builder()
                 .coordinates(coordinates)
                 .fullname(fullname)
@@ -69,7 +76,7 @@ public class InitialCostEstimateDtoTest {
                 .build();
 
 
-        System.out.println(objectMapper.writeValueAsString(requestInitialCostEstimate));
+        System.out.println(routePointMapper.writeValueAsString(requestInitialCostEstimate));
 
         // ----------------------------------------------------------------------------
 
@@ -85,8 +92,49 @@ public class InitialCostEstimateDtoTest {
                 .requirements(requirements)
                 .build();
 
-        System.out.println(objectMapper.writeValueAsString(shortResponseInitialCostEstimateDto));
+        System.out.println(routePointMapper.writeValueAsString(shortResponseInitialCostEstimateDto));
+
+
+        Address address = Address.builder()
+                .building("7")
+                .sflat("45")
+                .coordinates(coordinates)
+                .fullname(fullname)
+                .build();
+
+        ShortAddressDto shortAddressDto = addressMapper.toShortAddressDto(address);
+        System.out.println(routePointMapper.writeValueAsString(shortAddressDto));
+        Address testAddress = addressMapper.toAddress(shortAddressDto);
+        System.out.println(routePointMapper.writeValueAsString(testAddress));
+
+        Contact contact = Contact.builder()
+                .email("vasija@mail.ru")
+                .name("Vasja Pupkin")
+                .phone(79206857612L)
+                .phone_additional_code(94354735423L)
+                .build();
+
+        final RoutePointMapper routePointMapper2 = new RoutePointMapperImpl();
+
+        RoutePoint routePoint = RoutePoint.builder()
+                .address(address)
+                .contact(contact)
+                .point_id(85)
+                .type(RoutePointType.SOURCE)
+                .visit_order(12)
+                .visit_status(VisitStatus.PENDING)
+                .visited_at(null)
+                .build();
+
+
+        ShortRoutePointDtoToRequest routePointDtoToRequest = routePointMapper2.toShortRoutePointDto(routePoint);
+        System.out.println(routePointMapper.writeValueAsString(routePointDtoToRequest));
 
     }
+
+
+
+
+
 
 }

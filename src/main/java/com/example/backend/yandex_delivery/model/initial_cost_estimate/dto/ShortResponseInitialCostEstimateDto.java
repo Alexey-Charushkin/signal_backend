@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @Builder
 public class ShortResponseInitialCostEstimateDto {
     @NotNull
-    private BigDecimal price; // Сумма в формате Decimal(18, 4)
+    private BigDecimal price; // Decimal(18, 4)
     @NotNull
-    private Requirements requirements; // Требования к доставке (класс авто, опции)
-}
+    private Requirements requirements; }

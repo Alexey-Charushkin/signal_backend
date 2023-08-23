@@ -1,30 +1,28 @@
 package com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
 public class Address {
-    private String building; // строение
-    private String building_name; // Название апартаментов (здания)
+    private String building; // СЃС‚СЂРѕРµРЅРёРµ
+    private String building_name; // РќР°Р·РІР°РЅРёРµ Р°РїР°СЂС‚Р°РјРµРЅС‚РѕРІ (Р·РґР°РЅРёСЏ)
     private String city;
-    private String comment; // комментарий для курьера
-    private double[] coordinates; // Массив из двух вещественных чисел [долгота, широта]. Порядок важен!
-    // Указываются округленные значения координат.
+    private String comment; // РєРѕРјРјРµРЅС‚Р°СЂРёР№ РґР»СЏ РєСѓСЂСЊРµСЂР°
+    private double[] coordinates; // РњР°СЃСЃРёРІ РёР· РґРІСѓС… РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… С‡РёСЃРµР» [РґРѕР»РіРѕС‚Р°, С€РёСЂРѕС‚Р°]. РџРѕСЂСЏРґРѕРє РІР°Р¶РµРЅ!
+    // РЈРєР°Р·С‹РІР°СЋС‚СЃСЏ РѕРєСЂСѓРіР»РµРЅРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РєРѕРѕСЂРґРёРЅР°С‚.
     private String country;
-    private String description; // Географическая область, уточняющая shortname до глобального соответствия
-    private String door_code; // код домофона
-    private String door_code_extra; // Дополнительные указания по домофонам
-    private String doorbell_name; // Имя на дверном звонке
-    private String fullname; /* Полное название с указанием города (Москва, Садовническая набережная, 82с2).
-     Важно вводить населенный пункт с указанием номера дома, но без номера квартиры, подъезда, этажа */
-    private String porch; // Подъезд (может быть A)
-    private String sflat; // квартира
-    private String sfloor; // этаж
-    private String shortname; // Адрес в пределах города, как показывается на Таксометре (Садовническая набережная, 82с2)
-    private String street; // улица
-    private String uri; // Карточный uri геообъекта
+    private String description; // Р“РµРѕРіСЂР°С„РёС‡РµСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ, СѓС‚РѕС‡РЅСЏСЋС‰Р°СЏ shortname РґРѕ РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ
+    private String door_code; // РєРѕРґ РґРѕРјРѕС„РѕРЅР°
+    private String door_code_extra; // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ СѓРєР°Р·Р°РЅРёСЏ РїРѕ РґРѕРјРѕС„РѕРЅР°Рј
+    private String doorbell_name; // РРјСЏ РЅР° РґРІРµСЂРЅРѕРј Р·РІРѕРЅРєРµ
+    private String fullname; /* РџРѕР»РЅРѕРµ РЅР°Р·РІР°РЅРёРµ СЃ СѓРєР°Р·Р°РЅРёРµРј РіРѕСЂРѕРґР° (РњРѕСЃРєРІР°, РЎР°РґРѕРІРЅРёС‡РµСЃРєР°СЏ РЅР°Р±РµСЂРµР¶РЅР°СЏ, 82СЃ2).
+     Р’Р°Р¶РЅРѕ РІРІРѕРґРёС‚СЊ РЅР°СЃРµР»РµРЅРЅС‹Р№ РїСѓРЅРєС‚ СЃ СѓРєР°Р·Р°РЅРёРµРј РЅРѕРјРµСЂР° РґРѕРјР°, РЅРѕ Р±РµР· РЅРѕРјРµСЂР° РєРІР°СЂС‚РёСЂС‹, РїРѕРґСЉРµР·РґР°, СЌС‚Р°Р¶Р° */
+    private String porch; // РџРѕРґСЉРµР·Рґ (РјРѕР¶РµС‚ Р±С‹С‚СЊ A)
+    private String sflat; // РєРІР°СЂС‚РёСЂР°
+    private String sfloor; // СЌС‚Р°Р¶
+    private String shortname; // РђРґСЂРµСЃ РІ РїСЂРµРґРµР»Р°С… РіРѕСЂРѕРґР°, РєР°Рє РїРѕРєР°Р·С‹РІР°РµС‚СЃСЏ РЅР° РўР°РєСЃРѕРјРµС‚СЂРµ (РЎР°РґРѕРІРЅРёС‡РµСЃРєР°СЏ РЅР°Р±РµСЂРµР¶РЅР°СЏ, 82СЃ2)
+    private String street; // СѓР»РёС†Р°
+    private String uri; // РљР°СЂС‚РѕС‡РЅС‹Р№ uri РіРµРѕРѕР±СЉРµРєС‚Р°
 }

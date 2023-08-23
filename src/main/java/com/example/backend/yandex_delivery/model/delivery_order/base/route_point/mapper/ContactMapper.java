@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ContactMapper {
-
     Contact toContact(ShortContactDto shortContactDto);
 
     ShortContactDto toShortContactDto(Contact contact);

@@ -14,7 +14,7 @@ public class CurrencyRules {
     @NotBlank
     @Min(3)
     @Max(3)
-    private String code; // Трехзначный код валюты, в которой ведется расчет
+    private String code;
     private String sign;
     @NotNull
     @NotBlank

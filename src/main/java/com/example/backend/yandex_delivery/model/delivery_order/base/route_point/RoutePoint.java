@@ -14,31 +14,21 @@ import lombok.Data;
 @Data
 @Builder
 public class RoutePoint {
-    // точка маршрута
+    // С‚РѕС‡РєР° РјР°СЂС€СЂСѓС‚Р°
     private Address address;
     private BuyOut buyout;
     private Contact contact;
     private ExternalOrderCost external_order_cost;
-    private String external_order_id; // Номер заказа из системы клиента. Передается для точки с типом destination
-    private boolean leave_under_door; // Оставить посылку у двери
-    private boolean meet_outside; // Курьера встретят на улице у подъезда
-    private boolean no_door_call; // Не звонить в дверь
-    private PaymentOnDelivery payment_on_delivery; // Информация по оплате при получении (актуально для оплаты при получении)
-    private String pickup_code; /* Код выдачи посылки курьеру. Курьеру потребуется ввести этот код, чтобы подтвердить,
-     что он забрать вашу посылку. Для этого необходимо, чтобы ваши сотрудники на точке выдачи имели возможность
-      назвать этот код курьеру. Актуально для точке с type = 'source'. Формат: ровно 6 цифр | Код выдачи товара (ПВЗ) */
-    private int point_id; /* Целочисленный идентификатор точки, генерируемый на стороне Доставки.
-     Содержится в поле route_points[].id. Применимо к точкам с типом source, destination, return. */
-    private int skip_confirmation; // Пропускать подтверждение через SMS в данной точке По умолчанию: false (подтверждение требуется)
-    private RoutePointType type; /* Тип точки:
-    source - точка отправления, где курьер забирает товар
-    destination – точки назначения, где курьер передает товар
-    return - точка возврата товара (добавляется автоматически и по умолчанию совпадает с точкой отправления,
-    но также можно определить другую точку) */
-    private int visit_order; // Порядок посещения точки (нумерация с 1)
-    private VisitStatus visit_status; /* татус посещения данной точки: pending - точка еще не посещена;
-     arrived - водитель прибыл на точку; visited - водитель передал/забрал груз на точке; partial_delivery - точка посещена,
-      но часть груза не передана; skipped - точка пропущена (в случае возврата, когда клиент не смог принять груз) */
-    private VisitedAt visited_at; // (int64) Ожидаемое время ожидания в точке.
+    private String external_order_id;
+    private boolean leave_under_door;
+    private boolean meet_outside;
+    private boolean no_door_call;
+    private PaymentOnDelivery payment_on_delivery;
+    private int point_id;
+    private int skip_confirmation;
+    private RoutePointType type;
+    private int visit_order;
+    private VisitStatus visit_status;
+    private VisitedAt visited_at; // (int64)
 
 }

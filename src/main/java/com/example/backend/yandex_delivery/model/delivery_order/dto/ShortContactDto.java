@@ -10,7 +10,7 @@ import lombok.Data;
 public class ShortContactDto {
     @NotNull
     @NotBlank
-    private String name; // имя контактного лица
+    private String name;
     @NotNull
-    private int phone; // Телефон контактного лица
+    private long phone;
 }

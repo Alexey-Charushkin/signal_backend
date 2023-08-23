@@ -13,11 +13,11 @@ import java.math.BigDecimal;
 public class ResponseInitialCostEstimate {
 
     private CurrencyRules currency_rules;
-    private int distance_meters; // Расстояние в метрах для маршрута, который был построен по точкам запроса, начиная с первой точки и заканчивая последней
-    private int eta; // ETA в минутах, как пришло из /orders/estimate
+    private int distance_meters;
+    private int eta;
     @NotNull
-    private BigDecimal price; // Сумма в формате Decimal(18, 4)
+    private BigDecimal price;
     @NotNull
-    private Requirements requirements; // Требования к доставке (класс авто, опции)
-    private String zone_id; //
+    private Requirements requirements;
+    private String zone_id;
 }

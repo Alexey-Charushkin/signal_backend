@@ -9,6 +9,5 @@ import lombok.Data;
 @Builder
 public class BuyOut {
     @NotNull
-    private PaymentMethod payment_method; // Выбранный тип оплаты. card - оплата картой с fallback на ссылку;
-    // cash - оплата наличными (пока недоступна);
+    private PaymentMethod payment_method;
 }
