@@ -1,13 +1,12 @@
 package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
-import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.VisitedAt;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class ShortRoutePointDtoToResponse {
+public class ShortRequestRoutePointDto {
 
     @NotNull
     private ShortAddressDto address;
@@ -21,7 +20,5 @@ public class ShortRoutePointDtoToResponse {
     private int visit_order;
     @NotNull
     private String visit_status;
-    @NotNull
-    private VisitedAt visited_at;
 
 }

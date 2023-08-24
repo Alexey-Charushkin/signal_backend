@@ -1,5 +1,6 @@
 package com.example.backend.yandex_delivery.model.delivery_order;
 
+import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Requirements;
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.CallbackProperties;
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.EmergencyContact;
@@ -8,23 +9,28 @@ import com.example.backend.yandex_delivery.model.delivery_order.base.Cargo;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Builder
-public class RequestDeliveryOrder {
+public class DeliveryOrder {
     // полный запрос на создание заявки на доставку
+    private long id;
     private boolean auto_accept; // Автоматическое подтверждение заявки после создания
     private CallbackProperties callback_properties;
     private Requirements client_requirements;
     private String comment;
+    private LocalDateTime created_ts;
+    private LocalDateTime updated_ts;
     private LocalDateTime due; // (date-time) Создать заказ к определенному времени (например, заказ на завтра).
     // Без указания данного поля поиск будет осуществлен
     // на ближайшее время. Согласуйте с менеджером использование опции!
     private EmergencyContact emergency_contact; // Информация о контактном лице с номером телефона
     private List<Cargo> items; // Перечисление наименований грузов для отправления
+    private int revision;
     private String offer_payload; // Payload, полученный в ручке /api/integration/v2/offers/calculate
     private boolean optional_return; /* Не требуется возврат товаров в случае отмены заказа.
     Возможные значения:
@@ -32,6 +38,7 @@ public class RequestDeliveryOrder {
             false (по умолчанию, требуется вернуть товар) */
     private String referral_source; // Источник заявки (можно передать наименование CMS, из которой создается запрос)
     private List<RoutePoint> route_points; // Информация по точкам маршрута
+    private DeliveryOrderStatus status;
     private SameDayData same_day_data; // Дополнительная информация для заявок "В течение дня"
     private String shipping_document; // Сопроводительные документы
     private boolean skip_act; // Не показывать акт
@@ -43,4 +50,6 @@ public class RequestDeliveryOrder {
             false (по умолчанию, доставка от двери до двери)
             */
     private boolean skip_emergency_notify; // Не отправлять нотификации emergency контакту По умолчанию: false (отправлять нотификации)
+    private String user_request_revision;
+    private int version;
 }

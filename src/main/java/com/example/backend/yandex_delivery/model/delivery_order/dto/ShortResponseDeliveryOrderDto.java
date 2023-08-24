@@ -16,7 +16,7 @@ public class ShortResponseDeliveryOrderDto {
     @NotNull
     private long id;
     @NotNull
-    private LocalDateTime created_ts;
+    private String created_ts;
     @NotNull
     private List<Cargo> items;
     @NotNull
@@ -26,7 +26,7 @@ public class ShortResponseDeliveryOrderDto {
     @NotNull
     private DeliveryOrderStatus status;
     @NotNull
-    private LocalDateTime updated_ts; // (date-time)
+    private String updated_ts; // (date-time)
     @NotNull
     private String user_request_revision;
     @NotNull

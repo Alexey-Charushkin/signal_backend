@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @Builder
 public class ShortRequestDeliveryOrderDto {
-
     @NotNull
     private List<Cargo> items;
     @NotNull
