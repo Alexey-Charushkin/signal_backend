@@ -12,5 +12,6 @@ public class ShortContactDto {
     @NotBlank
     private String name;
     @NotNull
-    private long phone;
+    @NotBlank
+    private String phone;
 }

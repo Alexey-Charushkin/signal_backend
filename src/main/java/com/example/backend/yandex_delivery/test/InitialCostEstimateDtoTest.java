@@ -1,12 +1,17 @@
 package com.example.backend.yandex_delivery.test;
 
 import com.example.backend.yandex_delivery.enums.*;
+import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Address;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.mapper.*;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortAddressDto;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRoutePointDtoToRequest;
+import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestDeliveryOrderDto;
+import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestRoutePointDto;
+import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
+import com.example.backend.yandex_delivery.model.delivery_order.mapper.DeliveryOrderMapper;
+import com.example.backend.yandex_delivery.model.delivery_order.mapper.DeliveryOrderMapperImpl;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.CurrencyRules;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Item;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Size;
@@ -110,8 +115,8 @@ public class InitialCostEstimateDtoTest {
         Contact contact = Contact.builder()
                 .email("vasija@mail.ru")
                 .name("Vasja Pupkin")
-                .phone(79206857612L)
-                .phone_additional_code(94354735423L)
+                .phone("79206857614")
+                .phone_additional_code("94354735423")
                 .build();
 
         final RoutePointMapper routePointMapper2 = new RoutePointMapperImpl();
@@ -127,8 +132,10 @@ public class InitialCostEstimateDtoTest {
                 .build();
 
 
-        ShortRoutePointDtoToRequest routePointDtoToRequest = routePointMapper2.toShortRoutePointDto(routePoint);
+        ShortRequestRoutePointDto routePointDtoToRequest = routePointMapper2.toShortRoutePointDto(routePoint);
         System.out.println(routePointMapper.writeValueAsString(routePointDtoToRequest));
+
+
 
     }
 
