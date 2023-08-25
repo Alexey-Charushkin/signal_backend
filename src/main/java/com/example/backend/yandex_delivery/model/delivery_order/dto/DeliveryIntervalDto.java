@@ -1,20 +1,20 @@
-package com.example.backend.yandex_delivery.model.delivery_order.advanced.same_day_data;
+package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class DeliveryInterval {
+public class DeliveryIntervalDto {
     // временой диапазон доставки в течении дня
     @NotNull(message = "Установите начало диапаззона времени доставки")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime from; // (date-time)  Начало интервала (UTC)
+    @NotBlank
+    private String from; // (date-time)  Начало интервала (UTC)
     @NotNull(message = "Установите конец диапаззона времени доставки")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime to; // (date-time)  Окончание интервала (UTC)
+    @NotBlank
+    private String to; // (date-time)  Окончание интервала (UTC)
 }

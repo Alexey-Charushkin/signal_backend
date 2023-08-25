@@ -1,6 +1,6 @@
-package com.example.backend.yandex_delivery.model.express_delivery_interval.dto;
+package com.example.backend.yandex_delivery.model.within_a_day_delivery_interval.dto;
 
-import com.example.backend.yandex_delivery.model.express_delivery_interval.RequirementOption;
+import com.example.backend.yandex_delivery.model.within_a_day_delivery_interval.RequirementOption;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

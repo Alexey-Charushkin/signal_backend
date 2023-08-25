@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery.model.express_delivery_interval;
+package com.example.backend.yandex_delivery.model.within_a_day_delivery_interval;
 
 import com.example.backend.yandex_delivery.enums.SupportedRequirementType;
 import lombok.Builder;
