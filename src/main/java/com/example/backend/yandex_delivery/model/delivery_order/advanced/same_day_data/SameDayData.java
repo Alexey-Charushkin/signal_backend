@@ -1,5 +1,6 @@
 package com.example.backend.yandex_delivery.model.delivery_order.advanced.same_day_data;
 
+import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryInterval;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;

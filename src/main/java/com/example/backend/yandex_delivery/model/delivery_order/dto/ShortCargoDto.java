@@ -1,5 +1,6 @@
 package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
+import com.example.backend.yandex_delivery.model.delivery_order.advanced.fiscalization.Fiscalization;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,6 +18,7 @@ public class ShortCargoDto {
     private String cost_currency;
     @NotNull
     private BigDecimal cost_value;
+    @NotNull
     private int droppof_point;
     @NotNull
     private int pickup_point;
