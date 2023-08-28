@@ -38,7 +38,7 @@ public class DeliveryOrder {
             false (по умолчанию, требуется вернуть товар) */
     private String referral_source; // Источник заявки (можно передать наименование CMS, из которой создается запрос)
     private List<RoutePoint> route_points; // Информация по точкам маршрута
-    private DeliveryOrderStatus status;
+    private DeliveryOrderStatus status;  // Статус доставки
     private SameDayData same_day_data; // Дополнительная информация для заявок "В течение дня"
     private String shipping_document; // Сопроводительные документы
     private boolean skip_act; // Не показывать акт
