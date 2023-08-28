@@ -1,8 +1,5 @@
 package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
-import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
-import com.example.backend.yandex_delivery.model.delivery_order.base.Cargo;
-import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -35,4 +32,6 @@ public class ShortResponseDeliveryOrderDto {
     private String user_request_revision;
     @NotNull
     private int version;
+    private SameDayDataDto same_day_data;
+    private boolean skip_client_notify;
 }

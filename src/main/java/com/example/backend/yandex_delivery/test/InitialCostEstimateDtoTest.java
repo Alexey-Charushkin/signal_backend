@@ -1,17 +1,15 @@
 package com.example.backend.yandex_delivery.test;
 
 import com.example.backend.yandex_delivery.enums.*;
-import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Address;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
-import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.mapper.*;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortAddressDto;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestRoutePointDto;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
-import com.example.backend.yandex_delivery.model.delivery_order.mapper.DeliveryOrderMapper;
-import com.example.backend.yandex_delivery.model.delivery_order.mapper.DeliveryOrderMapperImpl;
+import com.example.backend.yandex_delivery.model.delivery_order.mapper.AddressMapper;
+import com.example.backend.yandex_delivery.model.delivery_order.mapper.AddressMapperImpl;
+import com.example.backend.yandex_delivery.model.delivery_order.mapper.RoutePointMapper;
+import com.example.backend.yandex_delivery.model.delivery_order.mapper.RoutePointMapperImpl;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.CurrencyRules;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Item;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Size;
@@ -25,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.backend.yandex_delivery.enums.CargoOptions.AUTO_COURIER;
 
@@ -136,12 +135,14 @@ public class InitialCostEstimateDtoTest {
         System.out.println(routePointMapper.writeValueAsString(routePointDtoToRequest));
 
 
+        String baseUri = "b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/"; // используеться для приложения развёрнутого в docker контейнере
+        // String uri = "http://localhost:9090"; // используется для приложения развёрнутого без docker
+        //  UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
+
+        String path = "create\\?request_id={" + uuid + "}";
+
+        System.out.println(baseUri + path);
 
     }
-
-
-
-
-
-
 }

@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery.model.delivery_order.base.route_point.mapper;
+package com.example.backend.yandex_delivery.model.delivery_order.mapper;
 
 import com.example.backend.yandex_delivery.model.delivery_order.base.Cargo;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Address;
