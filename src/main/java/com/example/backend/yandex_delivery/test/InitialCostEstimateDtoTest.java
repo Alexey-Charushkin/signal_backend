@@ -1,11 +1,12 @@
 package com.example.backend.yandex_delivery.test;
 
+
+import com.example.backend.yandex_delivery.client.YandexDeliveryWebClient;
 import com.example.backend.yandex_delivery.enums.*;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Address;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortAddressDto;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestRoutePointDto;
+import com.example.backend.yandex_delivery.model.delivery_order.dto.*;
 import com.example.backend.yandex_delivery.model.delivery_order.mapper.AddressMapper;
 import com.example.backend.yandex_delivery.model.delivery_order.mapper.AddressMapperImpl;
 import com.example.backend.yandex_delivery.model.delivery_order.mapper.RoutePointMapper;
@@ -17,13 +18,15 @@ import com.example.backend.yandex_delivery.model.initial_cost_estimate.base.Init
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.RequestInitialCostEstimate;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Requirements;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortResponseInitialCostEstimateDto;
+import com.example.backend.yandex_delivery.service.YandexDeliveryService;
+import com.example.backend.yandex_delivery.service.YandexDeliveryServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.example.backend.yandex_delivery.enums.CargoOptions.AUTO_COURIER;
 
@@ -134,15 +137,28 @@ public class InitialCostEstimateDtoTest {
         ShortRequestRoutePointDto routePointDtoToRequest = routePointMapper2.toShortRoutePointDto(routePoint);
         System.out.println(routePointMapper.writeValueAsString(routePointDtoToRequest));
 
+        YandexDeliveryService service = new YandexDeliveryServiceImpl(new YandexDeliveryWebClient());
 
-        String baseUri = "b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/"; // используеться для приложения развёрнутого в docker контейнере
-        // String uri = "http://localhost:9090"; // используется для приложения развёрнутого без docker
-        //  UUID uuid = UUID.randomUUID();
-        UUID uuid = UUID.randomUUID();
+        List<ShortRequestRoutePointDto> routePointDtos = List.of(routePointDtoToRequest);
 
-        String path = "create\\?request_id={" + uuid + "}";
+        ShortCargoDto cargoDto = ShortCargoDto.builder()
+                .cost_currency("1")
+                .cost_value(BigDecimal.valueOf(13.2343))
+                .droppof_point(1)
+                .pickup_point(1)
+                .quantity(1)
+                .title("Test cargo")
+                .build();
 
-        System.out.println(baseUri + path);
+        List<ShortCargoDto> shortCargoDtos = List.of(cargoDto);
+
+        ShortRequestDeliveryOrderDto shortRequestDeliveryOrderDto = ShortRequestDeliveryOrderDto.builder()
+                .items(shortCargoDtos)
+                .route_points(routePointDtos)
+                .build();
+
+        service.saveDeliveryOrder(shortRequestDeliveryOrderDto);
+
 
     }
 }
