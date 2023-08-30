@@ -21,7 +21,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     @Override
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(ShortRequestDeliveryOrderDto dto) {
         UUID uuid = UUID.randomUUID();
-        String path = "create?request_id=" + 1000000000;
+        String path = "/b2b/cargo/integration/v2/claims/create?request_id=" + uuid;
 
         return client.saveDeliveryOrder(path, dto).block();
 
