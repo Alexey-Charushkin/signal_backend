@@ -24,6 +24,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,12 @@ public class InitialCostEstimateDtoTest {
     public static void main(String[] args) throws JsonProcessingException {
 
         final AddressMapper addressMapper = new AddressMapperImpl();
-
+//        try {
+//            System.setOut(new PrintStream(System.out, true, "Windows-1251"));
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        System.setProperty("console.encoding", "Windows-1251");
 
         ObjectMapper routePointMapper = new ObjectMapper();
 
@@ -83,7 +90,7 @@ public class InitialCostEstimateDtoTest {
                 .build();
 
 
-        System.out.println(routePointMapper.writeValueAsString(requestInitialCostEstimate));
+        //  System.out.println(routePointMapper.writeValueAsString(requestInitialCostEstimate));
 
         // ----------------------------------------------------------------------------
 
@@ -99,7 +106,7 @@ public class InitialCostEstimateDtoTest {
                 .requirements(requirements)
                 .build();
 
-        System.out.println(routePointMapper.writeValueAsString(shortResponseInitialCostEstimateDto));
+     //   System.out.println(routePointMapper.writeValueAsString(shortResponseInitialCostEstimateDto));
 
 
         Address address = Address.builder()
@@ -110,9 +117,9 @@ public class InitialCostEstimateDtoTest {
                 .build();
 
         ShortAddressDto shortAddressDto = addressMapper.toShortAddressDto(address);
-        System.out.println(routePointMapper.writeValueAsString(shortAddressDto));
+   //     System.out.println(routePointMapper.writeValueAsString(shortAddressDto));
         Address testAddress = addressMapper.toAddress(shortAddressDto);
-        System.out.println(routePointMapper.writeValueAsString(testAddress));
+   //     System.out.println(routePointMapper.writeValueAsString(testAddress));
 
         Contact contact = Contact.builder()
                 .email("vasija@mail.ru")
@@ -135,7 +142,7 @@ public class InitialCostEstimateDtoTest {
 
 
         ShortRequestRoutePointDto routePointDtoToRequest = routePointMapper2.toShortRoutePointDto(routePoint);
-        System.out.println(routePointMapper.writeValueAsString(routePointDtoToRequest));
+      //  System.out.println(routePointMapper.writeValueAsString(routePointDtoToRequest));
 
         YandexDeliveryService service = new YandexDeliveryServiceImpl(new YandexDeliveryWebClient());
 
