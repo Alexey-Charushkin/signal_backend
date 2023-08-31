@@ -22,10 +22,7 @@ import com.example.backend.yandex_delivery.service.YandexDeliveryService;
 import com.example.backend.yandex_delivery.service.YandexDeliveryServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,11 +141,11 @@ public class InitialCostEstimateDtoTest {
         ShortRequestRoutePointDto routePointDtoToRequest = routePointMapper2.toShortRoutePointDto(routePoint);
       //  System.out.println(routePointMapper.writeValueAsString(routePointDtoToRequest));
 
-        YandexDeliveryService service = new YandexDeliveryServiceImpl(new YandexDeliveryWebClient());
+      //  YandexDeliveryService service = new YandexDeliveryServiceImpl(new YandexDeliveryWebClient());
 
         List<ShortRequestRoutePointDto> routePointDtos = List.of(routePointDtoToRequest);
 
-        ShortCargoDto cargoDto = ShortCargoDto.builder()
+        ShortDeliveryItemDto cargoDto = ShortDeliveryItemDto.builder()
                 .cost_currency("1")
                 .cost_value(BigDecimal.valueOf(13.2343))
                 .droppof_point(1)
@@ -157,14 +154,14 @@ public class InitialCostEstimateDtoTest {
                 .title("Test cargo")
                 .build();
 
-        List<ShortCargoDto> shortCargoDtos = List.of(cargoDto);
+        List<ShortDeliveryItemDto> shortDeliveryItemDtos = List.of(cargoDto);
 
         ShortRequestDeliveryOrderDto shortRequestDeliveryOrderDto = ShortRequestDeliveryOrderDto.builder()
-                .items(shortCargoDtos)
+                .items(shortDeliveryItemDtos)
                 .route_points(routePointDtos)
                 .build();
 
-        service.saveDeliveryOrder(shortRequestDeliveryOrderDto);
+       // service.saveDeliveryOrder(shortRequestDeliveryOrderDto);
 
 
     }

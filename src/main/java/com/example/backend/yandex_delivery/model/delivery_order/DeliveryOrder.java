@@ -5,11 +5,10 @@ import com.example.backend.yandex_delivery.model.delivery_order.base.route_point
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.CallbackProperties;
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.EmergencyContact;
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.same_day_data.SameDayData;
-import com.example.backend.yandex_delivery.model.delivery_order.base.Cargo;
+import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryItem;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +28,7 @@ public class DeliveryOrder {
     // Без указания данного поля поиск будет осуществлен
     // на ближайшее время. Согласуйте с менеджером использование опции!
     private EmergencyContact emergency_contact; // Информация о контактном лице с номером телефона
-    private List<Cargo> items; // Перечисление наименований грузов для отправления
+    private List<DeliveryItem> items; // Перечисление наименований грузов для отправления
     private int revision;
     private String offer_payload; // Payload, полученный в ручке /api/integration/v2/offers/calculate
     private boolean optional_return; /* Не требуется возврат товаров в случае отмены заказа.
