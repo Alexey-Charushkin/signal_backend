@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -16,7 +15,7 @@ public class ShortResponseDeliveryOrderDto {
     @NotNull
     private String created_ts;
     @NotNull
-    private List<ShortCargoDto> items;
+    private List<ShortDeliveryItemDto> items;
     @NotNull
     private int revision;
     @NotNull

@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 public class ShortRequestDeliveryOrderDto {
     @NotNull
-    private List<ShortCargoDto> items;
+    private List<ShortDeliveryItemDto> items;
     @NotNull
     private List<ShortRequestRoutePointDto> route_points;
 }

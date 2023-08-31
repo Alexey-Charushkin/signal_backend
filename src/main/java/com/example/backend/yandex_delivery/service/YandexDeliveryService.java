@@ -5,5 +5,5 @@ import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRespons
 import reactor.core.publisher.Mono;
 
 public interface YandexDeliveryService {
-   ShortResponseDeliveryOrderDto saveDeliveryOrder(ShortRequestDeliveryOrderDto dto);
+   ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId);
 }

@@ -1,6 +1,5 @@
 package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
-import com.example.backend.yandex_delivery.model.delivery_order.advanced.fiscalization.Fiscalization;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +11,7 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-public class ShortCargoDto {
+public class ShortDeliveryItemDto {
     @NotNull
     @NotBlank
     @Size(min = 3, max = 3)
