@@ -15,6 +15,8 @@ import com.example.backend.yandex_delivery.model.delivery_order.base.route_point
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.mapper.DeliveryOrderMapper;
+import com.example.backend.yandex_delivery.repository.YandexDeliveryRepository;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -28,18 +30,20 @@ import java.util.UUID;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@Transactional
 public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
     private final YandexDeliveryWebClient client;
-    private final OrderedDishRepository repository;
+    private final OrderedDishRepository orderedDishRepository;
     private final DeliveryOrderMapper deliveryOrderMapper;
+    private final YandexDeliveryRepository yandexDeliveryRepository;
 
 
     @SneakyThrows
     @Override
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
         UUID uuid = UUID.randomUUID();
-        OrderedDish orderedDish = repository.findById(orderedDishId)
+        OrderedDish orderedDish = orderedDishRepository.findById(orderedDishId)
                 .orElseThrow(() -> new NotFoundException("Ordered dish not found."));
 
         Order order = orderedDish.getOrder();
@@ -49,16 +53,18 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         RoutePoint routePoint = getRoutePoint(user);
 
         DeliveryOrder deliveryOrder = DeliveryOrder.builder()
+                .uuid(uuid)
                 .items(List.of(deliveryItem))
                 .route_points(List.of(routePoint))
                 .build();
 
+        yandexDeliveryRepository.save(deliveryOrder);
 
         String path = "/b2b/cargo/integration/v2/claims/create?request_id=" + uuid;
 
-          return client.saveDeliveryOrder(path, deliveryOrderMapper
-                  .toShortRequestDeliveryOrderDto(deliveryOrder))
-                  .block();
+        return client.saveDeliveryOrder(path, deliveryOrderMapper
+                        .toShortRequestDeliveryOrderDto(deliveryOrder))
+                .block();
     }
 
 
