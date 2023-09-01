@@ -141,7 +141,7 @@ public class InitialCostEstimateDtoTest {
         ShortRequestRoutePointDto routePointDtoToRequest = routePointMapper2.toShortRoutePointDto(routePoint);
       //  System.out.println(routePointMapper.writeValueAsString(routePointDtoToRequest));
 
-      //  YandexDeliveryService service = new YandexDeliveryServiceImpl(new YandexDeliveryWebClient());
+    //   YandexDeliveryService service = new YandexDeliveryServiceImpl(new YandexDeliveryWebClient());
 
         List<ShortRequestRoutePointDto> routePointDtos = List.of(routePointDtoToRequest);
 
@@ -161,7 +161,7 @@ public class InitialCostEstimateDtoTest {
                 .route_points(routePointDtos)
                 .build();
 
-       // service.saveDeliveryOrder(shortRequestDeliveryOrderDto);
+  //      service.saveDeliveryOrder(shortRequestDeliveryOrderDto);
 
 
     }
