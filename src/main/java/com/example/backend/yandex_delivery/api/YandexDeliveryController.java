@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class YandexDeliveryController {
 
     private final YandexDeliveryService service;
+
     @PostMapping
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Заказ на доставку успешно создан"),
             @ApiResponse(responseCode = "400", description = "Запрос некорректный")
     })
-    public ShortResponseDeliveryOrderDto create(@PathVariable(name = "id") @NotNull Long orderedDishId)
-    {
+    public ShortResponseDeliveryOrderDto create(@RequestParam (name = "id") @NotNull Long orderedDishId) {
         return service.saveDeliveryOrder(orderedDishId);
     }
-
 }
