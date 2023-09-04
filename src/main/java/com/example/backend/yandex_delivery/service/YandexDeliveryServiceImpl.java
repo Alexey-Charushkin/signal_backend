@@ -44,7 +44,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
         UUID uuid = UUID.randomUUID();
         OrderedDish orderedDish = orderedDishRepository.findById(orderedDishId)
-                .orElseThrow(() -> new NotFoundException("Ordered dish not found."));
+                .orElseThrow(() -> new NotFoundException(" Ordered dish not found."));
 
         Order order = orderedDish.getOrder();
         User user = order.getUser();
@@ -66,7 +66,6 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
                 .block();
     }
-
 
     private DeliveryItem getDeliveryItem(OrderedDish orderedDish) {
         DeliveryItem deliveryItem = DeliveryItem.builder()
