@@ -1,5 +1,6 @@
 package com.example.backend.yandex_delivery.model.delivery_order;
 
+import com.example.backend.yandex_delivery.enums.CancelState;
 import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Requirements;
 import com.example.backend.yandex_delivery.model.delivery_order.advanced.CallbackProperties;
@@ -90,4 +91,6 @@ public class DeliveryOrder {
     private String user_request_revision;
     @Column(name = "version")
     private int version;
+    @Column(name = "cancel_state")
+    private CancelState cancel_state;
 }

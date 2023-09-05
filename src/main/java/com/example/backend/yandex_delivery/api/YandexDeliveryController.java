@@ -24,4 +24,22 @@ public class YandexDeliveryController {
     public ShortResponseDeliveryOrderDto create(@RequestParam (name = "id") @NotNull Long orderedDishId) {
         return service.saveDeliveryOrder(orderedDishId);
     }
+
+    @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Заказ на доставку успешно создан"),
+            @ApiResponse(responseCode = "400", description = "Запрос некорректный")
+    })
+    public ShortResponseDeliveryOrderDto findById(@RequestParam (name = "claim_id") @NotNull Long claim_Id) {
+        return service.findById(claim_Id);
+    }
+
+    @GetMapping("/cancel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Заказ на доставку успешно создан"),
+            @ApiResponse(responseCode = "400", description = "Запрос некорректный")
+    })
+    public ShortResponseDeliveryOrderDto cancelById(@RequestParam (name = "claim_id") @NotNull Long claim_Id) {
+        return service.cancelById(claim_Id);
+    }
 }

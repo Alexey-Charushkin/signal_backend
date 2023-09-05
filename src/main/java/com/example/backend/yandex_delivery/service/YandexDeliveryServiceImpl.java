@@ -30,7 +30,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Transactional
 public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
     private final YandexDeliveryWebClient client;
@@ -40,6 +39,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
 
     @SneakyThrows
+    @Transactional
     @Override
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
         UUID uuid = UUID.randomUUID();
@@ -67,6 +67,25 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .block();
     }
 
+    @Override
+    @Transactional
+    public ShortResponseDeliveryOrderDto findById(Long claim_Id) {
+        String path = "/b2b/cargo/integration/v2/claims/info?claim_id=" + claim_Id;
+        ShortResponseDeliveryOrderDto orderDto = client.getDeliveryOrder(path);
+
+        yandexDeliveryRepository.save(deliveryOrderMapper.toDeliveryOrder(orderDto));
+
+        return client.getDeliveryOrder(path);
+    }
+
+    @Override
+    public ShortResponseDeliveryOrderDto cancelById(Long claim_Id) {
+        String path = "/b2b/cargo/integration/v2/claims/cancel?claim_id=" + claim_Id;
+
+        return null;
+    }
+//    POST b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/cancel\
+//            ?claim_id={st
     private DeliveryItem getDeliveryItem(OrderedDish orderedDish) {
         DeliveryItem deliveryItem = DeliveryItem.builder()
                 .cost_currency("RUB")

@@ -11,7 +11,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Component
-//@RequiredArgsConstructor
 public class YandexDeliveryWebClient {
     WebClient webClient = WebClient.create();
     private final String baseUri = "https://b2b.taxi.yandex.net";
@@ -41,27 +40,17 @@ public class YandexDeliveryWebClient {
                 });
     }
 
+    public ShortResponseDeliveryOrderDto getDeliveryOrder(String path) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
+        headers.setBearerAuth(oauthToken);
 
-/*
-    public List<StatsDtoToReturn> getStatistics(StatsDtoToGetStats statsParameters) {
-        String endpointPath = "/stats";
-
-        String url = UriComponentsBuilder.fromHttpUrl(baseUri + endpointPath)
-                .queryParam("start", statsParameters.getStart())
-                .queryParam("end", statsParameters.getEnd())
-                .queryParam("uris", statsParameters.getUris())
-                .queryParam("unique", statsParameters.isUnique())
-                .queryParam("from", statsParameters.getFrom())
-                .queryParam("size", statsParameters.getSize())
-                .toUriString();
-
-        return webClient.get()
-                .uri(url)
+        return webClient.post()
+                .uri(baseUri + path)
                 .retrieve()
-                .bodyToFlux(StatsDtoToReturn.class)
-                .collectList()
+                .bodyToMono(ShortResponseDeliveryOrderDto.class)
                 .block();
     }
 
- */
+
 }

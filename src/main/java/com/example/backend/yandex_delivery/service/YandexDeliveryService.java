@@ -6,4 +6,8 @@ import reactor.core.publisher.Mono;
 
 public interface YandexDeliveryService {
    ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId);
+
+   ShortResponseDeliveryOrderDto findById(Long claim_Id);
+
+   ShortResponseDeliveryOrderDto cancelById(Long claim_Id);
 }
