@@ -5,6 +5,8 @@ import com.example.backend.model.OrderedDish;
 import com.example.backend.model.User;
 import com.example.backend.repository.OrderedDishRepository;
 import com.example.backend.yandex_delivery.client.YandexDeliveryWebClient;
+import com.example.backend.yandex_delivery.enums.CancelState;
+import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.enums.RoutePointType;
 import com.example.backend.yandex_delivery.enums.VisitStatus;
 import com.example.backend.yandex_delivery.exceptions.NotFoundException;
@@ -24,6 +26,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -44,7 +47,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
         UUID uuid = UUID.randomUUID();
         OrderedDish orderedDish = orderedDishRepository.findById(orderedDishId)
-                .orElseThrow(() -> new NotFoundException(" Ordered dish not found."));
+                .orElseThrow(() -> new NotFoundException("Ordered dish not found."));
 
         Order order = orderedDish.getOrder();
         User user = order.getUser();
@@ -69,7 +72,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
     @Override
     @Transactional
-    public ShortResponseDeliveryOrderDto findById(Long claim_Id) {
+    public ShortResponseDeliveryOrderDto findById(String claim_Id) {
         String path = "/b2b/cargo/integration/v2/claims/info?claim_id=" + claim_Id;
         ShortResponseDeliveryOrderDto orderDto = client.getDeliveryOrder(path);
 
@@ -79,13 +82,35 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     }
 
     @Override
-    public ShortResponseDeliveryOrderDto cancelById(Long claim_Id) {
+    @Transactional
+    public ShortResponseDeliveryOrderDto cancelById(String claim_Id) {
         String path = "/b2b/cargo/integration/v2/claims/cancel?claim_id=" + claim_Id;
+        DeliveryOrder order = yandexDeliveryRepository.findById(UUID.fromString(claim_Id))
+                .orElseThrow(() -> new NotFoundException("Delivery order not found."));
 
+        ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path, deliveryOrderMapper.toCancelDto(order));
+        order.setCancel_state(CancelState.valueOf(orderDto.getStatus().toLowerCase(Locale.ROOT)));
+
+        yandexDeliveryRepository.save(order);
+
+        return orderDto;
+    }
+
+    @Override
+    public ShortResponseDeliveryOrderDto acceptById(String claim_Id) {
+        String path = "/b2b/cargo/integration/v2/claims/accept?claim_id=" + claim_Id;
+        DeliveryOrder order = yandexDeliveryRepository.findById(UUID.fromString(claim_Id))
+                .orElseThrow(() -> new NotFoundException("Delivery order not found."));
+
+        // Аккуратно можно ввызвать курьера
+
+//        ShortResponseDeliveryOrderDto orderDto = client.acceptDeliveryOrder(path, deliveryOrderMapper.toAcceptDto(order));
+//        order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toLowerCase(Locale.ROOT)));
+//
+//        return orderDto;
         return null;
     }
-//    POST b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/cancel\
-//            ?claim_id={st
+
     private DeliveryItem getDeliveryItem(OrderedDish orderedDish) {
         DeliveryItem deliveryItem = DeliveryItem.builder()
                 .cost_currency("RUB")

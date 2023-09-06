@@ -1,5 +1,7 @@
 package com.example.backend.yandex_delivery.client;
 
+import com.example.backend.yandex_delivery.model.delivery_order.dto.AcceptDto;
+import com.example.backend.yandex_delivery.model.delivery_order.dto.CancelDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
 import org.springframework.http.HttpHeaders;
@@ -14,12 +16,13 @@ import reactor.core.publisher.Mono;
 public class YandexDeliveryWebClient {
     WebClient webClient = WebClient.create();
     private final String baseUri = "https://b2b.taxi.yandex.net";
-   private final String oauthToken = "904359043"; // токен авторизации
+    private final String oauthToken = "904359043"; // токен авторизации
 
     public Mono<ShortResponseDeliveryOrderDto> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
         headers.setBearerAuth(oauthToken);
+
 
         return webClient
                 .method(HttpMethod.POST)
@@ -47,10 +50,42 @@ public class YandexDeliveryWebClient {
 
         return webClient.post()
                 .uri(baseUri + path)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .contentType(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(ShortResponseDeliveryOrderDto.class)
                 .block();
     }
 
+    public ShortResponseDeliveryOrderDto cancelDeliveryOrder(String path, CancelDto dto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
+        headers.setBearerAuth(oauthToken);
 
+        return webClient.post()
+                .uri(baseUri + path)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(dto))
+                .retrieve()
+                .bodyToMono(ShortResponseDeliveryOrderDto.class)
+                .block();
+    }
+
+// К этому запросу относитесь аккуратно. Можно вызвать курьера.
+
+//    public ShortResponseDeliveryOrderDto acceptDeliveryOrder(String path, AcceptDto dto) {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
+//        headers.setBearerAuth(oauthToken);
+//
+//        return webClient.post()
+//                .uri(baseUri + path)
+//                .headers(httpHeaders -> httpHeaders.addAll(headers))
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(BodyInserters.fromValue(dto))
+//                .retrieve()
+//                .bodyToMono(ShortResponseDeliveryOrderDto.class)
+//                .block();
+//    }
 }

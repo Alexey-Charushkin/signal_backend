@@ -30,16 +30,25 @@ public class YandexDeliveryController {
             @ApiResponse(responseCode = "201", description = "Заказ на доставку успешно создан"),
             @ApiResponse(responseCode = "400", description = "Запрос некорректный")
     })
-    public ShortResponseDeliveryOrderDto findById(@RequestParam (name = "claim_id") @NotNull Long claim_Id) {
+    public ShortResponseDeliveryOrderDto findById(@RequestParam (name = "claim_id") @NotNull String claim_Id) {
         return service.findById(claim_Id);
     }
 
-    @GetMapping("/cancel")
+    @DeleteMapping("/cancel")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Заказ на доставку успешно создан"),
             @ApiResponse(responseCode = "400", description = "Запрос некорректный")
     })
-    public ShortResponseDeliveryOrderDto cancelById(@RequestParam (name = "claim_id") @NotNull Long claim_Id) {
+    public ShortResponseDeliveryOrderDto cancelById(@RequestParam (name = "claim_id") @NotNull String claim_Id) {
         return service.cancelById(claim_Id);
+    }
+
+    @PatchMapping("/accept")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Заказ на доставку успешно создан"),
+            @ApiResponse(responseCode = "400", description = "Запрос некорректный")
+    })
+    public ShortResponseDeliveryOrderDto acceptById(@RequestParam (name = "claim_id") @NotNull String claim_Id) {
+        return service.acceptById(claim_Id);
     }
 }
