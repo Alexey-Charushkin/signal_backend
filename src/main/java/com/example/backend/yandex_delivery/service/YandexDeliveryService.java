@@ -1,13 +1,13 @@
 package com.example.backend.yandex_delivery.service;
 
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
-import reactor.core.publisher.Mono;
 
 public interface YandexDeliveryService {
-   ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId);
+    ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId);
 
-   ShortResponseDeliveryOrderDto findById(Long claim_Id);
+    ShortResponseDeliveryOrderDto findById(String claim_Id);
 
-   ShortResponseDeliveryOrderDto cancelById(Long claim_Id);
+    ShortResponseDeliveryOrderDto cancelById(String claim_Id);
+
+    ShortResponseDeliveryOrderDto acceptById(String claim_Id);
 }

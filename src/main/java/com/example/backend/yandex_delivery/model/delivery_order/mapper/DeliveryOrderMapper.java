@@ -2,10 +2,7 @@ package com.example.backend.yandex_delivery.model.delivery_order.mapper;
 
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestDeliveryOrderDto;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestRoutePointDto;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseRoutePointDto;
+import com.example.backend.yandex_delivery.model.delivery_order.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,5 +13,9 @@ public interface DeliveryOrderMapper {
     DeliveryOrder toDeliveryOrder(ShortResponseDeliveryOrderDto shortResponseDeliveryOrderDto);
 
     ShortRequestDeliveryOrderDto  toShortRequestDeliveryOrderDto (DeliveryOrder deliveryOrder);
+
+    CancelDto toCancelDto (DeliveryOrder deliveryOrder);
+
+    AcceptDto toAcceptDto (DeliveryOrder deliveryOrder);
 
 }
