@@ -8,5 +8,6 @@ import org.mapstruct.Mapper;
 public interface SameDayDeliveryMapper {
 
     SameDayDelivery toSameDayDelivery(SameDayDeliveryDto sameDayDeliveryDto);
+
     SameDayDeliveryDto toSameDayDeliveryDto(SameDayDelivery sameDayDelivery);
 }

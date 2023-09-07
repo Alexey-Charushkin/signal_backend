@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface DeliveryItemMapper {
-
     DeliveryItem toDeliveryItem(ShortDeliveryItemDto shortDeliveryItemDto);
+
     ShortDeliveryItemDto toShortDeliveryItemDto(DeliveryItem deliveryItem);
 }

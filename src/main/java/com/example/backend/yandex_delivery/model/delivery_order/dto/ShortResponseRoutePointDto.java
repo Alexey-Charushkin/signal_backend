@@ -8,7 +8,6 @@ import lombok.Data;
 @Data
 @Builder
 public class ShortResponseRoutePointDto {
-
     @NotNull
     private ShortAddressDto address;
     @NotNull
@@ -23,5 +22,4 @@ public class ShortResponseRoutePointDto {
     private String visit_status;
     @NotNull
     private VisitedAt visited_at;
-
 }

@@ -30,29 +30,3 @@ public class SupportedRequirementDto {
     @NotBlank
     private String type; //  Enum: Array[2] 1:"select" 2:"multi_select"
 }
-/*
-"supported_requirements": [
-
-        {
-        "default": boolean,
-        "name": string,
-
-        "options": [
-        {
-        "text": string,
-        "title": string
-        }
-        ],
-
-        "required": boolean,
-        "text": string,
-        "title": string,
-        "type": string
-        }
-        ],
-        "text": string,
-        "title": string
-        }
-        ]
-
- */

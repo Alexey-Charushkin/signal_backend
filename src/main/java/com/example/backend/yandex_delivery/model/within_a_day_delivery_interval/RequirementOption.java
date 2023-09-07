@@ -9,11 +9,3 @@ public class RequirementOption {
     private String text;
     private String title;
 }
-/*
-"options": [
-        {
-        "text": string,
-        "title": string
-        }
-        ]
-             */

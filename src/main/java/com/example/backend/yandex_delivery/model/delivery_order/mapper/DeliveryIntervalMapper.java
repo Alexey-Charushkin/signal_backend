@@ -9,9 +9,8 @@ import org.mapstruct.Mapping;
 public interface DeliveryIntervalMapper {
 
     // @Mapping(target="from", source = "DeliveryIntervalDto.from", dateFormat = "dd-MM-yyyy HH:mm:ss")
-//    @Mapping(target="to", source = "DeliveryIntervalDto.to", dateFormat = "dd-MM-yyyy HH:mm:ss")
+    // @Mapping(target="to", source = "DeliveryIntervalDto.to", dateFormat = "dd-MM-yyyy HH:mm:ss")
     DeliveryInterval toDeliveryInterval(DeliveryIntervalDto deliveryIntervalDto);
 
     DeliveryIntervalDto toDeliveryIntervalDto(DeliveryInterval deliveryInterval);
-
 }

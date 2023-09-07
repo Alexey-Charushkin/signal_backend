@@ -15,7 +15,7 @@ public class ShortDeliveryItemDto {
     @NotNull
     @NotBlank
     @Size(min = 3, max = 3)
-    private String cost_currency = "RUB"; /* Валюта цены за штуку в формате ISO 4217 (для объявления ценности/страхования
+    private String cost_currency; /* Валюта цены за штуку в формате ISO 4217 (для объявления ценности/страхования
     и/или оплаты при получении). Пример: RUB */
     @NotNull
     private BigDecimal cost_value; /* Цена за штуку в валюте cost_currency.

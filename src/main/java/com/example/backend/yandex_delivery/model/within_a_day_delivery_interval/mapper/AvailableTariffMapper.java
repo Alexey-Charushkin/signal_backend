@@ -8,5 +8,6 @@ import org.mapstruct.Mapper;
 public interface AvailableTariffMapper {
 
     AvailableTariff toAvailableTariff(AvailableTariffDto availableTariffDto);
+
     AvailableTariffDto toResponseAvailableTariffDto(AvailableTariff availableTariff);
 }

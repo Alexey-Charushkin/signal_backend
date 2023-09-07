@@ -6,7 +6,6 @@ import com.example.backend.model.User;
 import com.example.backend.repository.OrderedDishRepository;
 import com.example.backend.yandex_delivery.client.YandexDeliveryWebClient;
 import com.example.backend.yandex_delivery.enums.CancelState;
-import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.enums.RoutePointType;
 import com.example.backend.yandex_delivery.enums.VisitStatus;
 import com.example.backend.yandex_delivery.exceptions.NotFoundException;
@@ -17,6 +16,10 @@ import com.example.backend.yandex_delivery.model.delivery_order.base.route_point
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.mapper.DeliveryOrderMapper;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.base.InitialCostRoutePoint;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortResponseInitialCostEstimateDto;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.mapper.InitialCostEstimateMapper;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.InitialCostEstimate;
 import com.example.backend.yandex_delivery.repository.YandexDeliveryRepository;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
@@ -38,14 +41,35 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     private final YandexDeliveryWebClient client;
     private final OrderedDishRepository orderedDishRepository;
     private final DeliveryOrderMapper deliveryOrderMapper;
+    private final InitialCostEstimateMapper initialCostEstimateMapper;
     private final YandexDeliveryRepository yandexDeliveryRepository;
 
+    @Override
+    public ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId) {
+        String path = "/b2b/cargo/integration/v2/check-price";
+        OrderedDish orderedDish = orderedDishRepository.findById(orderedDishId)
+                .orElseThrow(() -> new NotFoundException("Ordered dish not found."));
+
+        Order order = orderedDish.getOrder();
+        User user = order.getUser();
+
+        DeliveryItem deliveryItem = getDeliveryItem(orderedDish);
+        InitialCostRoutePoint routePoint = getInitialCostRoutePoints(user);
+
+        InitialCostEstimate initialCostEstimate = InitialCostEstimate.builder()
+                .route_points(List.of(routePoint))
+                .build();
+
+        return client
+                .getInitialCost(path, initialCostEstimateMapper.toShortRequestInitialCostEstimateDto(initialCostEstimate));
+    }
 
     @SneakyThrows
     @Transactional
     @Override
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
         UUID uuid = UUID.randomUUID();
+        String path = "/b2b/cargo/integration/v2/claims/create?request_id=" + uuid;
         OrderedDish orderedDish = orderedDishRepository.findById(orderedDishId)
                 .orElseThrow(() -> new NotFoundException("Ordered dish not found."));
 
@@ -62,8 +86,6 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .build();
 
         yandexDeliveryRepository.save(deliveryOrder);
-
-        String path = "/b2b/cargo/integration/v2/claims/create?request_id=" + uuid;
 
         return client.saveDeliveryOrder(path, deliveryOrderMapper
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
@@ -122,6 +144,15 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .build();
 
         return deliveryItem;
+    }
+
+    private InitialCostRoutePoint getInitialCostRoutePoints(User user) {
+        double[] coordinates = {132.1, 12.5};
+        InitialCostRoutePoint initialCostRoutePoint = InitialCostRoutePoint.builder()
+                .coordinates(coordinates)
+                .fullname(user.getAddress())
+                .build();
+        return initialCostRoutePoint;
     }
 
     private RoutePoint getRoutePoint(User user) {

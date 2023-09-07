@@ -15,12 +15,3 @@ public class RequirementOptionDto {
     @NotBlank
     private String title;
 }
-
-/*
-"options": [
-        {
-        "text": string,
-        "title": string
-        }
-        ]
-             */
