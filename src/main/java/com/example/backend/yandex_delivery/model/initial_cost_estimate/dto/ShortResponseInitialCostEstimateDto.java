@@ -13,4 +13,5 @@ public class ShortResponseInitialCostEstimateDto {
     @NotNull
     private BigDecimal price; // Decimal(18, 4)
     @NotNull
-    private Requirements requirements; }
+    private Requirements requirements;
+}

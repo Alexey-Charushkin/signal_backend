@@ -11,5 +11,4 @@ public class PaymentOnDelivery {
     private Customer customer;
     @NotNull
     private PaymentMethod payment_method;
-
 }

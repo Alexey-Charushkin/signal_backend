@@ -15,32 +15,3 @@ public class AvailableTariff {
     private String text;
     private String title;
 }
-
-/*
-        {
-        "minimal_price": number,
-        "name": string,
-        "supported_requirements": [
-        {
-        "default": boolean,
-        "name": string,
-        "options": [
-        {
-        "text": string,
-        "title": string
-        }
-        ],
-        "required": boolean,
-        "text": string,
-        "title": string,
-        "type": string
-        }
-        ],
-        "text": string,
-        "title": string
-        }
-        ]
-
-        }
-
- */

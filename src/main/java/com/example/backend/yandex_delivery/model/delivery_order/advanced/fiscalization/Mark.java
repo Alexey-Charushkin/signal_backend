@@ -8,12 +8,10 @@ import lombok.Data;
 @Data
 @Builder
 public class Mark {
-
     @NotNull
     @NotBlank
     private String code;
     @NotNull
     @NotBlank
     private String kind;
-
 }

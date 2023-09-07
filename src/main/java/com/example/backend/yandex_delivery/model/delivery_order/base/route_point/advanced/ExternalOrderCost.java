@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 @Data
 @Builder
 public class ExternalOrderCost {
-
     @NotNull
     @NotBlank
     private String currency;

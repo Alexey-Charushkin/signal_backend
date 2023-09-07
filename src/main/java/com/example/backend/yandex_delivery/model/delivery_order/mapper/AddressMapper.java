@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface AddressMapper {
-
     Address toAddress(ShortAddressDto shortAddressDto);
 
     ShortAddressDto toShortAddressDto(Address address);

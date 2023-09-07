@@ -8,5 +8,6 @@ import org.mapstruct.Mapper;
 public interface RequirementOptionMapper {
 
     RequirementOption toRequirementOption(RequirementOptionDto requirementOptionDto);
+
     RequirementOptionDto toRequirementOptionDto(RequirementOption requirementOption);
 }

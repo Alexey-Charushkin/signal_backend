@@ -3,7 +3,6 @@ package com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 @Builder
@@ -15,5 +14,4 @@ public class Size {
     private float length;
     @NotNull(message = "Установите ширину коробки")
     private float width;
-
 }

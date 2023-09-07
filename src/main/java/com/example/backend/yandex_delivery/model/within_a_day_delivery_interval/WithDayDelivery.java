@@ -8,5 +8,4 @@ import lombok.Data;
 public class WithDayDelivery {
     private ExpressDelivery express_delivery;
     private SameDayDelivery same_day_delivery;
-
 }

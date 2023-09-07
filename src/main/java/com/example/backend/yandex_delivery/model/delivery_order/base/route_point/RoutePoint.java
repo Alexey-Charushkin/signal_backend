@@ -29,6 +29,5 @@ public class RoutePoint {
     private RoutePointType type;
     private int visit_order;
     private VisitStatus visit_status;
-    private VisitedAt visited_at; // (int64)
-
+    private VisitedAt visited_at;
 }
