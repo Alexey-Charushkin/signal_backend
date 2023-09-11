@@ -18,12 +18,13 @@ import reactor.core.publisher.Mono;
 public class YandexDeliveryWebClient {
     private final WebClient webClient = WebClient.create();
     private final String baseUri = "https://b2b.taxi.yandex.net";
-    private final String oauthToken = "904359043"; // токен авторизации
+    private final String OAUTH_TOKEN = "y0_AgAAAABwgIQFAAc6MQAAAADsGlYZaLKi7oBkQTaPzQ9FNu5hCavMXhs"; // токен авторизации
 
     public ShortResponseInitialCostEstimateDto getInitialCost(String path, ShortRequestInitialCostEstimateDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
-        headers.setBearerAuth(oauthToken);
+        headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
+        headers.setBearerAuth(OAUTH_TOKEN);
 
         return webClient
                 .post()
@@ -32,6 +33,10 @@ public class YandexDeliveryWebClient {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(dto))
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, response -> {
+                    System.out.println("Client error:  " + response.statusCode());
+                    return response.createException().flatMap(Mono::error);
+                })
                 .bodyToMono(ShortResponseInitialCostEstimateDto.class)
                 .block();
     }
@@ -39,7 +44,7 @@ public class YandexDeliveryWebClient {
     public Mono<ShortResponseDeliveryOrderDto> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
-        headers.setBearerAuth(oauthToken);
+        headers.setBearerAuth(OAUTH_TOKEN);
 
         return webClient
                 .method(HttpMethod.POST)
@@ -63,7 +68,7 @@ public class YandexDeliveryWebClient {
     public ShortResponseDeliveryOrderDto getDeliveryOrder(String path) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
-        headers.setBearerAuth(oauthToken);
+        headers.setBearerAuth(OAUTH_TOKEN);
 
         return webClient.post()
                 .uri(baseUri + path)
@@ -77,7 +82,7 @@ public class YandexDeliveryWebClient {
     public ShortResponseDeliveryOrderDto cancelDeliveryOrder(String path, CancelDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
-        headers.setBearerAuth(oauthToken);
+        headers.setBearerAuth(OAUTH_TOKEN);
 
         return webClient.post()
                 .uri(baseUri + path)
