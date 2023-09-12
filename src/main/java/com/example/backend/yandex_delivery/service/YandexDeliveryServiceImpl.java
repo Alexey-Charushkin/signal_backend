@@ -46,7 +46,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
     @Override
     public ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId) {
-        String path = "/b2b/cargo/integration/v2/check-price";
+        String path = "/check-price";
         OrderedDish orderedDish = orderedDishRepository.findById(orderedDishId)
                 .orElseThrow(() -> new NotFoundException("Ordered dish not found."));
 
@@ -56,8 +56,14 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         DeliveryItem deliveryItem = getDeliveryItem(orderedDish);
         InitialCostRoutePoint routePoint = getInitialCostRoutePoints(user);
 
+        double[] coordinates = {37.584822, 55.751339};
+        InitialCostRoutePoint routePoint2 = InitialCostRoutePoint.builder()
+                .coordinates(coordinates)
+                .build();
+
+
         InitialCostEstimate initialCostEstimate = InitialCostEstimate.builder()
-                .route_points(List.of(routePoint))
+                .route_points(List.of(routePoint, routePoint2))
                 .build();
 
         return client
@@ -69,7 +75,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     @Override
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
         UUID uuid = UUID.randomUUID();
-        String path = "/b2b/cargo/integration/v2/claims/create?request_id=" + uuid;
+        String path = "/claims/create?request_id=" + uuid;
         OrderedDish orderedDish = orderedDishRepository.findById(orderedDishId)
                 .orElseThrow(() -> new NotFoundException("Ordered dish not found."));
 
@@ -95,7 +101,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     @Override
     @Transactional
     public ShortResponseDeliveryOrderDto findById(String claim_Id) {
-        String path = "/b2b/cargo/integration/v2/claims/info?claim_id=" + claim_Id;
+        String path = "/claims/info?claim_id=" + claim_Id;
         ShortResponseDeliveryOrderDto orderDto = client.getDeliveryOrder(path);
 
         yandexDeliveryRepository.save(deliveryOrderMapper.toDeliveryOrder(orderDto));
@@ -106,7 +112,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     @Override
     @Transactional
     public ShortResponseDeliveryOrderDto cancelById(String claim_Id) {
-        String path = "/b2b/cargo/integration/v2/claims/cancel?claim_id=" + claim_Id;
+        String path = "/claims/cancel?claim_id=" + claim_Id;
         DeliveryOrder order = yandexDeliveryRepository.findById(UUID.fromString(claim_Id))
                 .orElseThrow(() -> new NotFoundException("Delivery order not found."));
 
@@ -120,7 +126,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
     @Override
     public ShortResponseDeliveryOrderDto acceptById(String claim_Id) {
-        String path = "/b2b/cargo/integration/v2/claims/accept?claim_id=" + claim_Id;
+        String path = "/claims/accept?claim_id=" + claim_Id;
         DeliveryOrder order = yandexDeliveryRepository.findById(UUID.fromString(claim_Id))
                 .orElseThrow(() -> new NotFoundException("Delivery order not found."));
 
@@ -147,10 +153,10 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     }
 
     private InitialCostRoutePoint getInitialCostRoutePoints(User user) {
-        double[] coordinates = {132.1, 12.5};
+        double[] coordinates = {37.588074, 55.733924};
         InitialCostRoutePoint initialCostRoutePoint = InitialCostRoutePoint.builder()
                 .coordinates(coordinates)
-                .fullname(user.getAddress())
+        //        .fullname(user.getAddress())
                 .build();
         return initialCostRoutePoint;
     }
@@ -159,7 +165,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         // RoutePoint routePoint = getRoutePointFromAddress(String deliveryAddress);
         // код ниже временный костыль до тех пор пока не будет сделан метод получения
         // координат по адресу
-        double[] coordinates = {132.1, 12.5};
+        double[] coordinates = {37.588074, 55.733924};
 
         Contact contact = Contact.builder()
                 .email(user.getEmail())

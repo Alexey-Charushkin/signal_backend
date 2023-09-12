@@ -1,10 +1,12 @@
 package com.example.backend.yandex_delivery.client;
 
+import com.example.backend.yandex_delivery.exceptions.ClientException;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.CancelDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortRequestInitialCostEstimateDto;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortResponseInitialCostEstimateDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
@@ -17,8 +19,10 @@ import reactor.core.publisher.Mono;
 @Component
 public class YandexDeliveryWebClient {
     private final WebClient webClient = WebClient.create();
-    private final String baseUri = "https://b2b.taxi.yandex.net";
+    private final String baseUri = "https://b2b.taxi.yandex.net/b2b/cargo/integration/v2";
     private final String OAUTH_TOKEN = "y0_AgAAAABwgIQFAAc6MQAAAADsGlYZaLKi7oBkQTaPzQ9FNu5hCavMXhs"; // токен авторизации
+
+    ObjectMapper jsonMapper = new ObjectMapper();
 
     public ShortResponseInitialCostEstimateDto getInitialCost(String path, ShortRequestInitialCostEstimateDto dto) {
         HttpHeaders headers = new HttpHeaders();
@@ -33,10 +37,11 @@ public class YandexDeliveryWebClient {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(dto))
                 .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError, response -> {
-                    System.out.println("Client error:  " + response.statusCode());
-                    return response.createException().flatMap(Mono::error);
-                })
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            ClientException exception = new ClientException(" client error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
                 .bodyToMono(ShortResponseInitialCostEstimateDto.class)
                 .block();
     }
@@ -53,10 +58,11 @@ public class YandexDeliveryWebClient {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(dto))
                 .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError, response -> {
-                    System.out.println("Client error:  " + response.statusCode());
-                    return response.createException().flatMap(Mono::error);
-                })
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            ClientException exception = new ClientException(" client error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
                 .toEntity(ShortResponseDeliveryOrderDto.class)
                 .mapNotNull(responseEntity -> {
                     System.out.println("Статус код: " + responseEntity.getStatusCode());
