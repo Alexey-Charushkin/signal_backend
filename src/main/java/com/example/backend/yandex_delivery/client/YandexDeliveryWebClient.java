@@ -1,6 +1,6 @@
 package com.example.backend.yandex_delivery.client;
 
-import com.example.backend.yandex_delivery.exceptions.ClientException;
+import com.example.backend.yandex_delivery.exceptions.WebClientException;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.CancelDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
@@ -39,7 +39,7 @@ public class YandexDeliveryWebClient {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            ClientException exception = new ClientException(" client error: " + errorBody);
+                            WebClientException exception = new WebClientException(" client error: " + errorBody);
                             return Mono.error(exception);
                         }))
                 .bodyToMono(ShortResponseInitialCostEstimateDto.class)
@@ -60,7 +60,7 @@ public class YandexDeliveryWebClient {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            ClientException exception = new ClientException(" client error: " + errorBody);
+                            WebClientException exception = new WebClientException(" client error: " + errorBody);
                             return Mono.error(exception);
                         }))
                 .toEntity(ShortResponseDeliveryOrderDto.class)

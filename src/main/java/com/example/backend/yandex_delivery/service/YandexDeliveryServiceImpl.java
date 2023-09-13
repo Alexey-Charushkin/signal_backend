@@ -2,6 +2,7 @@ package com.example.backend.yandex_delivery.service;
 
 import com.example.backend.model.Order;
 import com.example.backend.model.OrderedDish;
+import com.example.backend.model.Restaurant;
 import com.example.backend.model.User;
 import com.example.backend.repository.OrderedDishRepository;
 import com.example.backend.yandex_delivery.client.YandexDeliveryWebClient;
@@ -81,14 +82,17 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         Order order = orderedDish.getOrder();
         User user = order.getUser();
+        Restaurant restaurant = order.getRestaurant();
+        String address = restaurant.getAddress();
 
         DeliveryItem deliveryItem = getDeliveryItem(orderedDish);
         RoutePoint routePoint = getRoutePoint(user);
 
+
         DeliveryOrder deliveryOrder = DeliveryOrder.builder()
                 .uuid(uuid)
                 .items(List.of(deliveryItem))
-                .route_points(List.of(routePoint))
+                .route_points(List.of(routePoint, routePoint))
                 .build();
 
         yandexDeliveryRepository.save(deliveryOrder);
