@@ -1,6 +1,7 @@
 package com.example.backend.yandex_delivery.model.delivery_order.mapper;
 
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,4 +17,10 @@ public interface DeliveryOrderMapper {
     CancelDto toCancelDto(DeliveryOrder deliveryOrder);
 
     AcceptDto toAcceptDto(DeliveryOrder deliveryOrder);
+
+    RoutePoint toRoutePoint(ShortResponseRoutePointDto shortResponseRoutePointDto);
+
+    @Mapping(target = "type", expression = "java(routePoint.getType().name().toLowerCase())")
+    @Mapping(target = "visit_status", expression = "java(routePoint.getVisit_status().name().toLowerCase())")
+    ShortRequestRoutePointDto toShortRoutePointDto(RoutePoint routePoint);
 }

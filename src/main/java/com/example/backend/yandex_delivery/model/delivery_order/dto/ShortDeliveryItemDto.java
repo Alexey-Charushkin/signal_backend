@@ -18,7 +18,7 @@ public class ShortDeliveryItemDto {
     private String cost_currency; /* Валюта цены за штуку в формате ISO 4217 (для объявления ценности/страхования
     и/или оплаты при получении). Пример: RUB */
     @NotNull
-    private BigDecimal cost_value; /* Цена за штуку в валюте cost_currency.
+    private String cost_value; /* Цена за штуку в валюте cost_currency.
      Для страхования стоимости передайте фактическую цену груза */
     @NotNull
     private int droppof_point; /* Идентификатор точки, куда нужно доставить товар (отличается от идентификатора в заявке).
