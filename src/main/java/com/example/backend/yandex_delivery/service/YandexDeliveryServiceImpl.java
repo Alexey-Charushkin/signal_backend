@@ -29,6 +29,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -52,19 +53,12 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .orElseThrow(() -> new NotFoundException("Ordered dish not found."));
 
         Order order = orderedDish.getOrder();
-        User user = order.getUser();
 
         DeliveryItem deliveryItem = getDeliveryItem(orderedDish);
-        InitialCostRoutePoint routePoint = getInitialCostRoutePoints(user);
-
-        double[] coordinates = {37.584822, 55.751339};
-        InitialCostRoutePoint routePoint2 = InitialCostRoutePoint.builder()
-                .coordinates(coordinates)
-                .build();
-
+        List<InitialCostRoutePoint> routePoints = getInitialCostRoutePoints(order);
 
         InitialCostEstimate initialCostEstimate = InitialCostEstimate.builder()
-                .route_points(List.of(routePoint, routePoint2))
+                .route_points(routePoints)
                 .build();
 
         return client
@@ -81,18 +75,14 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .orElseThrow(() -> new NotFoundException("Ordered dish not found."));
 
         Order order = orderedDish.getOrder();
-        User user = order.getUser();
-        Restaurant restaurant = order.getRestaurant();
-        String address = restaurant.getAddress();
 
         DeliveryItem deliveryItem = getDeliveryItem(orderedDish);
-        RoutePoint routePoint = getRoutePoint(user);
-
+        List<RoutePoint> routePoint = getRoutePoint(order);
 
         DeliveryOrder deliveryOrder = DeliveryOrder.builder()
                 .uuid(uuid)
                 .items(List.of(deliveryItem))
-                .route_points(List.of(routePoint, routePoint))
+                .route_points(routePoint)
                 .build();
 
         yandexDeliveryRepository.save(deliveryOrder);
@@ -156,20 +146,35 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         return deliveryItem;
     }
 
-    private InitialCostRoutePoint getInitialCostRoutePoints(User user) {
+    private List<InitialCostRoutePoint> getInitialCostRoutePoints(Order order) {
+        Restaurant restaurant = order.getRestaurant();
+        User user = order.getUser();
+        // RoutePoint routePoint = getRoutePointFromAddress(String deliveryAddress);
+
         double[] coordinates = {37.588074, 55.733924};
-        InitialCostRoutePoint initialCostRoutePoint = InitialCostRoutePoint.builder()
+        double[] coordinates2 = {37.584822, 55.751339};
+
+        InitialCostRoutePoint sourceInitialCostRoutePoint = InitialCostRoutePoint.builder()
                 .coordinates(coordinates)
-        //        .fullname(user.getAddress())
+                //        .fullname(user.getAddress())
                 .build();
-        return initialCostRoutePoint;
+        InitialCostRoutePoint destinationInitialCostRoutePoint = InitialCostRoutePoint.builder()
+                .coordinates(coordinates2)
+                //        .fullname(user.getAddress())
+                .build();
+
+        return List.of(sourceInitialCostRoutePoint, destinationInitialCostRoutePoint);
     }
 
-    private RoutePoint getRoutePoint(User user) {
+    private List<RoutePoint> getRoutePoint(Order order) {
         // RoutePoint routePoint = getRoutePointFromAddress(String deliveryAddress);
         // код ниже временный костыль до тех пор пока не будет сделан метод получения
         // координат по адресу
+        Restaurant restaurant = order.getRestaurant();
+        User user = order.getUser();
+
         double[] coordinates = {37.588074, 55.733924};
+        double[] coordinates2 = {37.584822, 55.751339};
 
         Contact contact = Contact.builder()
                 .email(user.getEmail())
@@ -182,16 +187,36 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .fullname(user.getAddress())
                 .build();
 
-        RoutePoint routePoint = RoutePoint.builder()
-                .address(address)
-                .contact(contact)
+        Contact contact2 = Contact.builder()
+                .email(restaurant.getEmail())
+                .name(restaurant.getName())
+                .phone(restaurant.getPhone())
+                .build();
+
+        Address address2 = Address.builder()
+                .coordinates(coordinates2)
+                .fullname(restaurant.getAddress())
+                .build();
+
+        RoutePoint sourceRoutePoint = RoutePoint.builder()
+                .address(address2)
+                .contact(contact2)
                 .point_id(1)
-                .type(RoutePointType.DESTINATION)
+                .type(RoutePointType.SOURCE)
                 .visit_order(1)
                 .visit_status(VisitStatus.PENDING)
                 .build();
 
-        return routePoint;
+        RoutePoint destinationRoutePoint = RoutePoint.builder()
+                .address(address)
+                .contact(contact)
+                .point_id(2)
+                .type(RoutePointType.DESTINATION)
+                .visit_order(2)
+                .visit_status(VisitStatus.PENDING)
+                .build();
+
+        return List.of(sourceRoutePoint, destinationRoutePoint);
     }
 
 }
