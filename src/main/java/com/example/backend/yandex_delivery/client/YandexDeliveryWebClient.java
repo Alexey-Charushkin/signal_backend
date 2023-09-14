@@ -6,6 +6,7 @@ import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequest
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortRequestInitialCostEstimateDto;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortResponseInitialCostEstimateDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -42,6 +43,11 @@ public class YandexDeliveryWebClient {
                             WebClientException exception = new WebClientException(" client error: " + errorBody);
                             return Mono.error(exception);
                         }))
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            WebClientException exception = new WebClientException(" server error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
                 .bodyToMono(ShortResponseInitialCostEstimateDto.class)
                 .block();
     }
@@ -50,6 +56,12 @@ public class YandexDeliveryWebClient {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
         headers.setBearerAuth(OAUTH_TOKEN);
+
+        try {
+            System.out.println(jsonMapper.writeValueAsString(dto));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         return webClient
                 .method(HttpMethod.POST)
@@ -61,6 +73,11 @@ public class YandexDeliveryWebClient {
                 .onStatus(HttpStatusCode::is4xxClientError,
                         response -> response.bodyToMono(String.class).flatMap(errorBody -> {
                             WebClientException exception = new WebClientException(" client error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            WebClientException exception = new WebClientException(" server error: " + errorBody);
                             return Mono.error(exception);
                         }))
                 .toEntity(ShortResponseDeliveryOrderDto.class)
