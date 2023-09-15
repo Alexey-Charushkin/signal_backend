@@ -17,6 +17,7 @@ import com.example.backend.yandex_delivery.model.delivery_order.base.route_point
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.mapper.DeliveryOrderMapper;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Size;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.base.InitialCostRoutePoint;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortResponseInitialCostEstimateDto;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.mapper.InitialCostEstimateMapper;
@@ -134,13 +135,22 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     }
 
     private DeliveryItem getDeliveryItem(OrderedDish orderedDish) {
+        //  Нжуно добавить размер коробки и вес в блюдо Dish
+        Size size = Size.builder()
+                .length(0.5F)
+                .height(05.F)
+                .width(0.01F)
+                .build();
+
         DeliveryItem deliveryItem = DeliveryItem.builder()
                 .cost_currency("RUB")
                 .cost_value(orderedDish.getDish().getPrice())
-                .droppof_point(1)
+                .droppof_point(2)
                 .pickup_point(1)
                 .quantity(orderedDish.getQuantity())
                 .title(orderedDish.getDish().getDescription())
+                .size(size)
+                .weight(0.5F)
                 .build();
 
         return deliveryItem;
@@ -173,7 +183,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         Restaurant restaurant = order.getRestaurant();
         User user = order.getUser();
 
-        double[] coordinates = {37.588074, 55.733924};
+        double[] coordinates = {37.587093, 55.733974};
         double[] coordinates2 = {37.584822, 55.751339};
 
         Contact contact = Contact.builder()
@@ -204,7 +214,6 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .point_id(1)
                 .type(RoutePointType.SOURCE)
                 .visit_order(1)
-                .visit_status(VisitStatus.PENDING)
                 .build();
 
         RoutePoint destinationRoutePoint = RoutePoint.builder()
@@ -213,7 +222,6 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .point_id(2)
                 .type(RoutePointType.DESTINATION)
                 .visit_order(2)
-                .visit_status(VisitStatus.PENDING)
                 .build();
 
         return List.of(sourceRoutePoint, destinationRoutePoint);
