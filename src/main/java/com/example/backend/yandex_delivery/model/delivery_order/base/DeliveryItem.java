@@ -20,4 +20,5 @@ public class DeliveryItem {
     private int quantity;
     private Size size;
     private String title;
+    private float weight;
 }

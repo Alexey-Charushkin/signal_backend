@@ -58,7 +58,7 @@ public class YandexDeliveryWebClient {
         headers.setBearerAuth(OAUTH_TOKEN);
 
         try {
-            System.out.println(jsonMapper.writeValueAsString(dto));
+            System.out.println(jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

@@ -21,6 +21,6 @@ public interface DeliveryOrderMapper {
     RoutePoint toRoutePoint(ShortResponseRoutePointDto shortResponseRoutePointDto);
 
     @Mapping(target = "type", expression = "java(routePoint.getType().name().toLowerCase())")
-    @Mapping(target = "visit_status", expression = "java(routePoint.getVisit_status().name().toLowerCase())")
+   // @Mapping(target = "visit_status", expression = "java(routePoint.getVisit_status().name().toLowerCase())")
     ShortRequestRoutePointDto toShortRoutePointDto(RoutePoint routePoint);
 }
