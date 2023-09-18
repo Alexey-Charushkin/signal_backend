@@ -11,7 +11,8 @@ import java.util.List;
 @Builder
 public class ShortResponseDeliveryOrderDto {
     @NotNull
-    private long id;
+    @NotBlank
+    private String id;
     @NotNull
     private String created_ts;
     @NotNull
