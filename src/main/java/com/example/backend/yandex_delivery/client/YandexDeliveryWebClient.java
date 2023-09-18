@@ -51,7 +51,7 @@ public class YandexDeliveryWebClient {
                 .bodyToMono(ShortResponseInitialCostEstimateDto.class)
                 .block();
     }
-
+    /*
     public Mono<ShortResponseDeliveryOrderDto> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
@@ -85,6 +85,42 @@ public class YandexDeliveryWebClient {
                     System.out.println("Статус код: " + responseEntity.getStatusCode());
                     System.out.println("Ответ: " + responseEntity.getBody());
                     return responseEntity.getBody();
+                });
+    }
+*/
+
+    public Mono<String> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
+        headers.setBearerAuth(OAUTH_TOKEN);
+
+        try {
+            System.out.println(jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return webClient
+                .method(HttpMethod.POST)
+                .uri(baseUri + path)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(dto))
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            WebClientException exception = new WebClientException(" client error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            WebClientException exception = new WebClientException(" server error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
+                .bodyToMono(String.class) // Преобразование ответа в строку
+                .map(responseBody -> {
+                  System.out.println("Ответ: " + responseBody);
+                    return responseBody;
                 });
     }
 

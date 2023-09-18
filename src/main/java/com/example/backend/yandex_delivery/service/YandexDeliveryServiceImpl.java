@@ -23,6 +23,7 @@ import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.Short
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.mapper.InitialCostEstimateMapper;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.InitialCostEstimate;
 import com.example.backend.yandex_delivery.repository.YandexDeliveryRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,8 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     private final DeliveryOrderMapper deliveryOrderMapper;
     private final InitialCostEstimateMapper initialCostEstimateMapper;
     private final YandexDeliveryRepository yandexDeliveryRepository;
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId) {
@@ -88,9 +91,16 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         yandexDeliveryRepository.save(deliveryOrder);
 
-        return client.saveDeliveryOrder(path, deliveryOrderMapper
+        String dto = client.saveDeliveryOrder(path, deliveryOrderMapper
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
                 .block();
+    //    System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto));
+
+        return null;
+
+//        return client.saveDeliveryOrder(path, deliveryOrderMapper
+//                        .toShortRequestDeliveryOrderDto(deliveryOrder))
+//                .block();
     }
 
     @Override
