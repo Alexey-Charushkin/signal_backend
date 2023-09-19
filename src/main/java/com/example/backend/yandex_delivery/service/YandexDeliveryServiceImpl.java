@@ -69,8 +69,8 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .getInitialCost(path, initialCostEstimateMapper.toShortRequestInitialCostEstimateDto(initialCostEstimate));
     }
 
-    @SneakyThrows
-    @Transactional
+   // @SneakyThrows
+ //   @Transactional
     @Override
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
         UUID uuid = UUID.randomUUID();
@@ -89,18 +89,12 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .route_points(routePoint)
                 .build();
 
-        yandexDeliveryRepository.save(deliveryOrder);
-
-        String dto = client.saveDeliveryOrder(path, deliveryOrderMapper
+     //   yandexDeliveryRepository.save(deliveryOrder);
+        ShortResponseDeliveryOrderDto orderDto = client.saveDeliveryOrder(path, deliveryOrderMapper
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
                 .block();
-    //    System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dto));
-
+        System.out.println(orderDto);
         return null;
-
-//        return client.saveDeliveryOrder(path, deliveryOrderMapper
-//                        .toShortRequestDeliveryOrderDto(deliveryOrder))
-//                .block();
     }
 
     @Override
@@ -114,20 +108,20 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         return client.getDeliveryOrder(path);
     }
 
-    @Override
-    @Transactional
-    public ShortResponseDeliveryOrderDto cancelById(String claim_Id) {
-        String path = "/claims/cancel?claim_id=" + claim_Id;
-        DeliveryOrder order = yandexDeliveryRepository.findById(UUID.fromString(claim_Id))
-                .orElseThrow(() -> new NotFoundException("Delivery order not found."));
+//    @Override
+//    @Transactional
+//    public ShortResponseDeliveryOrderDto cancelById(String claim_Id) {
+//        String path = "/claims/cancel?claim_id=" + claim_Id;
+//        DeliveryOrder order = yandexDeliveryRepository.findById(UUID.fromString(claim_Id))
+//                .orElseThrow(() -> new NotFoundException("Delivery order not found."));
+//
+//        ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path, deliveryOrderMapper.toCancelDto(order));
+//        order.setCancel_state(CancelState.valueOf(orderDto.getStatus().toLowerCase(Locale.ROOT)));
 
-        ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path, deliveryOrderMapper.toCancelDto(order));
-        order.setCancel_state(CancelState.valueOf(orderDto.getStatus().toLowerCase(Locale.ROOT)));
-
-        yandexDeliveryRepository.save(order);
-
-        return orderDto;
-    }
+//        yandexDeliveryRepository.save(order);
+//
+//        return orderDto;
+//    }
 
     @Override
     public ShortResponseDeliveryOrderDto acceptById(String claim_Id) {

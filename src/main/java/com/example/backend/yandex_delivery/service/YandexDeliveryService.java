@@ -8,7 +8,7 @@ public interface YandexDeliveryService {
 
     ShortResponseDeliveryOrderDto findById(String claim_Id);
 
-    ShortResponseDeliveryOrderDto cancelById(String claim_Id);
+  //  ShortResponseDeliveryOrderDto cancelById(String claim_Id);
 
     ShortResponseDeliveryOrderDto acceptById(String claim_Id);
 
