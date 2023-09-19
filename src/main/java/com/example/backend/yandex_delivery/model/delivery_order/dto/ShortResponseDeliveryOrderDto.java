@@ -13,25 +13,26 @@ public class ShortResponseDeliveryOrderDto {
     @NotNull
     @NotBlank
     private String id;
-    @NotNull
-    private String created_ts;
-    @NotNull
-    private List<ShortDeliveryItemDto> items;
-    @NotNull
-    private int revision;
-    @NotNull
-    private List<ShortResponseRoutePointDto> routePoints;
-    @NotNull
-    @NotBlank
-    private String status;
-    @NotNull
-    @NotBlank
-    private String updated_ts; // (date-time)
-    @NotNull
-    @NotBlank
-    private String user_request_revision;
-    @NotNull
-    private int version;
-    private SameDayDataDto same_day_data;
-    private boolean skip_client_notify;
+//    @NotNull
+//    @NotBlank
+//    private String created_ts;
+//    @NotNull
+//    @NotBlank
+//    private String updated_ts; // (date-time)
+//    @NotNull
+//    private List<ShortDeliveryItemDto> items;
+//    @NotNull
+//    private int revision;
+//    @NotNull
+//    private List<ShortResponseRoutePointDto> routePoints;
+//    @NotNull
+//    @NotBlank
+//    private String status;
+//    @NotNull
+//    @NotBlank
+//    private String user_request_revision;
+//    @NotNull
+//    private int version;
+//    private SameDayDataDto same_day_data;
+//    private boolean skip_client_notify;
 }
