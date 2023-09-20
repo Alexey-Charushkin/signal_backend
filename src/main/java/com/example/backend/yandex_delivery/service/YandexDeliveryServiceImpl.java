@@ -23,6 +23,7 @@ import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.Short
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.mapper.InitialCostEstimateMapper;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.InitialCostEstimate;
 import com.example.backend.yandex_delivery.repository.YandexDeliveryRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
@@ -90,23 +91,35 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .build();
 
      //   yandexDeliveryRepository.save(deliveryOrder);
-        ShortResponseDeliveryOrderDto orderDto = client.saveDeliveryOrder(path, deliveryOrderMapper
+        String orderDto = client.saveDeliveryOrder(path, deliveryOrderMapper
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
                 .block();
         System.out.println(orderDto);
+        try {
+            ShortResponseDeliveryOrderDto dto = objectMapper.readValue(orderDto, ShortResponseDeliveryOrderDto.class);
+            System.out.println(dto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         return null;
     }
 
     @Override
-    @Transactional
     public ShortResponseDeliveryOrderDto findById(String claim_Id) {
-        String path = "/claims/info?claim_id=" + claim_Id;
-        ShortResponseDeliveryOrderDto orderDto = client.getDeliveryOrder(path);
-
-        yandexDeliveryRepository.save(deliveryOrderMapper.toDeliveryOrder(orderDto));
-
-        return client.getDeliveryOrder(path);
+        return null;
     }
+
+//    @Override
+//    @Transactional
+//    public ShortResponseDeliveryOrderDto findById(String claim_Id) {
+//        String path = "/claims/info?claim_id=" + claim_Id;
+//        ShortResponseDeliveryOrderDto orderDto = client.getDeliveryOrder(path);
+//
+//        yandexDeliveryRepository.save(deliveryOrderMapper.toDeliveryOrder(orderDto));
+//
+//        return client.getDeliveryOrder(path);
+//    }
 
 //    @Override
 //    @Transactional
