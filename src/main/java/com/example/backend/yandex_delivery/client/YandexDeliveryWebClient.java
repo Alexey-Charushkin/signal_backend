@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -51,7 +52,7 @@ public class YandexDeliveryWebClient {
                 .bodyToMono(ShortResponseInitialCostEstimateDto.class)
                 .block();
     }
-
+/*
     public Mono<ShortResponseDeliveryOrderDto> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
@@ -87,9 +88,9 @@ public class YandexDeliveryWebClient {
                     return responseEntity.getBody();
                 });
     }
+*/
 
 
-    /*
     public Mono<String> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
@@ -124,7 +125,7 @@ public class YandexDeliveryWebClient {
                     return responseBody;
                 });
     }
-*/
+
     public ShortResponseDeliveryOrderDto getDeliveryOrder(String path) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
@@ -138,7 +139,6 @@ public class YandexDeliveryWebClient {
                 .bodyToMono(ShortResponseDeliveryOrderDto.class)
                 .block();
     }
-
     public ShortResponseDeliveryOrderDto cancelDeliveryOrder(String path, CancelDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");

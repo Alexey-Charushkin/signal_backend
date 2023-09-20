@@ -1,12 +1,15 @@
 package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.VisitedAt;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ShortResponseRoutePointDto {
     @NotNull
     private ShortAddressDto address;
