@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-//@Builder
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ShortResponseDeliveryOrderDto {
@@ -37,6 +36,11 @@ public class ShortResponseDeliveryOrderDto {
     private String user_request_revision;
     @NotNull
     private int version;
+    @NotNull
     private SameDayDataDto same_day_data;
+    @NotNull
     private boolean skip_client_notify;
+    @NotNull
+    @NotBlank
+    private String available_cancel_state;
 }

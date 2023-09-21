@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
+@SuperBuilder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ShortDeliveryItemDto {
     @NotNull

@@ -70,8 +70,8 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .getInitialCost(path, initialCostEstimateMapper.toShortRequestInitialCostEstimateDto(initialCostEstimate));
     }
 
-   // @SneakyThrows
- //   @Transactional
+
+    @Transactional
     @Override
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
         UUID uuid = UUID.randomUUID();
@@ -90,19 +90,21 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .route_points(routePoint)
                 .build();
 
-     //   yandexDeliveryRepository.save(deliveryOrder);
-        String orderDto = client.saveDeliveryOrder(path, deliveryOrderMapper
+
+        ShortResponseDeliveryOrderDto orderDto = client.saveDeliveryOrder(path, deliveryOrderMapper
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
                 .block();
-        System.out.println(orderDto);
-        try {
-            ShortResponseDeliveryOrderDto dto = objectMapper.readValue(orderDto, ShortResponseDeliveryOrderDto.class);
-            System.out.println(dto);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
 
-        return null;
+        yandexDeliveryRepository.save(deliveryOrderMapper.toDeliveryOrder(orderDto));
+//        System.out.println(orderDto);
+//        try {
+//            ShortResponseDeliveryOrderDto dto = objectMapper.readValue(orderDto, ShortResponseDeliveryOrderDto.class);
+//            System.out.println(dto);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        return orderDto;
     }
 
     @Override
@@ -152,7 +154,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     }
 
     private DeliveryItem getDeliveryItem(OrderedDish orderedDish) {
-        //  Нжуно добавить размер коробки и вес в блюдо Dish
+        //  Нужно добавить размер коробки и вес в блюдо Dish
         Size size = Size.builder()
                 .length(0.5F)
                 .height(05.F)
