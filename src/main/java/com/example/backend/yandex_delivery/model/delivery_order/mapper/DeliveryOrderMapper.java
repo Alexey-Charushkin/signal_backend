@@ -8,8 +8,10 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface DeliveryOrderMapper {
-//    @Mapping(target = "created_ts", source = "shortResponseDeliveryOrderDto.created_ts", dateFormat = "dd-MM-yyyy HH:mm:ss")
-//    @Mapping(target = "updated_ts", source = "shortResponseDeliveryOrderDto.updated_ts", dateFormat = "dd-MM-yyyy HH:mm:ss")
+
+    @Mapping(target = "created_ts", source = "shortResponseDeliveryOrderDto.created_ts", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX")
+    @Mapping(target = "updated_ts", source = "shortResponseDeliveryOrderDto.updated_ts", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX")
+      // @Mapping(target = "status", expression = "java(shortResponseDeliveryOrderDto.getDelivery_order_status.name().toUppercase())")
     DeliveryOrder toDeliveryOrder(ShortResponseDeliveryOrderDto shortResponseDeliveryOrderDto);
 
     ShortRequestDeliveryOrderDto toShortRequestDeliveryOrderDto(DeliveryOrder deliveryOrder);
@@ -21,7 +23,6 @@ public interface DeliveryOrderMapper {
     RoutePoint toRoutePoint(ShortResponseRoutePointDto shortResponseRoutePointDto);
 
     @Mapping(target = "type", expression = "java(routePoint.getType().name().toLowerCase())")
-   // @Mapping(target = "visit_status", expression = "java(routePoint.getVisit_status().name().toLowerCase())")
     ShortRequestRoutePointDto toShortRoutePointDto(RoutePoint routePoint);
 
 

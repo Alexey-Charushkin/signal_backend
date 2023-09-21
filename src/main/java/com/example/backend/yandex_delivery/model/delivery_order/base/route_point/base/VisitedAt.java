@@ -2,11 +2,14 @@ package com.example.backend.yandex_delivery.model.delivery_order.base.route_poin
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @Data
-@Builder
+@SuperBuilder
+@NoArgsConstructor
 public class VisitedAt {
     private LocalDateTime actual; // (date-time)
     private LocalDateTime expected; // (date-time)
