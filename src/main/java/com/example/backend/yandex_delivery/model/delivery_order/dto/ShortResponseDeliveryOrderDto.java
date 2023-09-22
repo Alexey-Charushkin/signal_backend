@@ -16,6 +16,7 @@ public class ShortResponseDeliveryOrderDto {
     @NotNull
     @NotBlank
     private String id;
+    private String uuid;
     @NotNull
     @NotBlank
     private String created_ts;

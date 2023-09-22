@@ -6,8 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ShortResponseRoutePointDto {
@@ -25,4 +27,10 @@ public class ShortResponseRoutePointDto {
     private String visit_status;
     @NotNull
     private VisitedAt visited_at;
+    @NotNull
+    private ExternalOrderCostDto external_order_cost;
+
+    public String getVisitStatus() {
+        return visit_status;
+    }
 }
