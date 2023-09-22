@@ -11,7 +11,8 @@ public interface DeliveryOrderMapper {
 
     @Mapping(target = "created_ts", source = "shortResponseDeliveryOrderDto.created_ts", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX")
     @Mapping(target = "updated_ts", source = "shortResponseDeliveryOrderDto.updated_ts", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX")
-      // @Mapping(target = "status", expression = "java(shortResponseDeliveryOrderDto.getDelivery_order_status.name().toUppercase())")
+    @Mapping(target = "status", expression = "java(com.example.backend.yandex_delivery.enums.DeliveryOrderStatus." +
+            "valueOf(shortResponseDeliveryOrderDto.getStatus().toUpperCase()))")
     DeliveryOrder toDeliveryOrder(ShortResponseDeliveryOrderDto shortResponseDeliveryOrderDto);
 
     ShortRequestDeliveryOrderDto toShortRequestDeliveryOrderDto(DeliveryOrder deliveryOrder);
@@ -20,6 +21,10 @@ public interface DeliveryOrderMapper {
 
     AcceptDto toAcceptDto(DeliveryOrder deliveryOrder);
 
+    @Mapping(target = "type", expression = "java(com.example.backend.yandex_delivery.enums.RoutePointType." +
+            "valueOf(shortResponseRoutePointDto.getType().toUpperCase()))")
+    @Mapping(target = "visit_status", expression = "java(com.example.backend.yandex_delivery.enums." +
+            "VisitStatus.valueOf(shortResponseRoutePointDto.getVisitStatus().toUpperCase()))")
     RoutePoint toRoutePoint(ShortResponseRoutePointDto shortResponseRoutePointDto);
 
     @Mapping(target = "type", expression = "java(routePoint.getType().name().toLowerCase())")

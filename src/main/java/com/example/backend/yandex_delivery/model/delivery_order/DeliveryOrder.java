@@ -27,7 +27,7 @@ import java.util.UUID;
 @Table(name = "delivery_orders")
 public class DeliveryOrder {
     // полный запрос на создание заявки на доставку
-    @Column(name = "delivery_orders_id")
+    @Column(name = "id")
     private String id; // Идентификатор заявки, полученный на этапе создания заявки
     @Id
     @Column(name = "delivery_orders_uuid")

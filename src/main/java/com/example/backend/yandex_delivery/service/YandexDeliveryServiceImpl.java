@@ -95,6 +95,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
                 .block();
 
+        orderDto.setUuid(String.valueOf(deliveryOrder.getUuid()));
         yandexDeliveryRepository.save(deliveryOrderMapper.toDeliveryOrder(orderDto));
 //        System.out.println(orderDto);
 //        try {
