@@ -13,6 +13,9 @@ public interface DeliveryOrderMapper {
     @Mapping(target = "updated_ts", source = "shortResponseDeliveryOrderDto.updated_ts", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX")
     @Mapping(target = "status", expression = "java(com.example.backend.yandex_delivery.enums.DeliveryOrderStatus." +
             "valueOf(shortResponseDeliveryOrderDto.getStatus().toUpperCase()))")
+    @Mapping(target = "uuid", source = "uuid")
+    @Mapping(target = "available_cancel_state", expression = "java(com.example.backend.yandex_delivery.enums.CancelState." +
+            "valueOf(shortResponseDeliveryOrderDto.getAvailable_cancel_state().toUpperCase()))")
     DeliveryOrder toDeliveryOrder(ShortResponseDeliveryOrderDto shortResponseDeliveryOrderDto);
 
     ShortRequestDeliveryOrderDto toShortRequestDeliveryOrderDto(DeliveryOrder deliveryOrder);
