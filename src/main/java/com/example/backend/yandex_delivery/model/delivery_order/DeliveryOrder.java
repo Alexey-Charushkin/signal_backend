@@ -27,9 +27,9 @@ import java.util.UUID;
 @Table(name = "delivery_orders")
 public class DeliveryOrder {
     // полный запрос на создание заявки на доставку
+    @Id
     @Column(name = "id")
     private String id; // Идентификатор заявки, полученный на этапе создания заявки
-    @Id
     @Column(name = "delivery_orders_uuid")
     private UUID uuid;
     @Transient
@@ -91,6 +91,7 @@ public class DeliveryOrder {
     private String user_request_revision;
     @Column(name = "version")
     private int version;
-    @Column(name = "cancel_state")
-    private CancelState cancel_state;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "available_cancel_state")
+    private CancelState available_cancel_state;
 }

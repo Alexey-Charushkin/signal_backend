@@ -44,4 +44,9 @@ public class ShortResponseDeliveryOrderDto {
     @NotNull
     @NotBlank
     private String available_cancel_state;
+
+    public String getAvailable_cancel_state() {
+        return available_cancel_state;
+    }
+
 }
