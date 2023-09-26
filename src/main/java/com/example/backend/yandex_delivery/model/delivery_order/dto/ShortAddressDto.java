@@ -20,4 +20,7 @@ public class ShortAddressDto {
     private String fullname; /* Полное название с указанием города (Москва, Садовническая набережная, 82с2).
      Важно вводить населенный пункт с указанием номера дома, но без номера квартиры, подъезда, этажа*/
     private String shortname;
+    @NotNull
+    @NotBlank
+    String uri;
 }

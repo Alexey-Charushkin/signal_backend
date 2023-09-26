@@ -89,8 +89,8 @@ public class YandexDeliveryWebClient {
                 });
     }
 
-
 /*
+
     public Mono<String> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
@@ -125,9 +125,8 @@ public class YandexDeliveryWebClient {
                     return responseBody;
                 });
     }
+*/
 
-
- */
     public ShortResponseDeliveryOrderDto getDeliveryOrder(String path) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
