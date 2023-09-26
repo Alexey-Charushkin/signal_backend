@@ -91,13 +91,13 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .build();
 
 
-        ShortResponseDeliveryOrderDto orderDto = client.saveDeliveryOrder(path, deliveryOrderMapper
+       ShortResponseDeliveryOrderDto orderDto = client.saveDeliveryOrder(path, deliveryOrderMapper
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
                 .block();
 
         orderDto.setUuid(String.valueOf(deliveryOrder.getUuid()));
         yandexDeliveryRepository.save(deliveryOrderMapper.toDeliveryOrder(orderDto));
-//        System.out.println(orderDto);
+        System.out.println(orderDto);
 //        try {
 //            ShortResponseDeliveryOrderDto dto = objectMapper.readValue(orderDto, ShortResponseDeliveryOrderDto.class);
 //            System.out.println(dto);

@@ -48,5 +48,4 @@ public class ShortResponseDeliveryOrderDto {
     public String getAvailable_cancel_state() {
         return available_cancel_state;
     }
-
 }
