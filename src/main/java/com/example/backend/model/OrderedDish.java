@@ -13,6 +13,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "ordereddishes")
 @Data
@@ -36,4 +38,7 @@ public class OrderedDish extends Timestamped {
 
     @Column(name = "quantity")
     private int quantity;
+
+    @Column(name = "delivery_uuid")
+    private UUID deliveryUuid; // uuid заказа на доставку
 }
