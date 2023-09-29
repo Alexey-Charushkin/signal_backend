@@ -1,5 +1,8 @@
 package com.example.backend.yandex_delivery.enums;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public enum DeliveryOrderStatus {
     NEW,
     ESTIMATING,
