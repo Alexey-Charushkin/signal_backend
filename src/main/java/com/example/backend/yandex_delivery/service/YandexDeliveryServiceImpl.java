@@ -135,17 +135,18 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
     @Override
     @Transactional
-    public ShortResponseDeliveryOrderDto cancelById(Long claim_Id) {
-        String path = "/claims/cancel?claim_id=" + claim_Id;
-
-        OrderedDish orderedDish = orderedDishRepository.findById(claim_Id).
+    public ShortResponseDeliveryOrderDto cancelById(Long id) {
+        OrderedDish orderedDish = orderedDishRepository.findById(id).
                 orElseThrow(() -> new NotFoundException("Ordered dish not found"));
 
         DeliveryOrder order = yandexDeliveryRepository.findById(orderedDish.getDeliveryUuid()).
                 orElseThrow(() -> new NotFoundException("Delivery order not found"));
 
-        ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path, deliveryOrderMapper.toCancelDto(order));
-       // order.setCancel_state(CancelState.valueOf(orderDto.getStatus().toLowerCase(Locale.ROOT)));
+        String path = "/claims/cancel?claim_id=";
+
+      //  order.setCancel_state(CancelState.valueOf(order.getStatus().toLowerCase(Locale.ROOT)));
+
+        ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path + order.getId(), deliveryOrderMapper.toCancelDto(order));
 
         yandexDeliveryRepository.save(order);
 
