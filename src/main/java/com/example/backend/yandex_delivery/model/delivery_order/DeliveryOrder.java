@@ -93,4 +93,9 @@ public class DeliveryOrder {
     @Enumerated(EnumType.STRING)
     @Column(name = "available_cancel_state")
     private CancelState available_cancel_state;
+
+
+    public CancelState getAvailable_cancel_state() {
+        return available_cancel_state;
+    }
 }

@@ -146,11 +146,19 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
       //  order.setCancel_state(CancelState.valueOf(order.getStatus().toLowerCase(Locale.ROOT)));
 
-        ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path + order.getId(), deliveryOrderMapper.toCancelDto(order));
+        String orderDto = client.cancelDeliveryOrder(path + order.getId(), deliveryOrderMapper.toCancelDto(order))
+                .block();
 
-        yandexDeliveryRepository.save(order);
+      //  yandexDeliveryRepository.save(order);
 
-        return orderDto;
+                try {
+            ShortResponseDeliveryOrderDto dto = objectMapper.readValue(orderDto, ShortResponseDeliveryOrderDto.class);
+            System.out.println(dto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
     }
 
     @Override

@@ -20,7 +20,9 @@ public interface DeliveryOrderMapper {
 
     ShortRequestDeliveryOrderDto toShortRequestDeliveryOrderDto(DeliveryOrder deliveryOrder);
 
-    @Mapping(source = "available_cancel_state", target = "cancel_state")
+   // @Mapping(source = "available_cancel_state", target = "cancel_state.toLowerCase()")
+    @Mapping(target = "cancel_state", expression = "java(com.example.backend.yandex_delivery.enums.CancelState." +
+            "valueOf(deliveryOrder.getAvailable_cancel_state().toString().toLowerCase()))")
     CancelDto toCancelDto(DeliveryOrder deliveryOrder);
 
     AcceptDto toAcceptDto(DeliveryOrder deliveryOrder);

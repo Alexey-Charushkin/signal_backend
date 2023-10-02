@@ -89,6 +89,7 @@ public class YandexDeliveryWebClient {
                 });
     }
 
+
 /*
 
     public Mono<String> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
@@ -125,7 +126,8 @@ public class YandexDeliveryWebClient {
                     return responseBody;
                 });
     }
-*/
+
+ */
 
     public ShortResponseDeliveryOrderDto getDeliveryOrder(String path) {
         HttpHeaders headers = new HttpHeaders();
@@ -137,10 +139,45 @@ public class YandexDeliveryWebClient {
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .contentType(MediaType.APPLICATION_JSON)
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            WebClientException exception = new WebClientException(" client error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            WebClientException exception = new WebClientException(" server error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
                 .bodyToMono(ShortResponseDeliveryOrderDto.class)
                 .block();
     }
-    public ShortResponseDeliveryOrderDto cancelDeliveryOrder(String path, CancelDto dto) {
+//    public ShortResponseDeliveryOrderDto cancelDeliveryOrder(String path, CancelDto dto) {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
+//        headers.setBearerAuth(OAUTH_TOKEN);
+//
+//        return webClient.post()
+//                .uri(baseUri + path)
+//                .headers(httpHeaders -> httpHeaders.addAll(headers))
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(BodyInserters.fromValue(dto))
+//                .retrieve()
+//     .onStatus(HttpStatusCode::is4xxClientError,
+//               response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+//        WebClientException exception = new WebClientException(" client error: " + errorBody);
+//        return Mono.error(exception);
+//    }))
+//            .onStatus(HttpStatusCode::is5xxServerError,
+//                      response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+//        WebClientException exception = new WebClientException(" server error: " + errorBody);
+//        return Mono.error(exception);
+//    }))
+ //               .bodyToMono(ShortResponseDeliveryOrderDto.class)
+//                .block();
+//    }
+
+    public Mono<String> cancelDeliveryOrder(String path, CancelDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
         headers.setBearerAuth(OAUTH_TOKEN);
@@ -151,8 +188,21 @@ public class YandexDeliveryWebClient {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(dto))
                 .retrieve()
-                .bodyToMono(ShortResponseDeliveryOrderDto.class)
-                .block();
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            WebClientException exception = new WebClientException(" client error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
+                            WebClientException exception = new WebClientException(" server error: " + errorBody);
+                            return Mono.error(exception);
+                        }))
+                .bodyToMono(String.class)
+                .map(responseBody -> {
+                    System.out.println("Ответ: " + responseBody);
+                    return responseBody;
+                });
     }
 
 // К этому запросу относитесь аккуратно. Можно вызвать курьера.
