@@ -12,5 +12,4 @@ public interface SupportedRequirementMapper {
 
     @Mapping(target = "type", expression = "java(supportedRequirement.getType().name().toLowerCase())")
     SupportedRequirementDto toSupportedRequirementDto(SupportedRequirement supportedRequirement);
-
 }

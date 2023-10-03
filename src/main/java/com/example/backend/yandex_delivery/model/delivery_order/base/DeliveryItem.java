@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-public class Cargo {
+public class DeliveryItem {
     private String cost_currency;
     private BigDecimal cost_value;
     private int droppof_point;
@@ -20,4 +20,5 @@ public class Cargo {
     private int quantity;
     private Size size;
     private String title;
+    private float weight;
 }

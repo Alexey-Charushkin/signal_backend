@@ -1,25 +1,28 @@
 package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
-import com.example.backend.yandex_delivery.model.delivery_order.advanced.fiscalization.Fiscalization;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.advanced.item.Size;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
 @Data
-@Builder
-public class ShortCargoDto {
+@NoArgsConstructor
+@SuperBuilder
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ShortDeliveryItemDto {
     @NotNull
     @NotBlank
-    @Size(min = 3, max = 3)
-    private String cost_currency = "RUB"; /* Валюта цены за штуку в формате ISO 4217 (для объявления ценности/страхования
+    private String cost_currency; /* Валюта цены за штуку в формате ISO 4217 (для объявления ценности/страхования
     и/или оплаты при получении). Пример: RUB */
     @NotNull
-    private BigDecimal cost_value; /* Цена за штуку в валюте cost_currency.
+    private String cost_value; /* Цена за штуку в валюте cost_currency.
      Для страхования стоимости передайте фактическую цену груза */
     @NotNull
     private int droppof_point; /* Идентификатор точки, куда нужно доставить товар (отличается от идентификатора в заявке).
@@ -32,4 +35,8 @@ public class ShortCargoDto {
     private int quantity; // Количество указанного товара минимум 1
     @NotNull
     private String title; // Наименование единицы товара "Пицца Гавайская"
+    @NotNull
+    private Size size;
+    @NotNull
+    private  float weight;
 }

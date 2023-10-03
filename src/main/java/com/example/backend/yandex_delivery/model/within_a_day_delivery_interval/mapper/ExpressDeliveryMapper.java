@@ -8,5 +8,6 @@ import org.mapstruct.Mapper;
 public interface ExpressDeliveryMapper {
 
     ExpressDelivery toExpressDelivery(ExpressDeliveryDto expressDeliveryDto);
+
     ExpressDeliveryDto toResponseExpressDeliveryDto(ExpressDelivery expressDelivery);
 }

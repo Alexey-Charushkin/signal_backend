@@ -1,37 +1,47 @@
 package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Builder
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ShortResponseDeliveryOrderDto {
     @NotNull
-    private long id;
+    @NotBlank
+    private String id;
+    private String uuid;
     @NotNull
+    @NotBlank
     private String created_ts;
     @NotNull
-    private List<ShortCargoDto> items;
+    @NotBlank
+    private String updated_ts; // (date-time)
+    @NotNull
+    private List<ShortDeliveryItemDto> items;
     @NotNull
     private int revision;
     @NotNull
-    private List<ShortResponseRoutePointDto> routePoints;
+    private List<ShortResponseRoutePointDto> route_points;
     @NotNull
     @NotBlank
     private String status;
     @NotNull
     @NotBlank
-    private String updated_ts; // (date-time)
-    @NotNull
-    @NotBlank
     private String user_request_revision;
     @NotNull
     private int version;
+    @NotNull
     private SameDayDataDto same_day_data;
+    @NotNull
     private boolean skip_client_notify;
+    @NotNull
+    @NotBlank
+    private String available_cancel_state;
 }

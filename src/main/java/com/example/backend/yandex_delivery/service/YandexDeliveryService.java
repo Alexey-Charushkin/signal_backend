@@ -1,9 +1,16 @@
 package com.example.backend.yandex_delivery.service;
 
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
-import reactor.core.publisher.Mono;
+import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortResponseInitialCostEstimateDto;
 
 public interface YandexDeliveryService {
-   ShortResponseDeliveryOrderDto saveDeliveryOrder(ShortRequestDeliveryOrderDto dto);
+    ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId);
+
+    ShortResponseDeliveryOrderDto findById(String claim_Id);
+
+  //  ShortResponseDeliveryOrderDto cancelById(String claim_Id);
+
+    ShortResponseDeliveryOrderDto acceptById(String claim_Id);
+
+    ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId);
 }
