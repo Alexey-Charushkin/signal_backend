@@ -20,7 +20,7 @@ public interface DeliveryOrderMapper {
 
     ShortRequestDeliveryOrderDto toShortRequestDeliveryOrderDto(DeliveryOrder deliveryOrder);
 
-    @Mapping(source = "available_cancel_state", target = "cancel_state")
+    @Mapping(target = "cancel_state", expression = "java(deliveryOrder.getAvailable_cancel_state().name().toLowerCase())")
     CancelDto toCancelDto(DeliveryOrder deliveryOrder);
 
     AcceptDto toAcceptDto(DeliveryOrder deliveryOrder);

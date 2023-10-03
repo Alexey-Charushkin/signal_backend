@@ -13,11 +13,11 @@ import java.math.BigDecimal;
 public class DeliveryItem {
     private String cost_currency;
     private BigDecimal cost_value;
-    private int droppof_point;
-    private int extra_id;
+    private long droppof_point;
+    private long extra_id;
     private Fiscalization fiscalization;
-    private int pickup_point;
-    private int quantity;
+    private long pickup_point;
+    private long quantity;
     private Size size;
     private String title;
     private float weight;

@@ -12,7 +12,7 @@ public class ShortRequestRoutePointDto {
     @NotNull
     private ShortContactDto contact;
     @NotNull
-    private int point_id;
+    private long point_id;
     @NotNull
     private String type;
     @NotNull

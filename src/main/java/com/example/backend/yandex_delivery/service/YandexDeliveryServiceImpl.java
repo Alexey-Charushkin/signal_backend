@@ -148,7 +148,15 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path + order.getId(), deliveryOrderMapper.toCancelDto(order));
 
-        yandexDeliveryRepository.save(order);
+
+      //  yandexDeliveryRepository.save(order);
+
+//                try {
+//            ShortResponseDeliveryOrderDto dto = objectMapper.readValue(orderDto, ShortResponseDeliveryOrderDto.class);
+//            System.out.println(dto);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
 
         return orderDto;
     }

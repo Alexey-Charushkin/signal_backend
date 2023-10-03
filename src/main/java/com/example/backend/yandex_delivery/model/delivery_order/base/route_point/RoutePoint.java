@@ -24,7 +24,7 @@ public class RoutePoint {
     private boolean meet_outside;
     private boolean no_door_call;
     private PaymentOnDelivery payment_on_delivery;
-    private int point_id;
+    private long point_id;
     private int skip_confirmation;
     private RoutePointType type;
     private int visit_order;

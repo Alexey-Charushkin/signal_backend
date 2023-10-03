@@ -18,7 +18,7 @@ public class ShortResponseRoutePointDto {
     @NotNull
     private ShortContactDto contact;
     @NotNull
-    private int id;
+    private long id;
     @NotNull
     private String type;
     @NotNull
