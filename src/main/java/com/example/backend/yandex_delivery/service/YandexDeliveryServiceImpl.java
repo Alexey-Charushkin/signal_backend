@@ -60,7 +60,6 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         Order order = orderedDish.getOrder();
 
-        DeliveryItem deliveryItem = getDeliveryItem(orderedDish);
         List<InitialCostRoutePoint> routePoints = getInitialCostRoutePoints(order);
 
         InitialCostEstimate initialCostEstimate = InitialCostEstimate.builder()
@@ -101,12 +100,6 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         orderDto.setUuid(String.valueOf(deliveryOrder.getUuid()));
         yandexDeliveryRepository.save(deliveryOrderMapper.toDeliveryOrder(orderDto));
         System.out.println(orderDto);
-//        try {
-//            ShortResponseDeliveryOrderDto dto = objectMapper.readValue(orderDto, ShortResponseDeliveryOrderDto.class);
-//            System.out.println(dto);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
 
         return orderDto;
     }
@@ -144,36 +137,29 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         String path = "/claims/cancel?claim_id=";
 
-      //  order.setCancel_state(CancelState.valueOf(order.getStatus().toLowerCase(Locale.ROOT)));
-
         ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path + order.getId(), deliveryOrderMapper.toCancelDto(order));
 
-
-      //  yandexDeliveryRepository.save(order);
-
-//                try {
-//            ShortResponseDeliveryOrderDto dto = objectMapper.readValue(orderDto, ShortResponseDeliveryOrderDto.class);
-//            System.out.println(dto);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
+        order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toUpperCase()));
+        yandexDeliveryRepository.save(order);
 
         return orderDto;
     }
 
     @Override
-    public ShortResponseDeliveryOrderDto acceptById(String claim_Id) {
-        String path = "/claims/accept?claim_id=" + claim_Id;
-        DeliveryOrder order = yandexDeliveryRepository.findById(UUID.fromString(claim_Id))
-                .orElseThrow(() -> new NotFoundException("Delivery order not found."));
+    public ShortResponseDeliveryOrderDto acceptById(Long claim_Id) {
+        OrderedDish orderedDish = orderedDishRepository.findById(claim_Id).
+                orElseThrow(() -> new NotFoundException("Ordered dish not found"));
+
+        DeliveryOrder order = yandexDeliveryRepository.findById(orderedDish.getDeliveryUuid()).
+                orElseThrow(() -> new NotFoundException("Delivery order not found"));
+
+        String path = "/claims/accept?claim_id=";
 
         // Аккуратно можно ввызвать курьера
+        ShortResponseDeliveryOrderDto orderDto = client.acceptDeliveryOrder(path + order.getId(), deliveryOrderMapper.toAcceptDto(order));
+        order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toUpperCase()));
 
-//        ShortResponseDeliveryOrderDto orderDto = client.acceptDeliveryOrder(path, deliveryOrderMapper.toAcceptDto(order));
-//        order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toLowerCase(Locale.ROOT)));
-//
-//        return orderDto;
-        return null;
+        return orderDto;
     }
 
     private DeliveryItem getDeliveryItem(OrderedDish orderedDish) {

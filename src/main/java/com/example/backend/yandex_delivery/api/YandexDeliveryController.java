@@ -64,8 +64,7 @@ public class YandexDeliveryController {
             @ApiResponse(responseCode = "201", description = "Заявка подтверждена"),
             @ApiResponse(responseCode = "400", description = "Запрос некорректный")
     })
-    public ShortResponseDeliveryOrderDto acceptById(@RequestParam(name = "claim_id") @NotNull String claim_Id) {
-        // return service.acceptById(claim_Id);
-        return null;
+    public ShortResponseDeliveryOrderDto acceptById(@RequestParam(name = "claim_id") @NotNull Long claim_Id) {
+        return service.acceptById(claim_Id);
     }
 }
