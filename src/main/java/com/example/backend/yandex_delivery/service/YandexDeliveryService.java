@@ -10,7 +10,7 @@ public interface YandexDeliveryService {
 
     ShortResponseDeliveryOrderDto cancelById(Long claim_Id);
 
-    ShortResponseDeliveryOrderDto acceptById(String claim_Id);
+    ShortResponseDeliveryOrderDto acceptById(Long claim_Id);
 
     ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId);
 }
