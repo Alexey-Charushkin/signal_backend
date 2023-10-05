@@ -1,6 +1,5 @@
 package com.example.backend.yandex_delivery.model.delivery_order.dto;
 
-import com.example.backend.yandex_delivery.enums.CancelState;
 import lombok.Builder;
 import lombok.Data;
 

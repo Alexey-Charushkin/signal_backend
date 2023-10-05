@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/yandex_delivery")
 @RequiredArgsConstructor
 public class YandexDeliveryController {
-
     private final YandexDeliveryService service;
 
     @GetMapping("/check-price")
