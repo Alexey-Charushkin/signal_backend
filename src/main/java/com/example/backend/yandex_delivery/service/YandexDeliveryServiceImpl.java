@@ -146,6 +146,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     }
 
     @Override
+    @Transactional
     public ShortResponseDeliveryOrderDto acceptById(Long claim_Id) {
         OrderedDish orderedDish = orderedDishRepository.findById(claim_Id).
                 orElseThrow(() -> new NotFoundException("Ordered dish not found"));
