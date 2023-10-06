@@ -22,6 +22,10 @@ public class YandexDeliveryWebClient {
     private HttpHeaders headers;
     private final String baseUri = "https://b2b.taxi.yandex.net/b2b/cargo/integration/v2";
 
+    private WebClient getWebClient(String path, T dto) {
+
+
+    }
     public ShortResponseInitialCostEstimateDto getInitialCost(String path, ShortRequestInitialCostEstimateDto dto) {
 
         return webClient
