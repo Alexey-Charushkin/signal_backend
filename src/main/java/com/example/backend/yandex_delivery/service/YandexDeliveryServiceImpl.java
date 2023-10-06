@@ -6,10 +6,8 @@ import com.example.backend.model.Restaurant;
 import com.example.backend.model.User;
 import com.example.backend.repository.OrderedDishRepository;
 import com.example.backend.yandex_delivery.client.YandexDeliveryWebClient;
-import com.example.backend.yandex_delivery.enums.CancelState;
 import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.enums.RoutePointType;
-import com.example.backend.yandex_delivery.enums.VisitStatus;
 import com.example.backend.yandex_delivery.exceptions.NotFoundException;
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryItem;
@@ -24,18 +22,13 @@ import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.Short
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.mapper.InitialCostEstimateMapper;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.InitialCostEstimate;
 import com.example.backend.yandex_delivery.repository.YandexDeliveryRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -43,14 +36,11 @@ import java.util.UUID;
 @Setter
 @RequiredArgsConstructor
 public class YandexDeliveryServiceImpl implements YandexDeliveryService {
-
     private final YandexDeliveryWebClient client;
     private final OrderedDishRepository orderedDishRepository;
     private final DeliveryOrderMapper deliveryOrderMapper;
     private final InitialCostEstimateMapper initialCostEstimateMapper;
     private final YandexDeliveryRepository yandexDeliveryRepository;
-
-    ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId) {
@@ -70,9 +60,8 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .getInitialCost(path, initialCostEstimateMapper.toShortRequestInitialCostEstimateDto(initialCostEstimate));
     }
 
-
-    @Transactional
     @Override
+    @Transactional
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
         UUID uuid = UUID.randomUUID();
         String path = "/claims/create?request_id=" + uuid;
@@ -103,7 +92,6 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         return orderDto;
     }
-
 
     @Override
     @Transactional
@@ -171,7 +159,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .width(0.01F)
                 .build();
 
-        DeliveryItem deliveryItem = DeliveryItem.builder()
+        return DeliveryItem.builder()
                 .cost_currency("RUB")
                 .cost_value(orderedDish.getDish().getPrice())
                 .droppof_point(2)
@@ -181,8 +169,6 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .size(size)
                 .weight(0.5F)
                 .build();
-
-        return deliveryItem;
     }
 
     private List<InitialCostRoutePoint> getInitialCostRoutePoints(Order order) {
@@ -255,5 +241,4 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         return List.of(sourceRoutePoint, destinationRoutePoint);
     }
-
 }
