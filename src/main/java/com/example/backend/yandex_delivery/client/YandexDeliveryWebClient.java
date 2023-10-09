@@ -10,7 +10,6 @@ import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.Short
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -22,38 +21,38 @@ public class YandexDeliveryWebClient {
     private HttpHeaders headers;
     private final String baseUri = "https://b2b.taxi.yandex.net/b2b/cargo/integration/v2";
 
-    private WebClient getWebClient(String path, T dto) {
-
-
-    }
-    public ShortResponseInitialCostEstimateDto getInitialCost(String path, ShortRequestInitialCostEstimateDto dto) {
-
-        return webClient
-                .method(HttpMethod.POST)
-                .uri(baseUri + path)
-                .headers(httpHeaders -> httpHeaders.addAll(getHeaders()))
-                .body(BodyInserters.fromValue(dto))
-                .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError,
-                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            WebClientException exception = new WebClientException(" client error: " + errorBody);
-                            return Mono.error(exception);
-                        }))
-                .onStatus(HttpStatusCode::is5xxServerError,
-                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            WebClientException exception = new WebClientException(" server error: " + errorBody);
-                            return Mono.error(exception);
-                        }))
-                .bodyToMono(ShortResponseInitialCostEstimateDto.class)
-                .block();
+    public Mono<Object> getInitialCost(String path, ShortRequestInitialCostEstimateDto dto) {
+        return sendRequest(path, dto);
     }
 
-    public Mono<ShortResponseDeliveryOrderDto> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
-        return webClient
+    public Mono<Object> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
+        return sendRequest(path, dto);
+    }
+
+    public Mono<Object> getDeliveryOrder(String path) {
+        return sendRequest(path, null);
+    }
+
+    public Mono<Object> cancelDeliveryOrder(String path, CancelDto dto) {
+        return sendRequest(path, dto);
+    }
+
+    // К этому запросу относитесь аккуратно. Можно вызвать курьера.
+    public Mono<Object> acceptDeliveryOrder(String path, AcceptDto dto) {
+        return sendRequest(path, dto);
+    }
+
+    private Mono<Object> sendRequest(String path, Object dto) {
+        WebClient.RequestBodySpec request = webClient
                 .method(HttpMethod.POST)
                 .uri(baseUri + path)
-                .headers(httpHeaders -> httpHeaders.addAll(getHeaders()))
-                .body(BodyInserters.fromValue(dto))
+                .headers(httpHeaders -> httpHeaders.addAll(getHeaders()));
+
+        if (dto != null) {
+            request = (WebClient.RequestBodySpec) request.body(BodyInserters.fromValue(dto));
+        }
+
+        return request
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         response -> response.bodyToMono(String.class).flatMap(errorBody -> {
@@ -73,69 +72,6 @@ public class YandexDeliveryWebClient {
                 });
     }
 
-    public ShortResponseDeliveryOrderDto getDeliveryOrder(String path) {
-        return webClient
-                .method(HttpMethod.POST)
-                .uri(baseUri + path)
-                .headers(httpHeaders -> httpHeaders.addAll(getHeaders()))
-                .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError,
-                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            WebClientException exception = new WebClientException(" client error: " + errorBody);
-                            return Mono.error(exception);
-                        }))
-                .onStatus(HttpStatusCode::is5xxServerError,
-                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            WebClientException exception = new WebClientException(" server error: " + errorBody);
-                            return Mono.error(exception);
-                        }))
-                .bodyToMono(ShortResponseDeliveryOrderDto.class)
-                .block();
-    }
-
-    public ShortResponseDeliveryOrderDto cancelDeliveryOrder(String path, CancelDto dto) {
-        return webClient
-                .method(HttpMethod.POST)
-                .uri(baseUri + path)
-                .headers(httpHeaders -> httpHeaders.addAll(getHeaders()))
-                .body(BodyInserters.fromValue(dto))
-                .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError,
-                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            WebClientException exception = new WebClientException(" client error: " + errorBody);
-                            return Mono.error(exception);
-                        }))
-                .onStatus(HttpStatusCode::is5xxServerError,
-                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            WebClientException exception = new WebClientException(" server error: " + errorBody);
-                            return Mono.error(exception);
-                        }))
-                .bodyToMono(ShortResponseDeliveryOrderDto.class)
-                .block();
-    }
-
-    // К этому запросу относитесь аккуратно. Можно вызвать курьера.
-    public ShortResponseDeliveryOrderDto acceptDeliveryOrder(String path, AcceptDto dto) {
-        return webClient
-                .method(HttpMethod.POST)
-                .uri(baseUri + path)
-                .headers(httpHeaders -> httpHeaders.addAll(getHeaders()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(dto))
-                .retrieve()
-                .onStatus(HttpStatusCode::is4xxClientError,
-                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            WebClientException exception = new WebClientException(" client error: " + errorBody);
-                            return Mono.error(exception);
-                        }))
-                .onStatus(HttpStatusCode::is5xxServerError,
-                        response -> response.bodyToMono(String.class).flatMap(errorBody -> {
-                            WebClientException exception = new WebClientException(" server error: " + errorBody);
-                            return Mono.error(exception);
-                        }))
-                .bodyToMono(ShortResponseDeliveryOrderDto.class)
-                .block();
-    }
     private HttpHeaders getHeaders() {
         // токен авторизации
         String oauth_token = "y0_AgAAAABwgIQFAAc6MQAAAADsGlYZaLKi7oBkQTaPzQ9FNu5hCavMXhs";
