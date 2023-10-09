@@ -56,8 +56,10 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .route_points(routePoints)
                 .build();
 
-        return client
-                .getInitialCost(path, initialCostEstimateMapper.toShortRequestInitialCostEstimateDto(initialCostEstimate));
+        ShortResponseInitialCostEstimateDto dto = (ShortResponseInitialCostEstimateDto)client
+                .getInitialCost(path, initialCostEstimateMapper.toShortRequestInitialCostEstimateDto(initialCostEstimate))
+                .block();
+        return dto;
     }
 
     @Override
@@ -79,7 +81,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .route_points(routePoint)
                 .build();
 
-        ShortResponseDeliveryOrderDto orderDto = client.saveDeliveryOrder(path, deliveryOrderMapper
+        ShortResponseDeliveryOrderDto orderDto = (ShortResponseDeliveryOrderDto)client.saveDeliveryOrder(path, deliveryOrderMapper
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
                 .block();
 
@@ -103,7 +105,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         DeliveryOrder order = yandexDeliveryRepository.findById(orderedDish.getDeliveryUuid()).
                 orElseThrow(() -> new NotFoundException("Delivery order not found"));
 
-        ShortResponseDeliveryOrderDto orderDto = client.getDeliveryOrder(path + order.getId());
+        ShortResponseDeliveryOrderDto orderDto = (ShortResponseDeliveryOrderDto)client.getDeliveryOrder(path + order.getId()).block();
 
         order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toUpperCase()));
         order.setRevision(orderDto.getRevision());
@@ -125,7 +127,8 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         String path = "/claims/cancel?claim_id=";
 
-        ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path + order.getId(), deliveryOrderMapper.toCancelDto(order));
+        ShortResponseDeliveryOrderDto orderDto = (ShortResponseDeliveryOrderDto)client.cancelDeliveryOrder(path + order.getId(),
+                deliveryOrderMapper.toCancelDto(order)).block();
 
         order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toUpperCase()));
         yandexDeliveryRepository.save(order);
@@ -145,7 +148,8 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         String path = "/claims/accept?claim_id=";
 
         // Аккуратно можно ввызвать курьера
-        ShortResponseDeliveryOrderDto orderDto = client.acceptDeliveryOrder(path + order.getId(), deliveryOrderMapper.toAcceptDto(order));
+        ShortResponseDeliveryOrderDto orderDto = (ShortResponseDeliveryOrderDto)client.acceptDeliveryOrder(path + order.getId(),
+                deliveryOrderMapper.toAcceptDto(order)).block();
         order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toUpperCase()));
 
         return orderDto;
