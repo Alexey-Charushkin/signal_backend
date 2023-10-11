@@ -1,11 +1,7 @@
 package com.example.backend.yandex_delivery.client;
 
 import com.example.backend.yandex_delivery.exceptions.WebClientException;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.AcceptDto;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.CancelDto;
-import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortRequestDeliveryOrderDto;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.ShortResponseDeliveryOrderDto;
-import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortRequestInitialCostEstimateDto;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.ShortResponseInitialCostEstimateDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,30 +15,32 @@ import reactor.core.publisher.Mono;
 public class YandexDeliveryWebClient {
     private final WebClient webClient = WebClient.create();
     private HttpHeaders headers;
-    private final String baseUri = "https://b2b.taxi.yandex.net/b2b/cargo/integration/v2";
 
-    public Mono<Object> getInitialCost(String path, ShortRequestInitialCostEstimateDto dto) {
-        return sendRequest(path, dto);
+    public <T> Mono<ShortResponseInitialCostEstimateDto> getInitialCost(String path, T dto) {
+        return sendRequest(path, dto, ShortResponseInitialCostEstimateDto.class);
     }
 
-    public Mono<Object> saveDeliveryOrder(String path, ShortRequestDeliveryOrderDto dto) {
-        return sendRequest(path, dto);
+    public <T> Mono<ShortResponseDeliveryOrderDto> saveDeliveryOrder(String path, T dto) {
+        return sendRequest(path, dto, ShortResponseDeliveryOrderDto.class);
     }
 
-    public Mono<Object> getDeliveryOrder(String path) {
-        return sendRequest(path, null);
+    public Mono<ShortResponseDeliveryOrderDto> getDeliveryOrder(String path) {
+        return sendRequest(path, null, ShortResponseDeliveryOrderDto.class);
     }
 
-    public Mono<Object> cancelDeliveryOrder(String path, CancelDto dto) {
-        return sendRequest(path, dto);
+    public <T> Mono<ShortResponseDeliveryOrderDto> cancelDeliveryOrder(String path, T dto) {
+        return sendRequest(path, dto, ShortResponseDeliveryOrderDto.class);
     }
 
     // К этому запросу относитесь аккуратно. Можно вызвать курьера.
-    public Mono<Object> acceptDeliveryOrder(String path, AcceptDto dto) {
-        return sendRequest(path, dto);
+    public <T> Mono<ShortResponseDeliveryOrderDto> acceptDeliveryOrder(String path, T dto) {
+        return sendRequest(path, dto, ShortResponseDeliveryOrderDto.class);
     }
 
-    private Mono<Object> sendRequest(String path, Object dto) {
+    private <T, R> Mono<R> sendRequest(String path, T dto, Class<R> responseType) {
+
+        String baseUri = "https://b2b.taxi.yandex.net/b2b/cargo/integration/v2";
+
         WebClient.RequestBodySpec request = webClient
                 .method(HttpMethod.POST)
                 .uri(baseUri + path)
@@ -64,7 +62,7 @@ public class YandexDeliveryWebClient {
                             WebClientException exception = new WebClientException(" server error: " + errorBody);
                             return Mono.error(exception);
                         }))
-                .toEntity(ShortResponseDeliveryOrderDto.class)
+                .toEntity(responseType)
                 .mapNotNull(responseEntity -> {
                     System.out.println("Статус код: " + responseEntity.getStatusCode());
                     System.out.println("Ответ: " + responseEntity.getBody());
@@ -73,10 +71,10 @@ public class YandexDeliveryWebClient {
     }
 
     private HttpHeaders getHeaders() {
-        // токен авторизации
-        String oauth_token = "y0_AgAAAABwgIQFAAc6MQAAAADsGlYZaLKi7oBkQTaPzQ9FNu5hCavMXhs";
 
         if (headers != null) return headers;
+
+        String oauth_token = "y0_AgAAAABwgIQFAAc6MQAAAADsGlYZaLKi7oBkQTaPzQ9FNu5hCavMXhs"; // токен авторизации
 
         headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");

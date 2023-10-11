@@ -9,6 +9,7 @@ import com.example.backend.yandex_delivery.client.YandexDeliveryWebClient;
 import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.enums.RoutePointType;
 import com.example.backend.yandex_delivery.exceptions.NotFoundException;
+import com.example.backend.yandex_delivery.geocoder.DeliveryGeocode;
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryItem;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
@@ -41,6 +42,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     private final DeliveryOrderMapper deliveryOrderMapper;
     private final InitialCostEstimateMapper initialCostEstimateMapper;
     private final YandexDeliveryRepository yandexDeliveryRepository;
+    private final DeliveryGeocode geocode;
 
     @Override
     public ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId) {
@@ -56,10 +58,9 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .route_points(routePoints)
                 .build();
 
-        ShortResponseInitialCostEstimateDto dto = (ShortResponseInitialCostEstimateDto)client
+        return client
                 .getInitialCost(path, initialCostEstimateMapper.toShortRequestInitialCostEstimateDto(initialCostEstimate))
                 .block();
-        return dto;
     }
 
     @Override
@@ -81,13 +82,14 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .route_points(routePoint)
                 .build();
 
-        ShortResponseDeliveryOrderDto orderDto = (ShortResponseDeliveryOrderDto)client.saveDeliveryOrder(path, deliveryOrderMapper
+        ShortResponseDeliveryOrderDto orderDto = client.saveDeliveryOrder(path, deliveryOrderMapper
                         .toShortRequestDeliveryOrderDto(deliveryOrder))
                 .block();
 
         orderedDish.setDeliveryUuid(uuid);
         orderedDishRepository.save(orderedDish);
 
+        assert orderDto != null;
         orderDto.setUuid(String.valueOf(deliveryOrder.getUuid()));
         yandexDeliveryRepository.save(deliveryOrderMapper.toDeliveryOrder(orderDto));
         System.out.println(orderDto);
@@ -105,8 +107,9 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         DeliveryOrder order = yandexDeliveryRepository.findById(orderedDish.getDeliveryUuid()).
                 orElseThrow(() -> new NotFoundException("Delivery order not found"));
 
-        ShortResponseDeliveryOrderDto orderDto = (ShortResponseDeliveryOrderDto)client.getDeliveryOrder(path + order.getId()).block();
+        ShortResponseDeliveryOrderDto orderDto = client.getDeliveryOrder(path + order.getId()).block();
 
+        assert orderDto != null;
         order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toUpperCase()));
         order.setRevision(orderDto.getRevision());
         yandexDeliveryRepository.save(order);
@@ -127,9 +130,10 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         String path = "/claims/cancel?claim_id=";
 
-        ShortResponseDeliveryOrderDto orderDto = (ShortResponseDeliveryOrderDto)client.cancelDeliveryOrder(path + order.getId(),
+        ShortResponseDeliveryOrderDto orderDto = client.cancelDeliveryOrder(path + order.getId(),
                 deliveryOrderMapper.toCancelDto(order)).block();
 
+        assert orderDto != null;
         order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toUpperCase()));
         yandexDeliveryRepository.save(order);
 
@@ -148,8 +152,9 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         String path = "/claims/accept?claim_id=";
 
         // Аккуратно можно ввызвать курьера
-        ShortResponseDeliveryOrderDto orderDto = (ShortResponseDeliveryOrderDto)client.acceptDeliveryOrder(path + order.getId(),
+        ShortResponseDeliveryOrderDto orderDto = client.acceptDeliveryOrder(path + order.getId(),
                 deliveryOrderMapper.toAcceptDto(order)).block();
+        assert orderDto != null;
         order.setStatus(DeliveryOrderStatus.valueOf(orderDto.getStatus().toUpperCase()));
 
         return orderDto;
@@ -201,6 +206,9 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         // координат по адресу
         Restaurant restaurant = order.getRestaurant();
         User user = order.getUser();
+
+        String coordin = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
+        System.out.println("Координаты: " + coordin);
 
         double[] coordinates = {37.587093, 55.733974};
         double[] coordinates2 = {37.584822, 55.751339};
