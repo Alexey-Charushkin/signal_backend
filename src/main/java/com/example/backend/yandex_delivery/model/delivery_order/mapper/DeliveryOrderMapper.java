@@ -1,7 +1,12 @@
 package com.example.backend.yandex_delivery.model.delivery_order.mapper;
 
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
+import com.example.backend.yandex_delivery.model.delivery_order.advanced.same_day_data.SameDayData;
+import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryInterval;
+import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryItem;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Address;
+import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base.Contact;
 import com.example.backend.yandex_delivery.model.delivery_order.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -34,5 +39,25 @@ public interface DeliveryOrderMapper {
     @Mapping(target = "type", expression = "java(routePoint.getType().name().toLowerCase())")
     ShortRequestRoutePointDto toShortRoutePointDto(RoutePoint routePoint);
 
+    Address toAddress(ShortAddressDto shortAddressDto);
 
+    ShortAddressDto toShortAddressDto(Address address);
+
+    Contact toContact(ShortContactDto shortContactDto);
+
+    ShortContactDto toShortContactDto(Contact contact);
+
+    @Mapping(target="from", source = "deliveryIntervalDto.from", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX")
+    @Mapping(target="to", source = "deliveryIntervalDto.to", dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX")
+    DeliveryInterval toDeliveryInterval(DeliveryIntervalDto deliveryIntervalDto);
+
+    DeliveryIntervalDto toDeliveryIntervalDto(DeliveryInterval deliveryInterval);
+
+    DeliveryItem toDeliveryItem(ShortDeliveryItemDto shortDeliveryItemDto);
+
+    ShortDeliveryItemDto toShortDeliveryItemDto(DeliveryItem deliveryItem);
+
+    SameDayData toSameDayData(SameDayDataDto sameDayDataDto);
+
+    SameDayDataDto toSameDayDataDto(SameDayData sameDayData);
 }
