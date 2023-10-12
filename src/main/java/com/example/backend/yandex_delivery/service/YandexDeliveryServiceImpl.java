@@ -10,6 +10,8 @@ import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.enums.RoutePointType;
 import com.example.backend.yandex_delivery.exceptions.NotFoundException;
 import com.example.backend.yandex_delivery.geocoder.DeliveryGeocode;
+import com.example.backend.yandex_delivery.geocoder.JsonToObjectConverter;
+import com.example.backend.yandex_delivery.geocoder.models.GeoObjectResponse;
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryItem;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
@@ -207,8 +209,13 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         Restaurant restaurant = order.getRestaurant();
         User user = order.getUser();
 
-        String coordin = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
-        System.out.println("Координаты: " + coordin);
+     //   String coordin = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
+
+        GeoObjectResponse coordin = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
+
+      //  GeoObjectResponse geoObjectResponse = JsonToObjectConverter.convertJsonToGeoObject(coordin);
+       System.out.println("Коорд " + coordin);
+     //   System.out.println("Координаты: " + geoObjectResponse);
 
         double[] coordinates = {37.587093, 55.733974};
         double[] coordinates2 = {37.584822, 55.751339};
