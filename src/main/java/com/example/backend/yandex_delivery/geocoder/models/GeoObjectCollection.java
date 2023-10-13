@@ -1,16 +1,18 @@
 package com.example.backend.yandex_delivery.geocoder.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
+@SuperBuilder
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class GeoObjectCollection {
-    private GeocoderResponseMetaData metaDataProperty;
-    private List<FeatureMember> featureMember;
+    private String metaDataProperty;
+    //  private List<FeatureMember> featureMember;
 }
