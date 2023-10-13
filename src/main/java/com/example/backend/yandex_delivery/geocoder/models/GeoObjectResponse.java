@@ -1,14 +1,17 @@
 package com.example.backend.yandex_delivery.geocoder.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Data
-@JsonIgnoreProperties(ignoreUnknown = true)
+
+@Getter
+@Setter
+@ToString
+@SuperBuilder
 @NoArgsConstructor
 public class GeoObjectResponse {
-    private GeoObjectCollection response;
+    private Response response;
+   // private GeoObjectCollection response;
 }
 

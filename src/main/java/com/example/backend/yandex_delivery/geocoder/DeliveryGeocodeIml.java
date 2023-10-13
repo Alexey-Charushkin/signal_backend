@@ -11,7 +11,7 @@ public class DeliveryGeocodeIml implements DeliveryGeocode {
     private static final String apiKey = "9ee1bf60-ffbf-4229-96c8-8567ef288624";
 
     @Override
-    public ResponseEntity<GeoObjectResponse> getDeliveryCoordinates(String address) {
+    public ResponseEntity<String> getDeliveryCoordinates(String address) {
         try {
            // String apiUrl = "https://geocode-maps.yandex.ru/1.x/?apikey="  + apiKey + "&format=json&geocode=" + address ;
 
@@ -21,13 +21,13 @@ public class DeliveryGeocodeIml implements DeliveryGeocode {
 
             RestTemplate restTemplate = new RestTemplate();
 
-           // return restTemplate.getForEntity(apiUrl, String.class);
-            ResponseEntity<GeoObjectResponse> response = restTemplate.getForEntity(apiUrl, GeoObjectResponse.class);
+           return restTemplate.getForEntity(apiUrl, String.class);
+         //   ResponseEntity<GeoObjectResponse> response = restTemplate.getForEntity(apiUrl, GeoObjectResponse.class);
            // return restTemplate.getForEntity(apiUrl, GeoObjectResponse.class);
-            return response;
+           // return response;
         } catch (Exception e) {
             e.printStackTrace();
-          return (ResponseEntity<GeoObjectResponse>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);//.body("Error occurred while fetching delivery coordinates");
+          return (ResponseEntity<String>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);//.body("Error occurred while fetching delivery coordinates");
         }
     }
 
