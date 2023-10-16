@@ -11,8 +11,7 @@ import com.example.backend.yandex_delivery.enums.RoutePointType;
 import com.example.backend.yandex_delivery.exceptions.NotFoundException;
 import com.example.backend.yandex_delivery.geocoder.DeliveryGeocode;
 import com.example.backend.yandex_delivery.geocoder.JsonToObjectConverter;
-import com.example.backend.yandex_delivery.geocoder.models.GeoObjectResponse;
-import com.example.backend.yandex_delivery.geocoder.models.Response;
+import com.example.backend.yandex_delivery.geocoder.models.GeocoderResponse;
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryItem;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
@@ -26,6 +25,7 @@ import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.Short
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.mapper.InitialCostEstimateMapper;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.InitialCostEstimate;
 import com.example.backend.yandex_delivery.repository.YandexDeliveryRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -214,9 +214,13 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
 
         String coordin = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
 
-        Response geoObjectResponse = JsonToObjectConverter.convertJsonToGeoObject(coordin);
+        GeocoderResponse geoObjectResponse = JsonToObjectConverter.convertJsonToGeoObject(coordin);
         System.out.println("Коорд " + coordin);
-        System.out.println("Координаты: " + geoObjectResponse);
+        try {
+            System.out.println("Координаты: " + JsonToObjectConverter.convertToString(geoObjectResponse));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         double[] coordinates = {37.587093, 55.733974};
         double[] coordinates2 = {37.584822, 55.751339};
