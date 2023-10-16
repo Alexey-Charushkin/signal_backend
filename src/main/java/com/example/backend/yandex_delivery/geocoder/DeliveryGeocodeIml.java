@@ -1,6 +1,5 @@
 package com.example.backend.yandex_delivery.geocoder;
 
-import com.example.backend.yandex_delivery.geocoder.models.GeoObjectResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

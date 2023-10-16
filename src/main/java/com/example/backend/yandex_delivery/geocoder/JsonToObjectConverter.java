@@ -1,19 +1,22 @@
 package com.example.backend.yandex_delivery.geocoder;
 
 
-    import com.example.backend.yandex_delivery.geocoder.models.GeoObjectResponse;
-    import com.example.backend.yandex_delivery.geocoder.models.Response;
+
+    import com.example.backend.yandex_delivery.geocoder.models.GeocoderResponse;
+    import com.fasterxml.jackson.core.JsonProcessingException;
     import com.fasterxml.jackson.databind.ObjectMapper;
 
     public class JsonToObjectConverter {
 
-        public static Response convertJsonToGeoObject(String jsonString) {
+
+
+        public static GeocoderResponse convertJsonToGeoObject(String jsonString) {
             try {
+
 
                 ObjectMapper objectMapper = new ObjectMapper();
 
-
-                Response geoObjectResponse = objectMapper.readValue(jsonString, Response.class);
+                GeocoderResponse geoObjectResponse = objectMapper.readValue(jsonString, GeocoderResponse.class);
 
                 return geoObjectResponse;
             } catch (Exception e) {
@@ -22,6 +25,11 @@ package com.example.backend.yandex_delivery.geocoder;
             }
         }
 
+        public static String convertToString(GeocoderResponse response) throws JsonProcessingException {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String str = objectMapper.writeValueAsString(response);
+            return str;
+        }
     }
 
 
