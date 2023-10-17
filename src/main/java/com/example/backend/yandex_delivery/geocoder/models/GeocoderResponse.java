@@ -4,20 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class GeocoderResponse {
     private Response response;
 }
 
 @Data
 @NoArgsConstructor
-//@JsonIgnoreProperties(ignoreUnknown = true)
 class Response {
     @JsonProperty("GeoObjectCollection")
     private GeoObjectCollection geoObjectCollection;
@@ -25,24 +22,20 @@ class Response {
 
 @Data
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 class GeoObjectCollection {
     private MetaDataProperty metaDataProperty;
-//    private GeoObject[] featureMember;
-//private List<FeatureMember> featureMember;
+    private List<FeatureMember> featureMember;
 }
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 class MetaDataProperty {
     @JsonProperty("GeocoderResponseMetaData")
     private GeocoderResponseMetaData geocoderResponseMetaData;
-   private List<FeatureMember> featureMember;
 }
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
 class GeocoderResponseMetaData {
     private String request;
@@ -50,9 +43,7 @@ class GeocoderResponseMetaData {
     private String results;
 }
 
-
 @Data
-@SuperBuilder
 @NoArgsConstructor
 class FeatureMember {
     @JsonProperty("GeoObject")
@@ -60,37 +51,39 @@ class FeatureMember {
 }
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 class GeoObject {
-    private GeocoderMetaData metaDataProperty;
+    private MetaDataProperty2 metaDataProperty;
     private String description;
     private String name;
     private BoundedBy boundedBy;
-    private Point Point;
+    private String uri;
+    @JsonProperty("Point")
+    private Point point;
 }
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+class MetaDataProperty2 {
+    @JsonProperty("GeocoderMetaData")
+    private GeocoderMetaData geocoderMetaData;
+}
+
+@Data
+@NoArgsConstructor
 class Point {
     private String pos;
 }
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 class BoundedBy {
-    private Envelope Envelope;
+    @JsonProperty("Envelope")
+    private Envelope envelope;
 }
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 class Envelope {
     private String lowerCorner;
     private String upperCorner;
@@ -98,133 +91,96 @@ class Envelope {
 
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 class GeocoderMetaData {
     private String kind;
     private String text;
     private String precision;
-    private Address Address;
+    @JsonProperty("Address")
+    private Address address;
+    @JsonProperty("AddressDetails")
+    private AddressDetails addressDetails;
 }
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+class AddressDetails {
+    @JsonProperty("Country")
+    private Country country;
+}
+
+@Data
+@NoArgsConstructor
+class Country {
+    @JsonProperty("AddressLine")
+    private String addressLine;
+    @JsonProperty("CountryNameCode")
+    private String countryNameCode;
+    @JsonProperty("CountryName")
+    private String countryName;
+    @JsonProperty("AdministrativeArea")
+    private AdministrativeArea administrativeArea;
+
+}
+
+@Data
+@NoArgsConstructor
+class AdministrativeArea {
+    @JsonProperty("AdministrativeAreaName")
+    private String administrativeAreaName;
+    @JsonProperty("Locality")
+    private Locality locality;
+}
+
+@Data
+@NoArgsConstructor
+class Locality {
+    @JsonProperty("LocalityName")
+    private String localityName;
+    @JsonProperty("Thoroughfare")
+    private Thoroughfare thoroughfare;
+
+
+}
+
+@Data
+@NoArgsConstructor
+class Thoroughfare {
+    @JsonProperty("ThoroughfareName")
+    private String thoroughfareName;
+    @JsonProperty("Premise")
+    private Premise premise;
+}
+
+@Data
+@NoArgsConstructor
+class Premise {
+    @JsonProperty("PremiseNumber")
+    private String premiseNumber;
+    @JsonProperty("PostalCode")
+    private PostalCode postalCode;
+}
+
+@Data
+@NoArgsConstructor
+class PostalCode {
+    @JsonProperty("PostalCodeNumber")
+    private String postalCodeNumber;
+}
+
+@Data
+@NoArgsConstructor
 class Address {
     private String country_code;
     private String postal_code;
     private String formatted;
-    private List<AddressComponent> Components;
+    @JsonProperty("Components")
+    private List<AddressComponent> components;
 }
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 class AddressComponent {
     private String kind;
     private String name;
 }
-
-
-
-/*
-@Data
-@NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-class GeoObject {
-    private String name;
-    private String description;
-    private BoundedBy boundedBy;
-    private Point Point;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BoundedBy getBoundedBy() {
-        return boundedBy;
-    }
-
-    public void setBoundedBy(BoundedBy boundedBy) {
-        this.boundedBy = boundedBy;
-    }
-
-    public Point getPoint() {
-        return Point;
-    }
-
-    public void setPoint(Point Point) {
-        this.Point = Point;
-    }
-}
-
-@Data
-@NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-class BoundedBy {
-    private Envelope Envelope;
-
-    public Envelope getEnvelope() {
-        return Envelope;
-    }
-
-    public void setEnvelope(Envelope Envelope) {
-        this.Envelope = Envelope;
-    }
-}
-
-@Data
-@NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-class Envelope {
-    private String lowerCorner;
-    private String upperCorner;
-
-    public String getLowerCorner() {
-        return lowerCorner;
-    }
-
-    public void setLowerCorner(String lowerCorner) {
-        this.lowerCorner = lowerCorner;
-    }
-
-    public String getUpperCorner() {
-        return upperCorner;
-    }
-
-    public void setUpperCorner(String upperCorner) {
-        this.upperCorner = upperCorner;
-    }
-}
-
-@Data
-@NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-class Point {
-    private String pos;
-
-    public String getPos() {
-        return pos;
-    }
-
-    public void setPos(String pos) {
-        this.pos = pos;
-    }
-
- */
-

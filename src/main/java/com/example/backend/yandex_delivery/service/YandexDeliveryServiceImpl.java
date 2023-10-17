@@ -210,14 +210,12 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         Restaurant restaurant = order.getRestaurant();
         User user = order.getUser();
 
-        //   String coordin = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
 
-        String coordin = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
 
-        GeocoderResponse geoObjectResponse = JsonToObjectConverter.convertJsonToGeoObject(coordin);
-        System.out.println("Коорд " + coordin);
+        GeocoderResponse geocoderResponse = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
+
         try {
-            System.out.println("Координаты: " + JsonToObjectConverter.convertToString(geoObjectResponse));
+            System.out.println("Координаты2 " + JsonToObjectConverter.convertToString(geocoderResponse));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
