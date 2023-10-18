@@ -215,7 +215,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         GeocoderResponse geocoderResponse = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
 
         try {
-            System.out.println("Координаты2 " + JsonToObjectConverter.convertToString(geocoderResponse));
+            System.out.println("Координаты " + JsonToObjectConverter.convertToString(geocoderResponse));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
