@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class GeocoderResponse {
-    private Response response;
+public class GeocoderResponseMetaData {
+    private String request;
+    private String found;
+    private String results;
 }

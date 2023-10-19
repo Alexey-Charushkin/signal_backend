@@ -9,9 +9,10 @@ import com.example.backend.yandex_delivery.client.YandexDeliveryWebClient;
 import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.enums.RoutePointType;
 import com.example.backend.yandex_delivery.exceptions.NotFoundException;
-import com.example.backend.yandex_delivery.geocoder.DeliveryGeocode;
+import com.example.backend.yandex_delivery.geocoder.client.DeliveryGeocode;
 import com.example.backend.yandex_delivery.geocoder.JsonToObjectConverter;
 import com.example.backend.yandex_delivery.geocoder.models.GeocoderResponse;
+import com.example.backend.yandex_delivery.geocoder.service.GeocoderService;
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryItem;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
@@ -45,6 +46,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     private final DeliveryOrderMapper deliveryOrderMapper;
     private final InitialCostEstimateMapper initialCostEstimateMapper;
     private final YandexDeliveryRepository yandexDeliveryRepository;
+    private final GeocoderService geocoderService;
     private final DeliveryGeocode geocode;
 
     @Override
@@ -210,9 +212,11 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         Restaurant restaurant = order.getRestaurant();
         User user = order.getUser();
 
+        GeocoderResponse geocoderResponse = geocode.getGeocoderResponse(restaurant.getAddress()).getBody();
 
+        double[] coordinates = geocoderService.getDeliveryCoordinates(restaurant.getAddress());
+        System.out.println(coordinates[0] + " " + coordinates[1]);
 
-        GeocoderResponse geocoderResponse = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
 
         try {
             System.out.println("Координаты " + JsonToObjectConverter.convertToString(geocoderResponse));
@@ -220,7 +224,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
             throw new RuntimeException(e);
         }
 
-        double[] coordinates = {37.587093, 55.733974};
+        double[] coordinates3 = {37.587093, 55.733974};
         double[] coordinates2 = {37.584822, 55.751339};
 
         Contact contact = Contact.builder()
