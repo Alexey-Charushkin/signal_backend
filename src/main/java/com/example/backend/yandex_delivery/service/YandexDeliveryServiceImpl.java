@@ -9,9 +9,8 @@ import com.example.backend.yandex_delivery.client.YandexDeliveryWebClient;
 import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.enums.RoutePointType;
 import com.example.backend.yandex_delivery.exceptions.NotFoundException;
-import com.example.backend.yandex_delivery.geocoder.DeliveryGeocode;
-import com.example.backend.yandex_delivery.geocoder.JsonToObjectConverter;
-import com.example.backend.yandex_delivery.geocoder.models.GeocoderResponse;
+import com.example.backend.yandex_delivery.geocoder.client.DeliveryGeocode;
+import com.example.backend.yandex_delivery.geocoder.service.GeocoderService;
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryItem;
 import com.example.backend.yandex_delivery.model.delivery_order.base.route_point.RoutePoint;
@@ -25,7 +24,6 @@ import com.example.backend.yandex_delivery.model.initial_cost_estimate.dto.Short
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.mapper.InitialCostEstimateMapper;
 import com.example.backend.yandex_delivery.model.initial_cost_estimate.InitialCostEstimate;
 import com.example.backend.yandex_delivery.repository.YandexDeliveryRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +43,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     private final DeliveryOrderMapper deliveryOrderMapper;
     private final InitialCostEstimateMapper initialCostEstimateMapper;
     private final YandexDeliveryRepository yandexDeliveryRepository;
-    private final DeliveryGeocode geocode;
+    private final GeocoderService geocoderService;
 
     @Override
     public ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId) {
@@ -77,7 +75,7 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         Order order = orderedDish.getOrder();
 
         DeliveryItem deliveryItem = getDeliveryItem(orderedDish);
-        List<RoutePoint> routePoint = getRoutePoint(order);
+        List<RoutePoint> routePoint = getRoutePoints(order);
 
         DeliveryOrder deliveryOrder = DeliveryOrder.builder()
                 .uuid(uuid)
@@ -186,7 +184,6 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     private List<InitialCostRoutePoint> getInitialCostRoutePoints(Order order) {
         Restaurant restaurant = order.getRestaurant();
         User user = order.getUser();
-        // RoutePoint routePoint = getRoutePointFromAddress(String deliveryAddress);
 
         double[] coordinates = {37.588074, 55.733924};
         double[] coordinates2 = {37.584822, 55.751339};
@@ -203,64 +200,58 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         return List.of(sourceInitialCostRoutePoint, destinationInitialCostRoutePoint);
     }
 
-    private List<RoutePoint> getRoutePoint(Order order) {
-        // RoutePoint routePoint = getRoutePointFromAddress(String deliveryAddress);
-        // код ниже временный костыль до тех пор пока не будет сделан метод получения
-        // координат по адресу
+    private List<RoutePoint> getRoutePoints(Order order) {
+
         Restaurant restaurant = order.getRestaurant();
         User user = order.getUser();
 
+        RoutePoint sourceRoutePoint = getRoutePoint(restaurant);
+        sourceRoutePoint.setPoint_id(1);
+        sourceRoutePoint.setVisit_order(1);
 
-
-        GeocoderResponse geocoderResponse = geocode.getDeliveryCoordinates(restaurant.getAddress()).getBody();
-
-        try {
-            System.out.println("Координаты " + JsonToObjectConverter.convertToString(geocoderResponse));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        double[] coordinates = {37.587093, 55.733974};
-        double[] coordinates2 = {37.584822, 55.751339};
-
-        Contact contact = Contact.builder()
-                .email(user.getEmail())
-                .name(user.getName())
-                .phone(user.getPhoneNumber())
-                .build();
-
-        Address address = Address.builder()
-                .coordinates(coordinates)
-                .fullname(user.getAddress())
-                .build();
-
-        Contact contact2 = Contact.builder()
-                .email(restaurant.getEmail())
-                .name(restaurant.getName())
-                .phone(restaurant.getPhone())
-                .build();
-
-        Address address2 = Address.builder()
-                .coordinates(coordinates2)
-                .fullname(restaurant.getAddress())
-                .build();
-
-        RoutePoint sourceRoutePoint = RoutePoint.builder()
-                .address(address2)
-                .contact(contact2)
-                .point_id(1)
-                .type(RoutePointType.SOURCE)
-                .visit_order(1)
-                .build();
-
-        RoutePoint destinationRoutePoint = RoutePoint.builder()
-                .address(address)
-                .contact(contact)
-                .point_id(2)
-                .type(RoutePointType.DESTINATION)
-                .visit_order(2)
-                .build();
+        RoutePoint destinationRoutePoint = getRoutePoint(user);
+        sourceRoutePoint.setPoint_id(2);
+        sourceRoutePoint.setVisit_order(2);
 
         return List.of(sourceRoutePoint, destinationRoutePoint);
+    }
+
+    private <T> RoutePoint getRoutePoint(T data) {
+        String name = "";
+        String phone = "";
+        String email = "";
+        String address = "";
+        RoutePointType type = null;
+
+        if (data.getClass().equals(Restaurant.class)) {
+            name = ((Restaurant) data).getName();
+            phone = ((Restaurant) data).getPhone();
+            email = ((Restaurant) data).getEmail();
+            address = ((Restaurant) data).getAddress();
+            type = RoutePointType.SOURCE;
+        } else if (data.getClass().equals(User.class)) {
+            name = ((User) data).getName();
+            phone = ((User) data).getPhoneNumber();
+            email = ((User) data).getEmail();
+            address = ((User) data).getAddress();
+            type = RoutePointType.DESTINATION;
+        }
+
+        Contact contact = Contact.builder()
+                .email(email)
+                .name(name)
+                .phone(phone)
+                .build();
+
+        Address pointAddress = Address.builder()
+                .coordinates(geocoderService.getDeliveryCoordinates(address))
+                .fullname(address)
+                .build();
+
+        return RoutePoint.builder()
+                .address(pointAddress)
+                .contact(contact)
+                .type(type)
+                .build();
     }
 }

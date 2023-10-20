@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class GeocoderResponse {
-    private Response response;
+public class Envelope {
+    private String lowerCorner;
+    private String upperCorner;
 }

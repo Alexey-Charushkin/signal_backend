@@ -1,13 +1,14 @@
-package com.example.backend.yandex_delivery.geocoder;
+package com.example.backend.yandex_delivery.geocoder.client;
 
 import com.example.backend.yandex_delivery.exceptions.GeocoderException;
+import com.example.backend.yandex_delivery.geocoder.client.DeliveryGeocode;
 import com.example.backend.yandex_delivery.geocoder.models.GeocoderResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class DeliveryGeocodeIml implements DeliveryGeocode {
+public class DeliveryGeocodeImpl implements DeliveryGeocode {
     private static final String apiKey = "9ee1bf60-ffbf-4229-96c8-8567ef288624";
     RestTemplate restTemplate;
 
@@ -19,7 +20,7 @@ public class DeliveryGeocodeIml implements DeliveryGeocode {
     }
 
     @Override
-    public ResponseEntity<GeocoderResponse> getDeliveryCoordinates(String address) {
+    public ResponseEntity<GeocoderResponse> getGeocoderResponse(String address) {
         try {
             String apiUrl = "https://geocode-maps.yandex.ru/1.x/?apikey=" + apiKey + "&geocode=" + address + "&format=json";
 

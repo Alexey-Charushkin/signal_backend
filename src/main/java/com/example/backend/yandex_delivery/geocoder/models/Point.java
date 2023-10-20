@@ -5,6 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class GeocoderResponse {
-    private Response response;
+public class Point {
+    private String pos;
 }
