@@ -9,7 +9,6 @@ import com.example.backend.yandex_delivery.client.YandexDeliveryWebClient;
 import com.example.backend.yandex_delivery.enums.DeliveryOrderStatus;
 import com.example.backend.yandex_delivery.enums.RoutePointType;
 import com.example.backend.yandex_delivery.exceptions.NotFoundException;
-import com.example.backend.yandex_delivery.geocoder.client.DeliveryGeocode;
 import com.example.backend.yandex_delivery.geocoder.service.GeocoderService;
 import com.example.backend.yandex_delivery.model.delivery_order.DeliveryOrder;
 import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryItem;
@@ -185,16 +184,14 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         Restaurant restaurant = order.getRestaurant();
         User user = order.getUser();
 
-        double[] coordinates = {37.588074, 55.733924};
-        double[] coordinates2 = {37.584822, 55.751339};
-
         InitialCostRoutePoint sourceInitialCostRoutePoint = InitialCostRoutePoint.builder()
-                .coordinates(coordinates)
-                //        .fullname(user.getAddress())
+                .coordinates(geocoderService.getDeliveryCoordinates(restaurant.getAddress()))
+                .fullname(restaurant.getAddress())
                 .build();
+
         InitialCostRoutePoint destinationInitialCostRoutePoint = InitialCostRoutePoint.builder()
-                .coordinates(coordinates2)
-                //        .fullname(user.getAddress())
+                .coordinates(geocoderService.getDeliveryCoordinates(user.getAddress()))
+                .fullname(user.getAddress())
                 .build();
 
         return List.of(sourceInitialCostRoutePoint, destinationInitialCostRoutePoint);
