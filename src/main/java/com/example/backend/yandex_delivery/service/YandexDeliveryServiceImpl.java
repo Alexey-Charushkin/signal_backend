@@ -63,6 +63,11 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
                 .block();
     }
 
+    /**
+     *
+     * @param orderedDishId
+     * @return
+     */
     @Override
     @Transactional
     public ShortResponseDeliveryOrderDto saveDeliveryOrder(Long orderedDishId) {
