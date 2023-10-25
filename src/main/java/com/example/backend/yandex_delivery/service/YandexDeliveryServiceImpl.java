@@ -102,6 +102,11 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         return orderDto;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     @Transactional
     public ShortResponseDeliveryOrderDto findById(Long id) {
