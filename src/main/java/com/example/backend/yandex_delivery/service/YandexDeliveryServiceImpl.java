@@ -44,6 +44,11 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     private final YandexDeliveryRepository yandexDeliveryRepository;
     private final GeocoderService geocoderService;
 
+    /**
+     *
+     * @param orderedDishId
+     * @return
+     */
     @Override
     public ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId) {
         String path = "/check-price";
