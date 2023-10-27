@@ -45,9 +45,9 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     private final GeocoderService geocoderService;
 
     /**
-     *
-     * @param orderedDishId
-     * @return
+     * получение предваритетльной стоимости доставки
+     * @param orderedDishId идентификатор заказа по которому нужно сделать доставку
+     * @return предварительная стоимость
      */
     @Override
     public ShortResponseInitialCostEstimateDto getPrimaryCost(Long orderedDishId) {
@@ -69,9 +69,9 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     }
 
     /**
-     *
-     * @param orderedDishId
-     * @return
+     * формирование заявки на доставку
+     * @param orderedDishId идентификатор заказа по которому нужно сделвть доставку
+     * @return завка на доставку
      */
     @Override
     @Transactional
@@ -108,9 +108,9 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * поиск сфоримрованной доставки по id заказа
+     * @param id заказа по которому сформирована заявка на доставку
+     * @return заявка на доставку
      */
     @Override
     @Transactional
@@ -134,6 +134,11 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         return orderDto;
     }
 
+    /**
+     * отмена заявка на доствку (может быть платной если курьер прибыл на место забора груза)
+     * @param id заказа заявку на доставку по которому нужно отменить
+     * @return заявку со статусом CANCELLED (в случае успешной отмены)
+     */
     @Override
     @Transactional
     public ShortResponseDeliveryOrderDto cancelById(Long id) {
@@ -155,10 +160,15 @@ public class YandexDeliveryServiceImpl implements YandexDeliveryService {
         return orderDto;
     }
 
+    /**
+     * подтверждение заявки на доставку
+     * @param id заказа по котораму сформирована доставка которую нужно подтвердить
+     * @return заявка на доставку со статусом подверждения (после подверждения курьер выезжает к точке забора груза)
+     */
     @Override
     @Transactional
-    public ShortResponseDeliveryOrderDto acceptById(Long claim_Id) {
-        OrderedDish orderedDish = orderedDishRepository.findById(claim_Id).
+    public ShortResponseDeliveryOrderDto acceptById(Long id) {
+        OrderedDish orderedDish = orderedDishRepository.findById(id).
                 orElseThrow(() -> new NotFoundException("Ordered dish not found"));
 
         DeliveryOrder order = yandexDeliveryRepository.findById(orderedDish.getDeliveryUuid()).
