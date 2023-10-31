@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class Item {
-    // Параметры предмета
+    // Параметры груза
     @NotNull(message = "Введите количество единиц товара")
     @Min(value = 1, message = "Количество единиц товара должно быть больше 0")
     private Integer quantity; // Количесто единиц товара minimum: 1

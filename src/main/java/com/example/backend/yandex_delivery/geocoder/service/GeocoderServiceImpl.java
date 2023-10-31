@@ -47,7 +47,6 @@ public class GeocoderServiceImpl implements GeocoderService {
             coordinates[0] = Double.parseDouble(parts[0]);
             coordinates[1] = Double.parseDouble(parts[1]);
         }
-
         return coordinates;
     }
 }

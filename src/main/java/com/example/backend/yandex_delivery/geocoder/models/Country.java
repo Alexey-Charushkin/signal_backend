@@ -1,6 +1,5 @@
 package com.example.backend.yandex_delivery.geocoder.models;
 
-import com.example.backend.yandex_delivery.geocoder.models.AdministrativeArea;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;

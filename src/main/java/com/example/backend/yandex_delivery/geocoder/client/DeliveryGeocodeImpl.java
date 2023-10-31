@@ -1,7 +1,6 @@
 package com.example.backend.yandex_delivery.geocoder.client;
 
 import com.example.backend.yandex_delivery.exceptions.GeocoderException;
-import com.example.backend.yandex_delivery.geocoder.client.DeliveryGeocode;
 import com.example.backend.yandex_delivery.geocoder.models.GeocoderResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,5 @@
 package com.example.backend.yandex_delivery.model.delivery_order.base.route_point.base;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

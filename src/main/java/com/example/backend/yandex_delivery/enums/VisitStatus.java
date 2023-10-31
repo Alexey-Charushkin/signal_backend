@@ -1,9 +1,10 @@
 package com.example.backend.yandex_delivery.enums;
 
 public enum VisitStatus {
-    PENDING,
-    ARRIVED,
-    VISITED,
-    PARTIAL_DELIVERY,
-    SKIPPED
+    // статус посещения
+    PENDING, // ожидание
+    ARRIVED, // прибыл в точку маршрута
+    VISITED, // посещено
+    PARTIAL_DELIVERY, // частичная поставка
+    SKIPPED // пропущено
 }
