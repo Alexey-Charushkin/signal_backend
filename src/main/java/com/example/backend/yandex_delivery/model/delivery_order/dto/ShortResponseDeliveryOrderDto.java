@@ -3,7 +3,6 @@ package com.example.backend.yandex_delivery.model.delivery_order.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

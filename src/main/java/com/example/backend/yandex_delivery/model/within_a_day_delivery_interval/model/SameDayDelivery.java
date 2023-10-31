@@ -1,4 +1,4 @@
-package com.example.backend.yandex_delivery.model.within_a_day_delivery_interval;
+package com.example.backend.yandex_delivery.model.within_a_day_delivery_interval.model;
 
 import com.example.backend.yandex_delivery.model.delivery_order.base.DeliveryInterval;
 import lombok.Builder;

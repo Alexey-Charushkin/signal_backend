@@ -1,6 +1,7 @@
 package com.example.backend.yandex_delivery.enums;
 
 public enum ItemType {
-    PRODUCT,
-    SERVICE
+    // тип товара
+    PRODUCT, // продукт
+    SERVICE // услуга
 }
