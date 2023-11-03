@@ -75,6 +75,7 @@ public class YandexDeliveryWebClient {
         if (headers != null) return headers;
 
         String oauth_token = "y0_AgAAAABwgIQFAAc6MQAAAADsGlYZaLKi7oBkQTaPzQ9FNu5hCavMXhs"; // токен авторизации
+        // токен устарел, нужно получить новый в Яндекс доставке.
 
         headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT_LANGUAGE, "ru/ru");
